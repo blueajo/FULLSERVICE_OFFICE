@@ -18,7 +18,7 @@
     justify-content: space-between;
 }
 
-@media (max-width: 90rem) {
+@media (max-width: 79rem) {
     .content  {
         grid-area: 3 / 2 / 4 / 4;
         justify-content: flex-start;
@@ -51,16 +51,16 @@
 
 .pitches {
     margin: 1rem;
-    max-width: 42rem;
-    flex-basis: 30rem;
+    max-width: 27.5rem;
+    flex-basis: 27.5rem;
     flex-grow: 1;
 }
 
 .contactForm {
     margin: 1rem;
-    min-width: 30rem;
-    max-width: 50rem;
-    flex-basis: min-content;
+    min-width: 10rem;
+    max-width: 27.5rem;
+    flex-basis: 27.5rem;
     flex-shrink: 1;
     flex-grow: 1;
 }
@@ -163,3 +163,11 @@ textarea {
   background-color: #FAFFE4;
 }
 
+#message1 {
+    margin-bottom: .7rem;
+}
+
+#message2 {
+    margin-top: 1.2rem;
+    margin-bottom: 1.45rem;
+}

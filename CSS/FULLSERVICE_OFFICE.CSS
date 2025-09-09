@@ -41,11 +41,7 @@ a:active, a:hover, a.currentPage {
 
 .footer span p {
     margin: 1rem;
-} 
-
-.grid_area {
-    outline: .25px dashed red;
-} 
+}
 
 .content p {
   margin: 1rem;

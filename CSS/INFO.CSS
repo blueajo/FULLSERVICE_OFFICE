@@ -33,7 +33,7 @@
 
 .links {
     min-width: min-content;
-    max-width: 20rem;
+    max-width: min-content;
     flex-basis: min-content;
     flex-shrink: 1;
     flex-grow: 1;
