@@ -1,0 +1,12 @@
+.container {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    grid-template-rows: max-content repeat(2, 1fr) max-content;
+    grid-template-areas:
+        "header header header header header header header header header header"
+        "w1 w2 w3 w4 w5 pr1 pr2 pr3 pr4 pr5"
+        "pi1 pi2 pi3 pi4 pi5 i1 i2 i3 i4 i5"
+        "footer footer footer footer footer footer footer footer footer footer";
+    height: 100%;
+    width: 100%;
+}

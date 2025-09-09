@@ -1,0 +1,68 @@
+@font-face {
+    font-family: 'AKZIDENZ GROTESK';
+    font-weight: 500;
+    src: url("../FONTS/AKZIDENZ_GROTESK_500.OTF") format("opentype");
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    font-family: 'AKZIDENZ GROTESK', monospace;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.2;
+    color: black;
+    background-color: #FAFFE4;
+    margin: 0;
+  }
+
+a {
+  color: black;
+  text-decoration: none;
+}
+
+a:active, a:hover, a.currentPage {
+  text-decoration: underline;
+}
+
+.header {
+  grid-area: header;
+}
+
+.header span p {
+    margin: 1rem;
+}
+
+.footer {
+    grid-area: footer;
+}
+
+.footer span p {
+    margin: 1rem;
+} 
+
+.grid_area {
+    outline: .25px dashed red;
+} 
+
+.content p {
+  margin: 1rem;
+}
+
+.homeLink {
+  float: left;
+}
+
+.footer .navLinks {
+  float: right;
+}
+
+.inactiveNav {
+  color: #999999;
+}
+
+.inactiveNav a {
+  color: #999999;
+}

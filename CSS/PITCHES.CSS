@@ -1,0 +1,165 @@
+.container {
+    display: grid;
+    grid-template-columns: 10rem 1fr 10rem;
+    grid-template-rows: max-content 1fr 4fr max-content;
+    grid-template-areas:
+        "header header header"
+        "a b c"
+        "d e f"
+        "footer footer footer";
+    height: 100%;
+    width: 100%;
+}
+
+.content  {
+    grid-area: 3 / 2 / 4 / 3;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+@media (max-width: 90rem) {
+    .content  {
+        grid-area: 3 / 2 / 4 / 4;
+        justify-content: flex-start;
+    }
+}
+
+.gridA {
+    grid-area: a;
+}
+
+.gridB {
+    grid-area: b;
+}
+
+.gridC {
+    grid-area: c;
+}
+
+.gridD {
+    grid-area: d;
+}
+
+.gridE {
+    grid-area: e;
+}
+
+.gridF {
+    grid-area: f
+}
+
+.pitches {
+    margin: 1rem;
+    max-width: 42rem;
+    flex-basis: 30rem;
+    flex-grow: 1;
+}
+
+.contactForm {
+    margin: 1rem;
+    min-width: 30rem;
+    max-width: 50rem;
+    flex-basis: min-content;
+    flex-shrink: 1;
+    flex-grow: 1;
+}
+
+/* Customize the label (the container) */
+.checkboxContainer {
+  cursor: pointer;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  position: relative;
+  display: flex;
+  max-width: 24rem;
+}
+
+/* Hide the browser's default checkbox */
+.checkboxContainer input {
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    height: 10px;
+    width: 10px;
+    border-radius: 50%;
+    outline: 1px solid black;
+}
+
+p.checkboxLabel {
+    position: relative;
+    left: 1rem;
+    margin: 0;
+}
+
+/* On mouse-over, add a black background color */
+.checkboxContainer:hover input ~ .checkmark {
+  background-color: black;
+}
+
+/* When the checkbox is checked, add a blue background */
+.checkboxContainer input:checked ~ .checkmark {
+  background-color: black;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.checkboxContainer input:checked ~ .checkmark:after {
+  display: block;
+}
+
+hr {
+    width: 100%;
+    margin-block-start: 0;
+    margin-bottom: 16px;
+}
+
+label {
+    display: flex;
+    align-items: stretch;
+}
+
+input, textarea {
+    border-style: none;
+    background-color: #FAFFE4;
+    font-family: 'AKZIDENZ GROTESK', monospace;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 1.2;
+    color: black;
+    background-color: #FAFFE4;
+    margin: 0;
+}
+
+input {
+    margin-left: .25rem;
+}
+
+textarea {
+    resize: none;
+    width: 100%;
+    min-height: 5rem;
+}
+
+::placeholder {
+  color: #999999;
+  opacity: 1; /* Firefox */
+  background-color: #FAFFE4;
+}
+
