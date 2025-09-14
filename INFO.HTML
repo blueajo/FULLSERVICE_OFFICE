@@ -8,15 +8,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-  <link href="./CSS/FULLSERVICE_OFFICE.CSS" type="text/css" rel="stylesheet" />
-  <link href="./CSS/INFO.CSS" type="text/css" rel="stylesheet" />
+  <link href="css/fullservice_office.css" type="text/css" rel="stylesheet" />
+  <link href="css/info.css" type="text/css" rel="stylesheet" />
 </head>
-<body>
+<body class="copyrightCursor">
+  <!-- Cursor -->
+  <span id="cursor">
+    <div id="circleBlack" class="active"></div>
+    <div id="copyright">FULLSERVICE OFFICE © 2025</div>
+  </span>
   <div class="container">
     <!-- Header -->
       <div class="header">
         <span>
-            <p>(<span class="inactiveNav"><a href="./WORKERS.HTML">Workers</a>, <a href="./PRODUCTION.HTML">Production</a>, <a href="./PITCHES.HTML">Pitches</a>,</span> <a class="currentPage" href="./INFO.HTML">Info</a> can be found here</p>
+            <p class="blackDotCursor">(<span class="inactiveNav"><a href="workers.html">Workers</a>, <a href="production.html">Production</a>, <a href="pitches.html">Pitches</a>,</span> <a class="currentPage" href="info.html">Info</a> can be found here</p>
         </span>
       </div>
       <!-- Content Grid -->
@@ -25,25 +30,26 @@
       <div class="grid_area gridC"></div>     
       <div class="grid_area gridD"></div>
       <div class="grid_area gridE"></div>     
-      <div class="grid_area gridF"></div>     
+      <div class="grid_area gridF"></div>    
       <!-- Pitches -->
       <div class="content">
         <div class="office">
             <p>FULLSERVICE OFFICE (Brooklyn, NY) crafts identities and artifacts rooted in typography and image-making. We teach, publish, initiate collaborations and conversations. Our work is grounded in sincere and rigorous engagement with culture. We reject formulaic, surface-level strategies, and instead offer an editorial approach. Informed by broader socio-historical context, we engage the whole arc of a project from conceptual beginnings to material specificity.<br><br>
                 The office is owned and operated by Lydia Chodosh, Orlando Porras, and Rebecca Wilkinson. Previous collaborators include Bloomberg, Condé Nast, Institute of Contemporary Art (ICA) Boston, NFL, RISD Museum, Yale School of Architecture, Walker Art Center and the Whitney. Our work has received recognition from AIGA, Dezeen, It’s Nice That, Sight Unseen, Society for Typographic Arts, The New York Times, and Tokyo Type Directors Club.</p></div>
         <div class="links">
-            <p>Inquiries<br><a href="mailto:info@fullserviceoffice.com">info@fullserviceoffice.com</a><br><br>
-                Instagram<br><a href="https://www.instagram.com/fullserviceoffice/" target="_blank">@fullserviceoffice</a></p>        
+            <p>Inquiries<br><a href="mailto:info@fullserviceoffice.com" class="blackDotCursor">info@fullserviceoffice.com</a><br><br>
+                Instagram<br><a href="https://www.instagram.com/fullserviceoffice/" target="_blank" class="blackDotCursor">@fullserviceoffice</a></p>        
         </div>
       </div>
       <!-- Footer -->
       <div class="footer">
         <span>
-            <p class="homeLink"><a href="./INDEX.HTML">FULLSERVICE OFFICE</a></p>
+            <p class="homeLink blackDotCursor"><a href="index.html">FULLSERVICE OFFICE</a></p>
             <p class="navLinks">)</p>
         </span>
       </div>
   </div>
-  <script src="./JS/FULLSERVICE.JS"></script>
+  <script src="js/fullservice_office.js"></script>
+  <script src="js/info.js"></script>
 </body>
 </html>

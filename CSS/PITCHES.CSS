@@ -15,7 +15,7 @@
     grid-area: 3 / 2 / 4 / 3;
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: flex-start;
 }
 
 @media (max-width: 79rem) {
@@ -63,11 +63,11 @@
     flex-basis: 27.5rem;
     flex-shrink: 1;
     flex-grow: 1;
+    margin-left: 5rem;
 }
 
 /* Customize the label (the container) */
 .checkboxContainer {
-  cursor: pointer;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -75,12 +75,12 @@
   position: relative;
   display: flex;
   max-width: 24rem;
+  cursor: none;
 }
 
 /* Hide the browser's default checkbox */
 .checkboxContainer input {
   opacity: 0;
-  cursor: pointer;
   height: 0;
   width: 0;
 }
@@ -133,6 +133,7 @@ hr {
 label {
     display: flex;
     align-items: stretch;
+    cursor: none;
 }
 
 input, textarea {

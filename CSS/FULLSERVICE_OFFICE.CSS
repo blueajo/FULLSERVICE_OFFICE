@@ -1,7 +1,7 @@
 @font-face {
-    font-family: 'AKZIDENZ GROTESK';
+    font-family: 'Akzidenz Grotesk';
     font-weight: 500;
-    src: url("../FONTS/AKZIDENZ_GROTESK_500.OTF") format("opentype");
+    src: url("../fonts/AkzidGro.otf") format("opentype");
 }
 
 html, body {
@@ -9,22 +9,79 @@ html, body {
 }
 
 body {
-    font-family: 'AKZIDENZ GROTESK', monospace;
+    font-family: 'Akzidenz Grotesk', monospace;
     font-size: 16px;
     font-weight: 500;
     line-height: 1.2;
     color: black;
     background-color: #FAFFE4;
     margin: 0;
-  }
+    cursor: none;
+}
+
+#cursor {
+  display: none;
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  cursor: none;
+}
+
+#cursor.active {
+  display: block;
+}
+
+#circleBlack {
+  display: none;
+  min-height: 10px;
+  min-width: 10px;
+  max-height: 10px;
+  max-width: 10px;
+  border-radius: 50%;
+  background-color: black;
+  outline-color: black;
+  outline-width: 1px;
+  outline-style: solid;
+  position: absolute;
+  transform: translate(-50%, -50%);
+  cursor: none;
+}
+
+#copyright {
+  display: none;
+  min-height: min-content;
+  min-width: max-content;
+  position: absolute;
+  transform: translate(-50%, -50%);
+}
+
+#circleBlack.active, #copyright.active, video.active {
+  display: block;
+}
+
+#videos {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  top: 5px;
+  left: 5px;
+}
+
+video {
+  object-position: right top;
+  object-fit: contain;
+  display: none;
+}
 
 a {
   color: black;
   text-decoration: none;
+  cursor: none;
 }
 
 a:active, a:hover, a.currentPage {
   text-decoration: underline;
+  cursor: none;
 }
 
 .header {

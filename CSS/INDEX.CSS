@@ -10,3 +10,29 @@
     height: 100%;
     width: 100%;
 }
+
+.videoCursor {
+    grid-area: 2 / 1 / 4 / 11;
+    pointer-events: none;
+}
+
+#workers1 { grid-area: w1; }
+#workers2 { grid-area: w2; }
+#workers3 { grid-area: w3; }
+#workers4 { grid-area: w4; }
+#workers5 { grid-area: w5; }
+#production1 { grid-area: pr1; }
+#production2 { grid-area: pr2; }
+#production3 { grid-area: pr3; }
+#production4 { grid-area: pr4; }
+#production5 { grid-area: pr5; }
+#pitches1 { grid-area: pi1; }
+#pitches2 { grid-area: pi2; }
+#pitches3 { grid-area: pi3; }
+#pitches4 { grid-area: pi4; }
+#pitches5 { grid-area: pi5; }
+#info1 { grid-area: i1; }
+#info2 { grid-area: i2; }
+#info3 { grid-area: i3; }
+#info4 { grid-area: i4; }
+#info5 { grid-area: i5; }
