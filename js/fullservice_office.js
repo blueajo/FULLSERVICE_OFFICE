@@ -35,43 +35,38 @@ document.body.addEventListener('mouseenter', () => {
   cursor.classList.add('active');
 });
 
-// Cursor (areas) variations
-const blackDotCursor = document.getElementsByClassName("blackDotCursor");
-const noCursor = document.getElementsByClassName("noCursor");
-const copyrightCursor = document.getElementsByClassName("copyrightCursor");
 
-let lastCursor = document.getElementById("circleBlack");
-let curCursor = document.getElementById("circleBlack");
+let lastCursor = null;
+let curCursor = null;
 
-// Cursor : Area Pairs
-const cursorAreas = [
-  ["circleBlack", blackDotCursor],
-  ["", noCursor],
-  ["copyright", copyrightCursor]
-];
+// Cursors
+const cursors = ["dot", "noCursor", "copyright", "leftArrow", "rightArrow", "plusDot", "minusDot", "plus"];
 
 // for each type of cursor
-for (let a = 0; a < cursorAreas.length; a++) {
+for (let i = 0; i < cursors.length; i++) {
+  const cursorAreas = document.getElementsByClassName(cursors[i] + "Area");
   if (cursorAreas) {
-    // for each cursor area of type 'cursorAreas[a]' on the page
-  for (let i = 0; i < cursorAreas[a][1].length; i++) {
-    // when mouse enters cursor area
-    cursorAreas[a][1][i].addEventListener('mouseenter', () => {
-      let newCursor = document.getElementById(cursorAreas[a][0]);
-      // hide current cursor
-      if (curCursor) { curCursor.classList.remove('active'); }
-      lastCursor = curCursor;
-      // show cursor
-      curCursor = newCursor;
-      if (curCursor) { curCursor.classList.add('active'); }
-    });
-    // when mouse leaves cursor area
-    cursorAreas[a][1][i].addEventListener('mouseleave', () => {
-      if (curCursor) { curCursor.classList.remove('active'); }
-      if (lastCursor) { lastCursor.classList.add('active'); }
-      curCursor = lastCursor;
-      lastCursor = document.getElementById(cursorAreas[a][0]);
-    });
-  }
+    // for all cursor areas of type [i] on the page
+    for (let j = 0; j < cursorAreas.length; j++) {
+      // add an eventlistener when mouse enters cursor area
+      let newCursor = document.getElementById(cursors[i]);
+      cursorAreas[j].addEventListener('mouseenter', () => {
+        // hide current cursor
+        if (curCursor) { curCursor.classList.remove('active'); }
+        lastCursor = curCursor;
+        // show cursor
+        curCursor = newCursor;
+        if (curCursor) { curCursor.classList.add('active'); }
+      });
+      
+      // add an eventlistener when mouse leaves cursor area
+      cursorAreas[j].addEventListener('mouseleave', () => {
+        if (curCursor) { curCursor.classList.remove('active'); }
+        // for cursor areas nested inside larger cursor areas
+        if (lastCursor) { lastCursor.classList.add('active'); }
+        curCursor = lastCursor;
+        lastCursor = newCursor;
+      });
+    }
   }
 }

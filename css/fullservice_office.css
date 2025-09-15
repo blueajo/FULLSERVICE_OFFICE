@@ -25,26 +25,37 @@ body {
   pointer-events: none;
   z-index: 9999;
   cursor: none;
+  top:-10px;
+  left:-10px;
 }
 
 #cursor.active {
   display: block;
 }
 
-#circleBlack {
+#dot, #leftArrow, #rightArrow, #plusDot, #minusDot, #plus {
   display: none;
-  min-height: 10px;
-  min-width: 10px;
-  max-height: 10px;
-  max-width: 10px;
-  border-radius: 50%;
-  background-color: black;
+  min-height: 12px;
+  min-width: 12px;
+  max-height: 12px;
+  max-width: 12px;
+  /* border-radius: 50%; */
+  /* background-color: black;
   outline-color: black;
   outline-width: 1px;
-  outline-style: solid;
+  outline-style: solid; */
   position: absolute;
   transform: translate(-50%, -50%);
   cursor: none;
+  pointer-events: none;
+}
+
+#dot img, #leftArrow img, #rightArrow img, #plusDot img, #minusDot img, #plus img{
+  display: block;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
 }
 
 #copyright {
@@ -55,7 +66,7 @@ body {
   transform: translate(-50%, -50%);
 }
 
-#circleBlack.active, #copyright.active, video.active {
+#dot.active, #copyright.active, video.active, #leftArrow.active, #rightArrow.active, #plusDot.active, #minusDot.active, #plus.active {
   display: block;
 }
 
