@@ -64,6 +64,12 @@
     flex-shrink: 1;
     flex-grow: 1;
     margin-left: 5rem;
+    display: none;
+}
+
+
+.contactForm.active, .pitchContainer.active {
+    display: block;
 }
 
 /* Customize the label (the container) */
@@ -103,25 +109,18 @@ p.checkboxLabel {
 }
 
 /* On mouse-over, add a black background color */
-.checkboxContainer:hover input ~ .checkmark {
+.checkboxContainer:hover .checkmark {
   background-color: black;
 }
 
-/* When the checkbox is checked, add a blue background */
-.checkboxContainer input:checked ~ .checkmark {
-  background-color: black;
+.pitchContainer {
+    position: relative;
+    display: none;
 }
 
-/* Create the checkmark/indicator (hidden when not checked) */
-.checkmark:after {
-  content: "";
+.checkboxContainer.checked .checkmark, .pitchContainer .checkmark {
   position: absolute;
-  display: none;
-}
-
-/* Show the checkmark when checked */
-.checkboxContainer input:checked ~ .checkmark:after {
-  display: block;
+  background-color: black;
 }
 
 hr {

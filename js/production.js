@@ -1,5 +1,5 @@
 // Cursor behavior
-const products = document.getElementsByClassName('product');
+const products = Array.from(document.getElementsByClassName('product'));
 
 var elem = document.querySelector('.products');
 var flkty = new Flickity( elem, {
@@ -9,7 +9,7 @@ var flkty = new Flickity( elem, {
   pageDots: false,
   setGallerySize: false,
   cellSelector: '.product',
-  groupCells: '80%'
+  groupCells: true
 //   draggable: false
 });
 
@@ -30,8 +30,16 @@ elem.addEventListener('click', (e) => {
     }
     // Flickity resize
     flkty.resize();
-    var cellIndex = product && elem.cells.indexOf( product );
-    console.log(cellIndex);
+    var cellIndex = products.indexOf( product );
+    const viewportWidth = window.innerWidth;
+    const mouseX = e.clientX; // Mouse's X-coordinate relative to the viewport
+
+    if (mouseX < viewportWidth / 2) {
+    console.log('Mouse is on the left side of the viewport.');
+    } else {
+    cellAlign: 'right'
+    }
+
     flkty.selectCell( cellIndex, true, false );
     });
 
