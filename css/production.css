@@ -4,7 +4,7 @@
     grid-template-rows: max-content 1fr 4fr max-content;
     grid-template-areas:
         "header header header"
-        ". . ."
+        "p p p"
         "p p p"
         "footer footer footer";
     height: 100%;
@@ -12,14 +12,33 @@
 }
 
 .content  {
-    grid-row: 3 / span 1;
+    grid-row: 2 / span 2;
     grid-area: p;
     pointer-events: none;
-    display: flex;
-    flex-flow: row nowrap;
-    column-gap: 1rem;
     width: 100%;
-    overflow: scroll;
+}
+
+.flickity-viewport {
+    height: 100% !important;
+}
+
+.flickity-enabled.is-draggable .flickity-viewport {
+    cursor: none;
+}
+
+.product {
+    width: 15vw;
+    margin-top: 10rem;
+    padding-left: 1rem;
+    max-height: 100%;
+}
+
+.product.open {
+    width: auto;
+    max-width: 80vw;
+    height: 100%;
+    max-height: 100%;
+    margin-top: 0;
 }
 
 .product img:hover {
@@ -29,19 +48,34 @@
 }
 
 .product img {
-    max-width: 300px;
+    width: 100%;
     opacity: 60%;
     filter: grayscale(1);
     mix-blend-mode: multiply;
-    pointer-events: auto; 
+    pointer-events: auto;
+    flex-grow: 1;
+}
+
+.product p {
+    grid-area: "caption";
+    display: none;
+    margin: 0;
+    margin-top: 1rem;
 }
 
 .product.open img {
-    max-width: 90vw;
-    max-height: 100%;
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: calc(100vh - 10rem);
     pointer-events: auto;
     opacity: 100%; 
     filter: grayscale(0);
+    object-fit: contain;
+}
+
+.product.open p {
+    display: block;
 }
 
 .leftArrowArea {
@@ -57,4 +91,8 @@
 .centerArea {
     grid-row: 2 / span 2;
     grid-column: 2 / span 1;
+}
+
+.flickity-prev-next-button {
+    display: none;
 }
