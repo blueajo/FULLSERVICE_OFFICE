@@ -1,7 +1,5 @@
-// Cursor behavior
-const products = Array.from(document.getElementsByClassName('product'));
-
 var elem = document.querySelector('.products');
+// const products = Array.from(elem.children);
 var flkty = new Flickity( elem, {
   // options
   cellAlign: 'left',
@@ -9,50 +7,60 @@ var flkty = new Flickity( elem, {
   pageDots: false,
   setGallerySize: false,
   cellSelector: '.product',
-  groupCells: true
+//   groupCells: true
 //   draggable: false
 });
 
-let mouseX = 0;
-let mouseY = 0;
 let openProduct = null;
 
-elem.addEventListener('click', (e) => {
-    console.log(e);
-    let product = e.target.parentNode;
-    if (product.classList.contains("open")) {
-        product.classList.remove('open');
-        openProduct = null;
-    } else {
-        if (openProduct) { openProduct.classList.remove("open"); }
-        product.classList.add('open');
-        openProduct = product;
+function openCloseProduct(cellElement, cellIndex) {
+      if (flkty.options.groupCells) {
+        flkty.destroy();
+        flkty = new Flickity( elem, {
+        // options
+        cellAlign: 'left',
+        wrapAround: true,
+        pageDots: false,
+        setGallerySize: false,
+        cellSelector: '.product',
+        groupCells: false
+        //   draggable: false
+        });
     }
-    // Flickity resize
-    flkty.resize();
-    var cellIndex = products.indexOf( product );
-    const viewportWidth = window.innerWidth;
-    const mouseX = e.clientX; // Mouse's X-coordinate relative to the viewport
+  if (openProduct) {
+    openProduct.classList.remove("open");
+  }
+  if (cellElement !== openProduct) {
+      cellElement.classList.add('open');
+  }
+  flkty.reposition();
+  flkty.selectCell(cellIndex, true, false);
+  openProduct = cellElement.classList.contains('open') ? cellElement : null;
+}
 
-    if (mouseX < viewportWidth / 2) {
-    console.log('Mouse is on the left side of the viewport.');
-    } else {
-    cellAlign: 'right'
-    }
-
-    flkty.selectCell( cellIndex, true, false );
-    });
-
-
+flkty.on( 'staticClick', function( event, pointer, cellElement, cellIndex ) {
+  if ( !cellElement ) {
+    return;
+  }
+  openCloseProduct(cellElement, cellIndex);
+});
 
 document.querySelector(".leftArrowArea").addEventListener('click', (e) => {
-    if (openProduct) { openProduct.classList.remove("open"); }
-    flkty.resize();
-    document.querySelector(".previous").click();
+    if (openProduct) {
+        let prevIndex = (flkty.selectedIndex - 1) % flkty.cells.length;
+        let prevElement = flkty.cells[prevIndex].element;
+        openCloseProduct(prevElement, prevIndex);
+    } else {
+        flkty.selectCell(flkty.selectedIndex - 5, true, false);
+    }
 });
 
 document.querySelector(".rightArrowArea").addEventListener('click', (e) => {
-    if (openProduct) { openProduct.classList.remove("open"); }
-    flkty.resize();
-    document.querySelector(".next").click();
+    if (openProduct) {
+        let nextIndex = (flkty.selectedIndex + 1) % flkty.cells.length;
+        let nextElement = flkty.cells[nextIndex].element;
+        openCloseProduct(nextElement, nextIndex);
+    } else {
+        flkty.selectCell(flkty.selectedIndex + 5, true, false);
+    }
 });
