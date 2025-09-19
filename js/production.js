@@ -1,14 +1,11 @@
 var elem = document.querySelector('.products');
-// const products = Array.from(elem.children);
 var flkty = new Flickity( elem, {
   // options
   cellAlign: 'left',
   wrapAround: true,
   pageDots: false,
   setGallerySize: false,
-  cellSelector: '.product',
-//   groupCells: true
-//   draggable: false
+  cellSelector: '.product'
 });
 
 let openProduct = null;

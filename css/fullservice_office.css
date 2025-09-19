@@ -90,7 +90,7 @@ a {
   cursor: none;
 }
 
-a:active, a:hover, a.currentPage {
+a:active, a:hover, a.currentPage, a.activeLink {
   text-decoration: underline;
   cursor: none;
 }
