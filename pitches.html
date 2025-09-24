@@ -15,272 +15,164 @@
     <!-- Cursor -->
   <span id="cursor">
     <div id="dot"><img src="./img/cursors/dot.svg"></div>
-    <div id="plus"><img src="./img/cursors/plus.svg"></div>
+    <div id="plusMinusDot">
+        <img src="./img/cursors/plusDot.svg" class="active">
+        <img src="./img/cursors/minusDot.svg" style="display: none;">
+    </div>
   </span>
-  <div class="container">
     <!-- Header -->
       <div class="header">
         <span>
             <p>(<span class="inactiveNav"><a href="./workers.html">Workers</a>, <a href="./production.html">Production</a>,</span> <a class="currentPage" href="./pitches.html">Pitches</a> are prompts for collaborations,</p>
         </span>
-      </div>
-      <!-- Content Grid -->
-      <div class="grid_area gridA"></div>
-      <div class="grid_area gridB"></div>   
-      <div class="grid_area gridC"></div>     
-      <div class="grid_area gridD"></div>
-      <div class="grid_area gridE"></div>     
-      <div class="grid_area gridF"></div>     
+      </div> 
       <!-- Pitches -->
-      <div class="content">
         <div class="pitches">
-            <label class="checkboxContainer plusArea">
+            <div class="pitchList">
+            <div class="checkboxContainer plusMinusDotArea">
                 <span class="checkmark"></span>
                 <p class="checkboxLabel">A book that reads the room</p>
-            </label>
-            <label class="checkboxContainer plusArea">
-                <span class="checkmark"></span>
-                <p class="checkboxLabel">A clock that resists numerical order</p>
-            </label>
-            <label class="checkboxContainer plusArea">
-                <span class="checkmark"></span>
-                <p class="checkboxLabel">A conceptual campaign for restaurant merch</p>
-            </label>
-            <label class="checkboxContainer plusArea">
-                <span class="checkmark"></span>
-                <p class="checkboxLabel">A collection of white-collar workwear</p>
-            </label>
-            <label class="checkboxContainer plusArea">
-                <span class="checkmark"></span>
-                <p class="checkboxLabel">A colorful object for a paint swatch library</p>
-            </label>
-            <label class="checkboxContainer plusArea">
-                <span class="checkmark"></span>
-                <p class="checkboxLabel">A c-suite of uncorporate merch</p>
-            </label>
-            <label class="checkboxContainer plusArea">
-                <span class="checkmark"></span>
-                <p class="checkboxLabel">A digital tool that produces a physical object</p>
-            </label>
-            <label class="checkboxContainer plusArea">
-                <span class="checkmark"></span>
-                <p class="checkboxLabel">A documentary of the documentation of documents</p>
-            </label>
-            <label class="checkboxContainer plusArea">
-                <span class="checkmark"></span>
-                <p class="checkboxLabel">A long book for a short film</p>
-            </label>
-            <label class="checkboxContainer plusArea">
-                <span class="checkmark"></span>
-                <p class="checkboxLabel">A low-brow invite for a high-brow party</p>
-            </label>
-            <label class="checkboxContainer plusArea">
-                <span class="checkmark"></span>
-                <p class="checkboxLabel">A low profile workshop that plays with scale</p>
-            </label>
-            <label class="checkboxContainer plusArea">
-                <span class="checkmark"></span>
-                <p class="checkboxLabel">A microsite for a macro furniture capsule</p>
-            </label>
-
-            <label class="checkboxContainer plusArea">
-                <span class="checkmark"></span>
-                <p class="checkboxLabel">A photo campaign shot on film</p>
-            </label>
-            <label class="checkboxContainer plusArea">
-                <span class="checkmark"></span>
-                <p class="checkboxLabel">A physical collection representing a digital archive</p>
-            </label>
-            <label class="checkboxContainer plusArea">
-                <span class="checkmark"></span>
-                <p class="checkboxLabel">A pop-up flyer with a PDF download</p>
-            </label>
-            <label class="checkboxContainer plusArea">
-                <span class="checkmark"></span>
-                <p class="checkboxLabel">A publication that unfolds an installation</p>
-            </label>
-            <label class="checkboxContainer plusArea">
-                <span class="checkmark"></span>
-                <p class="checkboxLabel">A short book for a long film</p>
-            </label>
-            <label class="checkboxContainer plusArea">
-                <span class="checkmark"></span>
-                <p class="checkboxLabel">A scalable typographic investment in women’s sports</p>
-            </label>
-            <label class="checkboxContainer plusArea">
-                <span class="checkmark"></span>
-                <p class="checkboxLabel">A typeface of iconic glyphs</p>
-            </label>
-            <label class="checkboxContainer plusArea">
-                <span class="checkmark"></span>
-                <p class="checkboxLabel">A typographic chair</p>
-            </label>
-            <label class="checkboxContainer plusArea">
-                <span class="checkmark"></span>
-                <p class="checkboxLabel">A vinyl release for a listening bar</p>
-            </label>
-            <label class="checkboxContainer plusArea">
-                <span class="checkmark"></span>
-                <p class="checkboxLabel">An event map that becomes a design object</p>
-            </label>
-            <label class="checkboxContainer plusArea">
-                <span class="checkmark"></span>
-                <p class="checkboxLabel">An exhibition of site-specific photographs</p>
-            </label>
-            <label class="checkboxContainer plusArea">
-                <span class="checkmark"></span>
-                <p class="checkboxLabel">An experimental website for experimental architecture</p>
-            </label>
-            <label class="checkboxContainer plusArea">
-                <span class="checkmark"></span>
-                <p class="checkboxLabel">An extended catalog of condensed typefaces</p>
-            </label>
-        </div>
-
-        <div class="contactForm">
-            <label for="from">From: 
-                <input type="email"
-                   id="from"
-                   name="from"
-                   required
-                   minlength="0"
-                   maxlength="20"
-                   size="20"
-                   placeholder="type email here"/>
-            </label>
-            <hr>
-            <label for="to">To: Fullservice Office (info@fullserviceoffice.com)</label>
-            <hr>
-            <label for="subject">Subject: 
-                <input type="text"
-                   id="subject"
-                   name="subject"
-                   required
-                   minlength="0"
-                   maxlength="20"
-                   size="20"
-                   placeholder="I want to collab"/>
-            </label>
-            <hr>
-            <label for="message1">Message:</label>
-            <hr>
-            <textarea id="message1" name="message1" placeholder="Hi Fullservice Office,&#10;&#10;Omg, you guys are amazing. I absolutely love your work!&#10;It would be so much fun to collaborate with you on:"></textarea>
-            <div id="sendPitches">
-                <label class="pitchContainer">
-                <span class="checkmark"></span>
-                <p class="checkboxLabel">A book that reads the room</p>
-            </label>
-            <label class="pitchContainer">
-                <span class="checkmark"></span>
-                <p class="checkboxLabel">A clock that resists numerical order</p>
-            </label>
-            <label class="pitchContainer">
-                <span class="checkmark"></span>
-                <p class="checkboxLabel">A conceptual campaign for restaurant merch</p>
-            </label>
-            <label class="pitchContainer">
-                <span class="checkmark"></span>
-                <p class="checkboxLabel">A collection of white-collar workwear</p>
-            </label>
-            <label class="pitchContainer">
-                <span class="checkmark"></span>
-                <p class="checkboxLabel">A colorful object for a paint swatch library</p>
-            </label>
-            <label class="pitchContainer">
-                <span class="checkmark"></span>
-                <p class="checkboxLabel">A c-suite of uncorporate merch</p>
-            </label>
-            <label class="pitchContainer">
-                <span class="checkmark"></span>
-                <p class="checkboxLabel">A digital tool that produces a physical object</p>
-            </label>
-            <label class="pitchContainer">
-                <span class="checkmark"></span>
-                <p class="checkboxLabel">A documentary of the documentation of documents</p>
-            </label>
-            <label class="pitchContainer">
-                <span class="checkmark"></span>
-                <p class="checkboxLabel">A long book for a short film</p>
-            </label>
-            <label class="pitchContainer">
-                <span class="checkmark"></span>
-                <p class="checkboxLabel">A low-brow invite for a high-brow party</p>
-            </label>
-            <label class="pitchContainer">
-                <span class="checkmark"></span>
-                <p class="checkboxLabel">A low profile workshop that plays with scale</p>
-            </label>
-            <label class="pitchContainer">
-                <span class="checkmark"></span>
-                <p class="checkboxLabel">A microsite for a macro furniture capsule</p>
-            </label>
-
-            <label class="pitchContainer">
-                <span class="checkmark"></span>
-                <p class="checkboxLabel">A photo campaign shot on film</p>
-            </label>
-            <label class="pitchContainer">
-                <span class="checkmark"></span>
-                <p class="checkboxLabel">A physical collection representing a digital archive</p>
-            </label>
-            <label class="pitchContainer">
-                <span class="checkmark"></span>
-                <p class="checkboxLabel">A pop-up flyer with a PDF download</p>
-            </label>
-            <label class="pitchContainer">
-                <span class="checkmark"></span>
-                <p class="checkboxLabel">A publication that unfolds an installation</p>
-            </label>
-            <label class="pitchContainer">
-                <span class="checkmark"></span>
-                <p class="checkboxLabel">A short book for a long film</p>
-            </label>
-            <label class="pitchContainer">
-                <span class="checkmark"></span>
-                <p class="checkboxLabel">A scalable typographic investment in women’s sports</p>
-            </label>
-            <label class="pitchContainer">
-                <span class="checkmark"></span>
-                <p class="checkboxLabel">A typeface of iconic glyphs</p>
-            </label>
-            <label class="pitchContainer">
-                <span class="checkmark"></span>
-                <p class="checkboxLabel">A typographic chair</p>
-            </label>
-            <label class="pitchContainer">
-                <span class="checkmark"></span>
-                <p class="checkboxLabel">A vinyl release for a listening bar</p>
-            </label>
-            <label class="pitchContainer">
-                <span class="checkmark"></span>
-                <p class="checkboxLabel">An event map that becomes a design object</p>
-            </label>
-            <label class="pitchContainer">
-                <span class="checkmark"></span>
-                <p class="checkboxLabel">An exhibition of site-specific photographs</p>
-            </label>
-            <label class="pitchContainer">
-                <span class="checkmark"></span>
-                <p class="checkboxLabel">An experimental website for experimental architecture</p>
-            </label>
-            <label class="pitchContainer">
-                <span class="checkmark"></span>
-                <p class="checkboxLabel">An extended catalog of condensed typefaces</p>
-            </label>
-
             </div>
-            <textarea id="message2" name="message2" placeholder="Let’s set up a time to chat. I can’t wait to get started.&#10;&#10;Thank you, speak soon!"></textarea>
-            <a href="">Send Message</a>
+            <div class="checkboxContainer plusMinusDotArea">
+                <span class="checkmark"></span>
+                <p class="checkboxLabel">A clock that resists numerical order</p>
+            </div>
+            <div class="checkboxContainer plusMinusDotArea">
+                <span class="checkmark"></span>
+                <p class="checkboxLabel">A conceptual campaign for restaurant merch</p>
+            </div>
+            <div class="checkboxContainer plusMinusDotArea">
+                <span class="checkmark"></span>
+                <p class="checkboxLabel">A collection of white-collar workwear</p>
+            </div>
+            <div class="checkboxContainer plusMinusDotArea">
+                <span class="checkmark"></span>
+                <p class="checkboxLabel">A colorful object for a paint swatch library</p>
+            </div>
+            <div class="checkboxContainer plusMinusDotArea">
+                <span class="checkmark"></span>
+                <p class="checkboxLabel">A c-suite of uncorporate merch</p>
+            </div>
+            <div class="checkboxContainer plusMinusDotArea">
+                <span class="checkmark"></span>
+                <p class="checkboxLabel">A digital tool that produces a physical object</p>
+            </div>
+            <div class="checkboxContainer plusMinusDotArea">
+                <span class="checkmark"></span>
+                <p class="checkboxLabel">A documentary of the documentation of documents</p>
+            </div>
+            <div class="checkboxContainer plusMinusDotArea">
+                <span class="checkmark"></span>
+                <p class="checkboxLabel">A long book for a short film</p>
+            </div>
+            <div class="checkboxContainer plusMinusDotArea">
+                <span class="checkmark"></span>
+                <p class="checkboxLabel">A low-brow invite for a high-brow party</p>
+            </div>
+            <div class="checkboxContainer plusMinusDotArea">
+                <span class="checkmark"></span>
+                <p class="checkboxLabel">A low profile workshop that plays with scale</p>
+            </div>
+            <div class="checkboxContainer plusMinusDotArea">
+                <span class="checkmark"></span>
+                <p class="checkboxLabel">A microsite for a macro furniture capsule</p>
+            </div>
+
+            <div class="checkboxContainer plusMinusDotArea">
+                <span class="checkmark"></span>
+                <p class="checkboxLabel">A photo campaign shot on film</p>
+            </div>
+            <div class="checkboxContainer plusMinusDotArea">
+                <span class="checkmark"></span>
+                <p class="checkboxLabel">A physical collection representing a digital archive</p>
+            </div>
+            <div class="checkboxContainer plusMinusDotArea">
+                <span class="checkmark"></span>
+                <p class="checkboxLabel">A pop-up flyer with a PDF download</p>
+            </div>
+            <div class="checkboxContainer plusMinusDotArea">
+                <span class="checkmark"></span>
+                <p class="checkboxLabel">A publication that unfolds an installation</p>
+            </div>
+            <div class="checkboxContainer plusMinusDotArea">
+                <span class="checkmark"></span>
+                <p class="checkboxLabel">A short book for a long film</p>
+            </div>
+            <div class="checkboxContainer plusMinusDotArea">
+                <span class="checkmark"></span>
+                <p class="checkboxLabel">A scalable typographic investment in women’s sports</p>
+            </div>
+            <div class="checkboxContainer plusMinusDotArea">
+                <span class="checkmark"></span>
+                <p class="checkboxLabel">A typeface of iconic glyphs</p>
+            </div>
+            <div class="checkboxContainer plusMinusDotArea">
+                <span class="checkmark"></span>
+                <p class="checkboxLabel">A typographic chair</p>
+            </div>
+            <div class="checkboxContainer plusMinusDotArea">
+                <span class="checkmark"></span>
+                <p class="checkboxLabel">A vinyl release for a listening bar</p>
+            </div>
+            <div class="checkboxContainer plusMinusDotArea">
+                <span class="checkmark"></span>
+                <p class="checkboxLabel">An event map that becomes a design object</p>
+            </div>
+            <div class="checkboxContainer plusMinusDotArea">
+                <span class="checkmark"></span>
+                <p class="checkboxLabel">An exhibition of site-specific photographs</p>
+            </div>
+            <div class="checkboxContainer plusMinusDotArea">
+                <span class="checkmark"></span>
+                <p class="checkboxLabel">An experimental website for experimental architecture</p>
+            </div>
+            <div class="checkboxContainer plusMinusDotArea">
+                <span class="checkmark"></span>
+                <p class="checkboxLabel">An extended catalog of condensed typefaces</p>
+            </div>
+            </div>
+
+            <div class="contactForm">
+                <label for="from">
+                    <p>From:</p> 
+                    <input type="email"
+                    id="from"
+                    name="from"
+                    required
+                    minlength="0"
+                    maxlength="20"
+                    size="20"
+                    placeholder="type email here"/>
+                </label>
+                <hr>
+                <label for="to">
+                    <p>To: info@fullserviceoffice.com</p>
+                </label>
+                <hr>
+                <label for="subject">
+                    <p>Subject:</p> 
+                    <input type="text"
+                    id="subject"
+                    name="subject"
+                    required
+                    minlength="0"
+                    maxlength="20"
+                    size="20"
+                    placeholder="We want to collaborate"/>
+                </label>
+                <hr style="margin-bottom: 4rem;">
+                <textarea id="message" name="message">Hi Fullservice Office,&#10;&#10;Omg, you guys are amazing. I absolutely love your work!&#10;&#10;Lorem ipsum dolor sit amet, consectetur adipiscing elit, emlo sed do eiusmod tempor incididunt ea commodo consequat ut labore et dolore magna aliqua. It would be so much fun to collaborate with you on:</textarea>
+                <div id="pitchesToSend"></div>
+                <div class="spacer"></div>
+                <button id="sendForm" type="button">Send</button>
+            </div>
         </div>
     </div>
     <!-- Footer -->
     <div class="footer">
-        <span>
-            <p class="homeLink"><a href="./index.html">FULLSERVICE OFFICE</a></p>
-            <p class="navLinks"><span class="inactiveNav"><a href="./info.html">Info</a></span>)</p>
-        </span>
+        <p class="homeLink"><a href="./index.html">FULLSERVICE OFFICE</a></p>
+        <p class="navLinks"><span class="inactiveNav"><a href="./info.html">Info</a></span>)</p>
     </div>
-  </div>
   <script src="./js/fullservice_office.js"></script>
   <script src="./js/pitches.js"></script>
 </body>

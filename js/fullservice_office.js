@@ -3,6 +3,7 @@ document.body.onkeyup = function(e) {
       e.code == "Space" ||      
       e.keyCode == 32      
   ) {
+    document.documentElement.classList.toggle("show-grid");
     const items = document.querySelectorAll(".grid_area");
     for (const item of items) {
         if (item.style.cssText == "") {
@@ -40,7 +41,7 @@ let lastCursor = null;
 let curCursor = null;
 
 // Cursors
-const cursors = ["dot", "noCursor", "copyright", "leftArrow", "rightArrow", "plusDot", "minusDot", "plus"];
+const cursors = ["dot", "noCursor", "copyright", "leftArrow", "rightArrow", "plusMinusDot"];
 
 // for each type of cursor
 for (let i = 0; i < cursors.length; i++) {

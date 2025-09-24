@@ -24,18 +24,13 @@ function startVideo(video) {
     }
 }
 
-const linkAreas = [["workers", document.getElementById('workersLink')],
-                   ["production", document.getElementById('productionLink')],
-                   ["pitches", document.getElementById('pitchesLink')],
-                   ["info", document.getElementById('infoLink')]];
-
 for (let i = 0; i < websiteSections.length; i++) {
     for (let j = 1; j < videoSections + 1; j++) {
         const videoName = websiteSections[i] + j;
         const videoArea = document.getElementById(videoName);
         const video = document.getElementById(videoName + "Video");
         videoArea.addEventListener('mouseenter', () => {
-            const category = videoArea.classList[1]; // this is hacky
+            const category = websiteSections[i];
             const hoverLink = document.getElementById(category + "Link");
             if ( hoverLink != activeLink ) {
                 if (activeLink) {

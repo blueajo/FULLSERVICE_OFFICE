@@ -1,5 +1,5 @@
 const pitches = document.querySelectorAll(".checkboxContainer");
-const formPitches = document.querySelectorAll(".pitchContainer");
+const pitchesToSend = document.querySelector("#pitchesToSend");
 let checkedCount = 0;
 const contactForm = document.querySelector(".contactForm");
 
@@ -10,7 +10,8 @@ for (let i = 0; i < pitches.length; i++) {
         console.log(i);
         if (pitch.classList.contains('checked')) {
             pitch.classList.remove('checked');
-            formPitches[i].classList.remove('active');
+            const pitchToRemove = document.querySelector("#pitch" + i);
+            pitchToRemove.remove();
             checkedCount--;
             if (checkedCount == 0 ) {
                 contactForm.classList.remove('active');
@@ -19,13 +20,27 @@ for (let i = 0; i < pitches.length; i++) {
         } else {
             if (checkedCount < 5) {
                 pitch.classList.add('checked');
+                pitch.classList.remove('plusDotArea');
                 console.log('+');
                 checkedCount++;
-                formPitches[i].classList.add('active');
+                pitchesToSend.innerHTML += 
+                    '<div id=pitch' + i + ' class="checkboxContainer checked">' +
+                        '<span class="checkmark"></span>' +
+                        '<p class="checkboxLabel">' + pitchContent + '</p>' +
+                    '</div>';
                 if ( !contactForm.classList.contains('active') ) {
                     contactForm.classList.add('active');
                 }
+
             }
+        }
+    });
+
+    pitch.addEventListener('mouseenter', () => {
+        if (pitch.classList.contains('checked')) {
+            document.querySelector('#plusMinusDot img').src = "./img/cursors/minusDot.svg";
+        } else if (!pitch.classList.contains('checked')) {
+            document.querySelector('#plusMinusDot img').src = "./img/cursors/plusDot.svg";
         }
     });
 }
