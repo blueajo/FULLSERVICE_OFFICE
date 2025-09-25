@@ -127,10 +127,51 @@ input, #message {
   left: 5px;
 }
 
+#overflowVideos {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  top: 5px;
+  left: calc(5px - 100vw);
+}
+
 video {
   object-position: right top;
   object-fit: contain;
   display: none;
+  width: 45rem;
+  height: 45rem;
+}
+
+#videoCredits {
+  position: relative;
+  width: 45rem;
+}
+
+#videoCredits div:hover .creditsLink{
+  opacity: 0;
+}
+
+.credits { 
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  display: none;
+  max-height: calc(100vh - 2rem);
+  overflow-y: scroll;
+  overflow-x: visible;
+}
+
+.creditsLink {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  opacity: 1;
+  width: min-content;
+}
+
+#videoCredits div:hover .credits {
+  display: block;
 }
 
 /* Links */
@@ -147,32 +188,48 @@ a:active, a:hover, a.currentPage, a.activeLink {
   cursor: none;
 }
 
+.container {
+  height: 100%;
+  width: 100%;
+  display: grid;
+  grid-template-rows: min-content 1fr min-content;
+  grid-template-columns: 1fr;
+  grid-template-areas: 'header'
+                       'content'
+                       'footer';
+}
+
 /* Header */
 .header {
-  position: fixed;
+  position: relative;
   top: 0;
   left: 0;
   height: auto;
-  width: calc(100vw - calc(calc(var(--baseline-shift) + 1rem)*2));
+  width: calc(100vw - 4rem);
   padding-top: 1rem;
   padding-bottom: 1rem;
-  padding-left: calc(var(--baseline-shift) + 1rem);
-  padding-right: calc(var(--baseline-shift) + 1rem);
+  padding-left: 2rem;
+  padding-right: 2rem;
+  display: flex;
+  justify-content: space-between;
+  grid-area: 'header';
 }
 
 /* Footer */
 .footer {
-  position: fixed;
+  position: relative;
   bottom: 0;
-  left: 0;
-  width: calc(100vw - calc(calc(var(--baseline-shift) + 1rem)*2));
+  right: 0;
+  width: calc(100vw - 4rem);
   height: auto;
   padding-top: 1rem;
-  padding-bottom: 0.4rem;
-  padding-left: calc(var(--baseline-shift) + 1rem);
-  padding-right: calc(var(--baseline-shift) + 1rem);
+  padding-bottom: .5rem;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  gap: 5rem;
   display: flex;
   justify-content: space-between;
+  grid-area: 'footer';
 }
 
 .inactiveNav {
@@ -185,24 +242,29 @@ a:active, a:hover, a.currentPage, a.activeLink {
 
 /* Workers */
 .workers {
+    grid-area: 'content';
     display: flex;
     flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
     gap: 5rem;
-    width: auto;
-    height: auto;
-    margin-top: var(--top-margin);
-    padding-left: calc(var(--baseline-shift) + 1rem);
-    padding-right: calc(var(--baseline-shift) + 1rem);
+    width: calc(100vw - 4rem);
+    height: min-content;
+    padding-top: var(--top-margin);
+    padding-left: 2rem;
+    padding-right: 2rem;
+
 }
 
 .worker {
   width: 40rem;
+  height: min-content;
   flex-grow: 1;
   flex-shrink: 0;
   flex-basis: 40rem;
 }
 
-@media(max-width: 85rem) {
+/* @media(max-width: 85rem) {
   .workers {
     flex-flow: column;
   }
@@ -210,10 +272,11 @@ a:active, a:hover, a.currentPage, a.activeLink {
     flex-basis: 100%;
     max-width: 50rem;
   }
-}
+} */
 
 /* Pitches */
 .pitches {
+    grid-area: 'content';
     width: calc(100vw - 19.35rem);
     height: min-content;
     margin-top: var(--top-margin);
@@ -255,6 +318,7 @@ a:active, a:hover, a.currentPage, a.activeLink {
 /* Create a custom checkbox */
 .checkmark {
     margin-top: calc(var(--baseline-shift) + .25rem);
+    margin-left: 1px;
     height: 1rem;
     width: 1rem;
     border-radius: 50%;
@@ -263,7 +327,7 @@ a:active, a:hover, a.currentPage, a.activeLink {
 
 p.checkboxLabel {
     position: relative;
-    left: .25rem;
+    left: .5rem;
     margin-bottom: calc(var(--baseline-push) - 1rem);
 }
 
@@ -363,11 +427,15 @@ textarea {
 /* INFO */
 
 .info {
+    grid-area: 'content';
     margin-top: var(--top-margin);
     margin-left: 23.75rem;
     margin-right: 1.6rem;
     width: calc(100vw - 25.6rem);
+    height: min-content;
     display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
     flex-direction: row;
     flex-wrap: wrap;
     column-gap: 15rem;

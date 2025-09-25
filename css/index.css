@@ -1,4 +1,5 @@
 .index {
+    grid-area: 'content';
     display: grid;
     grid-template-columns: repeat(10, 1fr);
     grid-template-rows: 1fr 1fr;
@@ -7,11 +8,6 @@
         "pi1 pi2 pi3 pi4 pi5 i1 i2 i3 i4 i5";
     height: 100%;
     width: 100%;
-}
-
-.videoCursor {
-    grid-area: 2 / 1 / 4 / 11;
-    pointer-events: none;
 }
 
 #workers1 { grid-area: w1; }

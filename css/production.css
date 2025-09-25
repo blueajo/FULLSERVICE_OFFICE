@@ -8,8 +8,8 @@
 
 .production {
    width: 100%;
-   height: calc(100vh - 10rem);
-   margin-top: 5rem; 
+   height: 100%;
+   grid-area: 'content';
 }
 
 .product {

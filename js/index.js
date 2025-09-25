@@ -1,15 +1,19 @@
 const websiteSections = ["workers", "production", "pitches", "info"];
 const videoSections = 5;
-const allVideos = document.querySelectorAll("video");
+const allVideos = document.querySelectorAll("#videos video");
+const allOverflowVideos = document.querySelectorAll("#overflowVideos video");
 const header = document.getElementsByClassName("header")[0];
 const footer = document.getElementsByClassName("footer")[0];
 let curVideo = null;
 let activeLink = null;
 
 function hideVideo(video) {
-    if (video && video.classList.contains("active")) { 
+    if (video && video.classList.contains("active")) {
+        const overflowVideo = allOverflowVideos[Array.from(allVideos).indexOf(video)];
         video.classList.remove("active");
+        overflowVideo.classList.remove("active");
         video.pause();
+        overflowVideo.pause();
         if (curVideo) {
             curVideo.pause();
         }
@@ -18,8 +22,11 @@ function hideVideo(video) {
 
 function startVideo(video) {
     if (video && !video.classList.contains("active")) { 
+        const overflowVideo = allOverflowVideos[Array.from(allVideos).indexOf(video)];
         video.classList.add("active");
+        overflowVideo.classList.add("active");
         video.play();
+        overflowVideo.play();
         curVideo = video;
     }
 }
