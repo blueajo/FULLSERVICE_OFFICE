@@ -1,13 +1,12 @@
-const pitches = document.querySelectorAll(".checkboxContainer");
-const pitchesToSend = document.querySelector("#pitchesToSend");
+const pitches = document.querySelectorAll(".checkbox-container");
+const pitchesToSend = document.querySelector("#pitches-to-send");
 let checkedCount = 0;
-const contactForm = document.querySelector(".contactForm");
+const contactForm = document.querySelector("#contact-form");
 
 for (let i = 0; i < pitches.length; i++) {
     const pitch = pitches[i];
-    const pitchContent = pitch.querySelector(".checkboxLabel").innerHTML;
+    const pitchContent = pitch.querySelector(".checkbox-label").innerHTML;
     pitch.addEventListener('click', () => {
-        console.log(i);
         if (pitch.classList.contains('checked')) {
             pitch.classList.remove('checked');
             const pitchToRemove = document.querySelector("#pitch" + i);
@@ -20,27 +19,17 @@ for (let i = 0; i < pitches.length; i++) {
         } else {
             if (checkedCount < 5) {
                 pitch.classList.add('checked');
-                pitch.classList.remove('plusDotArea');
-                console.log('+');
                 checkedCount++;
                 pitchesToSend.innerHTML += 
-                    '<div id=pitch' + i + ' class="checkboxContainer checked">' +
+                    '<div id=pitch' + i + ' class="checkbox-container checked">' +
                         '<span class="checkmark"></span>' +
-                        '<p class="checkboxLabel">' + pitchContent + '</p>' +
+                        '<p class="checkbox-label">' + pitchContent + '</p>' +
                     '</div>';
                 if ( !contactForm.classList.contains('active') ) {
                     contactForm.classList.add('active');
                 }
 
             }
-        }
-    });
-
-    pitch.addEventListener('mouseenter', () => {
-        if (pitch.classList.contains('checked')) {
-            document.querySelector('#plusMinusDot img').src = "./img/cursors/minusDot.svg";
-        } else if (!pitch.classList.contains('checked')) {
-            document.querySelector('#plusMinusDot img').src = "./img/cursors/plusDot.svg";
         }
     });
 }

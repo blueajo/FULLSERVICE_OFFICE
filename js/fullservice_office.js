@@ -4,7 +4,7 @@ document.body.onkeyup = function(e) {
       e.keyCode == 32      
   ) {
     document.documentElement.classList.toggle("show-grid");
-    const items = document.querySelectorAll(".grid_area");
+    const items = document.querySelectorAll(".grid-area");
     for (const item of items) {
         if (item.style.cssText == "") {
             item.style.cssText = "outline: .25px dashed red";
@@ -15,8 +15,9 @@ document.body.onkeyup = function(e) {
   }
 }
 
-// Cursor behavior
+// CUSTOM CURSOR --------------------------------------------------------------------------------
 const cursor = document.getElementById('cursor');
+let cursorOn = true;
 
 // Cursor follows mouse
 document.addEventListener('mousemove', (e) => {
@@ -26,48 +27,73 @@ document.addEventListener('mousemove', (e) => {
 
 // Cursor disappears when mouse leaves page
 window.addEventListener("mouseout", (e) => {
-  if (!e.relatedTarget && !e.toElement) {
+  if (cursorOn && !e.relatedTarget && !e.toElement) {
     cursor.classList.remove('active');
   }
 });
 
 // Cursor appears when mouse enters page
 document.body.addEventListener('mouseenter', () => {
-  cursor.classList.add('active');
+  if (cursorOn) {
+    cursor.classList.add('active');
+  }
 });
 
+const links = document.querySelectorAll('a');
+for (let i = 0; i < links.length; i++) {
+  const link = links[i];
+  link.addEventListener('mouseenter', () => {
+    cursor.classList.remove('active');
+  });
+  link.addEventListener('mouseout', () => {
+    cursor.classList.add('active');
+  });
+}
 
-let lastCursor = null;
-let curCursor = null;
 
-// Cursors
-const cursors = ["dot", "noCursor", "copyright", "leftArrow", "rightArrow", "plusMinusDot"];
+// NAV -----------------------------------------------------------------------------------------
 
-// for each type of cursor
-for (let i = 0; i < cursors.length; i++) {
-  const cursorAreas = document.getElementsByClassName(cursors[i] + "Area");
-  if (cursorAreas) {
-    // for all cursor areas of type [i] on the page
-    for (let j = 0; j < cursorAreas.length; j++) {
-      // add an eventlistener when mouse enters cursor area
-      let newCursor = document.getElementById(cursors[i]);
-      cursorAreas[j].addEventListener('mouseenter', () => {
-        // hide current cursor
-        if (curCursor) { curCursor.classList.remove('active'); }
-        lastCursor = curCursor;
-        // show cursor
-        curCursor = newCursor;
-        if (curCursor) { curCursor.classList.add('active'); }
-      });
-      
-      // add an eventlistener when mouse leaves cursor area
-      cursorAreas[j].addEventListener('mouseleave', () => {
-        if (curCursor) { curCursor.classList.remove('active'); }
-        // for cursor areas nested inside larger cursor areas
-        if (lastCursor) { lastCursor.classList.add('active'); }
-        curCursor = lastCursor;
-        lastCursor = newCursor;
-      });
+let activePage = document.getElementById("index");
+const pageLinks = document.querySelectorAll(".page-link");
+for (let i = 0; i < pageLinks.length; i++) {
+  const pageLink = pageLinks[i];
+  pageLink.addEventListener('click', () => {
+    const section = pageLink.id.slice(0, -5);
+    const page = document.getElementById(section);
+
+    activePage.classList.add('inactive');
+    page.classList.remove('inactive');
+
+    document.querySelector('.current-page').classList.remove('current-page');
+    pageLink.classList.add('current-page');
+
+    if (section == 'index') {
+      cursorOn = true;
+      document.body.classList.add('sp-cursor');
+      cursor.classList.add('active');
+      document.getElementById('video-dot').classList.add('active');
+      document.getElementById('copyright').classList.remove('active');
+      document.getElementById('video-credits').classList.add('active');
+    } else if (section == 'info') {
+      cursorOn = true;
+      document.body.classList.add('sp-cursor');
+      cursor.classList.add('active');
+      document.getElementById('copyright').classList.add('active');
+      document.getElementById('video-dot').classList.remove('active');
+      document.getElementById('video-credits').classList.remove('active');
+    } else {
+      cursorOn = false;
+      document.getElementById('video-dot').classList.remove('active');
+      document.getElementById('copyright').classList.remove('active');
+      document.body.classList.remove('sp-cursor');
+      cursor.classList.remove('active');
+      document.getElementById('video-credits').classList.remove('active');
+      if (section == 'production') {
+        var flkty = Flickity.data(elem);
+        flkty.resize();
+      }
     }
-  }
+
+    activePage = page;
+  });
 }

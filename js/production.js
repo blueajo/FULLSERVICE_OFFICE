@@ -1,8 +1,7 @@
-var elem = document.querySelector('.production');
-var flkty;
+var elem = document.getElementById('production');
 
 window.onload = function() {
-    flkty = new Flickity( elem, {
+    var flkty = new Flickity( elem, {
     // options
     cellAlign: 'center',
     wrapAround: true,
@@ -18,28 +17,26 @@ window.onload = function() {
     }
     openCloseProduct(cellElement, cellIndex);
   });
-
-  document.querySelector('.flickity-slider').style.transform = 'translateX(0)';}
+}
 
 let openProduct = null;
 let unclicked = true;
 
 function openCloseProduct(cellElement, cellIndex) {
+  var flkty = Flickity.data(elem);
   if (openProduct) {
     openProduct.classList.remove("open");
     openProduct.querySelector('img').style.width =  '15vw';
-    document.querySelector('#plusMinusDot img').src = "./img/cursors/plusDot.svg";
   }
   if (cellElement !== openProduct) {
-      cellElement.classList.add('open');
-      const productImg = cellElement.querySelector('img');
-      const w = productImg.naturalWidth;
-      const h = productImg.naturalHeight;
-      const heightRatio = 0.8 * window.innerHeight / h;
-      const widthRatio = 0.8 * window.innerWidth / w;
-      const scaleRatio = Math.min(heightRatio, widthRatio);
-      productImg.style.width = (w * scaleRatio) + 'px';
-      document.querySelector('#plusMinusDot img').src = "./img/cursors/minusDot.svg";
+    cellElement.classList.add('open');
+    const productImg = cellElement.querySelector('img');
+    const w = productImg.naturalWidth;
+    const h = productImg.naturalHeight;
+    const heightRatio = 0.8 * window.innerHeight / h;
+    const widthRatio = 0.8 * window.innerWidth / w;
+    const scaleRatio = Math.min(heightRatio, widthRatio);
+    productImg.style.width = (w * scaleRatio) + 'px';
   }
   flkty.reposition();
   if (cellIndex) {
@@ -48,35 +45,30 @@ function openCloseProduct(cellElement, cellIndex) {
   openProduct = cellElement.classList.contains('open') ? cellElement : null;
 }
 
-// document.querySelector(".leftArrowArea").addEventListener('click', (e) => {
-//     if (openProduct) {
-//         let prevIndex = (flkty.selectedIndex - 1) % flkty.cells.length;
-//         let prevElement = flkty.cells[prevIndex].element;
-//         openCloseProduct(prevElement, prevIndex);
-//     } else {
-//         flkty.selectCell(flkty.selectedIndex - 5, true, false);
-//     }
-// });
+document.getElementById('production-link').addEventListener('click', () => {
+  var flkty = Flickity.data(elem);
+  flkty.resize();
+  document.querySelector('.flickity-slider').style.transform = 'translateX(0)';
+});
 
-// document.querySelector(".rightArrowArea").addEventListener('click', (e) => {
-//     if (openProduct) {
-//         let nextIndex = (flkty.selectedIndex + 1) % flkty.cells.length;
-//         let nextElement = flkty.cells[nextIndex].element;
-//         openCloseProduct(nextElement, nextIndex);
-//     } else {
-//         flkty.selectCell(flkty.selectedIndex + 5, true, false);
-//     }
-// });
+document.getElementById("left-arrow-area").addEventListener('click', (e) => {
+  var flkty = Flickity.data(elem);
+  if (openProduct) {
+    let prevIndex = (flkty.selectedIndex - 1) % flkty.cells.length;
+    let prevElement = flkty.cells[prevIndex].element;
+    openCloseProduct(prevElement, prevIndex);
+  } else {
+    flkty.selectCell((flkty.selectedIndex - 5) % flkty.cells.length, true, false);
+  }
+});
 
-const products = document.getElementsByClassName('product');
-for (let i = 0; i < products.length; i++) {
-  const product = products[i];
-  const productImg = product.querySelector('img');
-  product.addEventListener('mouseenter', () => {
-        if (product.classList.contains('open')) {
-            document.querySelector('#plusMinusDot img').src = "./img/cursors/minusDot.svg";
-        } else if (!product.classList.contains('open')) {
-            document.querySelector('#plusMinusDot img').src = "./img/cursors/plusDot.svg";
-        }
-  });
-}
+document.getElementById("right-arrow-area").addEventListener('click', (e) => {
+  var flkty = Flickity.data(elem);
+  if (openProduct) {
+    let nextIndex = (flkty.selectedIndex + 1) % flkty.cells.length;
+    let nextElement = flkty.cells[nextIndex].element;
+    openCloseProduct(nextElement, nextIndex);
+  } else {
+    flkty.selectCell((flkty.selectedIndex + 5) % flkty.cells.length, true, false);
+  }
+});

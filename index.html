@@ -8,207 +8,410 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png">
+  <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
   <link href="./css/fullservice_office.css" type="text/css" rel="stylesheet" />
-  <link href="./css/index.css" type="text/css" rel="stylesheet" />
 </head>
-<body class="dotArea">
-  <!-- Cursor -->
-  <div id="cursor">
-    <div id="dot"><img src="./img/cursors/dot.svg"></div>
-    <div id="videos">
-      <video id="workers1Video" autoplay loop muted><source src="./img/workers/Paris_is_Burning_Executive_Realness.mp4" type="video/mp4"></video>
-      <video id="workers2Video" autoplay loop muted><source src="./img/workers/Worker_Efficiency.mp4" type="video/mp4"></video>
-      <video id="workers3Video" autoplay loop muted><source src="./img/workers/Paris_is_Burning_Executive_Realness.mp4" type="video/mp4"></video>
-      <video id="workers4Video" autoplay loop muted><source src="./img/workers/Worker_Efficiency.mp4" type="video/mp4"></video>
-      <video id="workers5Video" autoplay loop muted><source src="./img/workers/Paris_is_Burning_Executive_Realness.mp4" type="video/mp4"></video>
+<body>
+<!-- CURSOR ------------------------------------------------------------------------------------->
+    <div id="cursor">
+        <div id="video-dot">
+            <div id="dot">
+                <img src="./img/cursors/dot.png">
+            </div>
+            <div id="videos">
+                <video class="service-providers-1-video" autoplay loop muted><source src="./img/service-providers/Paris_is_Burning_Executive_Realness.mp4" type="video/mp4"></video>
+                <video class="service-providers-2-video" autoplay loop muted><source src="./img/service-providers/Worker_Efficiency.mp4" type="video/mp4"></video>
+                <video class="service-providers-3-video" autoplay loop muted><source src="./img/service-providers/Paris_is_Burning_Executive_Realness.mp4" type="video/mp4"></video>
+                <video class="service-providers-4-video" autoplay loop muted><source src="./img/service-providers/Worker_Efficiency.mp4" type="video/mp4"></video>
+                <video class="service-providers-5-video" autoplay loop muted><source src="./img/service-providers/Paris_is_Burning_Executive_Realness.mp4" type="video/mp4"></video>
 
-      <video id="production1Video" autoplay loop muted><source src="./img/production/Farewell_Etouin_Shardu.mp4" type="video/mp4"></video>
-      <video id="production2Video" autoplay loop muted><source src="./img/production/Real_Time_Clock.mp4" type="video/mp4"></video>
-      <video id="production3Video" autoplay loop muted><source src="./img/production/Farewell_Etouin_Shardu.mp4" type="video/mp4"></video>
-      <video id="production4Video" autoplay loop muted><source src="./img/production/Real_Time_Clock.mp4" type="video/mp4"></video>
-      <video id="production5Video" autoplay loop muted><source src="./img/production/Farewell_Etouin_Shardu.mp4" type="video/mp4"></video>
+                <video class="production-1-video" autoplay loop muted><source src="./img/production/Farewell_Etouin_Shardu.mp4" type="video/mp4"></video>
+                <video class="production-2-video" autoplay loop muted><source src="./img/production/Real_Time_Clock.mp4" type="video/mp4"></video>
+                <video class="production-3-video" autoplay loop muted><source src="./img/production/Farewell_Etouin_Shardu.mp4" type="video/mp4"></video>
+                <video class="production-4-video" autoplay loop muted><source src="./img/production/Real_Time_Clock.mp4" type="video/mp4"></video>
+                <video class="production-5-video" autoplay loop muted><source src="./img/production/Farewell_Etouin_Shardu.mp4" type="video/mp4"></video>
 
-      <video id="pitches1Video" autoplay loop muted><source src="./img/pitches/Donald_Draper_Heinz.mp4" type="video/mp4"></video>
-      <video id="pitches2Video" autoplay loop muted><source src="./img/pitches/Pedro_Martinez.mp4" type="video/mp4"></video>
-      <video id="pitches3Video" autoplay loop muted><source src="./img/pitches/Seinfeld_Roommate_Switch.mp4" type="video/mp4"></video>
-      <video id="pitches4Video" autoplay loop muted><source src="./img/pitches/Donald_Draper_Heinz.mp4" type="video/mp4"></video>
-      <video id="pitches5Video" autoplay loop muted><source src="./img/pitches/Pedro_Martinez.mp4" type="video/mp4"></video>
+                <video class="pitches-1-video" autoplay loop muted><source src="./img/pitches/Donald_Draper_Heinz.mp4" type="video/mp4"></video>
+                <video class="pitches-2-video" autoplay loop muted><source src="./img/pitches/Pedro_Martinez.mp4" type="video/mp4"></video>
+                <video class="pitches-3-video" autoplay loop muted><source src="./img/pitches/Seinfeld_Roommate_Switch.mp4" type="video/mp4"></video>
+                <video class="pitches-4-video" autoplay loop muted><source src="./img/pitches/Donald_Draper_Heinz.mp4" type="video/mp4"></video>
+                <video class="pitches-5-video" autoplay loop muted><source src="./img/pitches/Pedro_Martinez.mp4" type="video/mp4"></video>
 
-      <video id="info1Video" autoplay loop muted><source src="./img/info/Boom_Box_Battle.mp4" type="video/mp4"></video>
-      <video id="info2Video" autoplay loop muted><source src="./img/info/Tonys_Therapy_Session.mp4" type="video/mp4"></video>
-      <video id="info3Video" autoplay loop muted><source src="./img/info/Boom_Box_Battle.mp4" type="video/mp4"></video>
-      <video id="info4Video" autoplay loop muted><source src="./img/info/Tonys_Therapy_Session.mp4" type="video/mp4"></video>
-      <video id="info5Video" autoplay loop muted><source src="./img/info/Boom_Box_Battle.mp4" type="video/mp4"></video>
-    </div>
-    <div id="overflowVideos">
-      <video id="workers1VideoOverflow" autoplay loop muted><source src="./img/workers/Paris_is_Burning_Executive_Realness.mp4" type="video/mp4"></video>
-      <video id="workers2VideoOverflow" autoplay loop muted><source src="./img/workers/Worker_Efficiency.mp4" type="video/mp4"></video>
-      <video id="workers3VideoOverflow" autoplay loop muted><source src="./img/workers/Paris_is_Burning_Executive_Realness.mp4" type="video/mp4"></video>
-      <video id="workers4VideoOverflow" autoplay loop muted><source src="./img/workers/Worker_Efficiency.mp4" type="video/mp4"></video>
-      <video id="workers5VideoOverflow" autoplay loop muted><source src="./img/workers/Paris_is_Burning_Executive_Realness.mp4" type="video/mp4"></video>
+                <video class="info-1-video" autoplay loop muted><source src="./img/info/Boom_Box_Battle.mp4" type="video/mp4"></video>
+                <video class="info-2-video" autoplay loop muted><source src="./img/info/Tonys_Therapy_Session.mp4" type="video/mp4"></video>
+                <video class="info-3-video" autoplay loop muted><source src="./img/info/Boom_Box_Battle.mp4" type="video/mp4"></video>
+                <video class="info-4-video" autoplay loop muted><source src="./img/info/Tonys_Therapy_Session.mp4" type="video/mp4"></video>
+                <video class="info-5-video" autoplay loop muted><source src="./img/info/Boom_Box_Battle.mp4" type="video/mp4"></video>
+            </div>
+            <div id="overflow-videos">
+                <video class="service-providers-1-video" autoplay loop muted><source src="./img/service-providers/Paris_is_Burning_Executive_Realness.mp4" type="video/mp4"></video>
+                <video class="service-providers-2-video" autoplay loop muted><source src="./img/service-providers/Worker_Efficiency.mp4" type="video/mp4"></video>
+                <video class="service-providers-3-video" autoplay loop muted><source src="./img/service-providers/Paris_is_Burning_Executive_Realness.mp4" type="video/mp4"></video>
+                <video class="service-providers-4-video" autoplay loop muted><source src="./img/service-providers/Worker_Efficiency.mp4" type="video/mp4"></video>
+                <video class="service-providers-5-video" autoplay loop muted><source src="./img/service-providers/Paris_is_Burning_Executive_Realness.mp4" type="video/mp4"></video>
 
-      <video id="production1VideoOverflow" autoplay loop muted><source src="./img/production/Farewell_Etouin_Shardu.mp4" type="video/mp4"></video>
-      <video id="production2VideoOverflow" autoplay loop muted><source src="./img/production/Real_Time_Clock.mp4" type="video/mp4"></video>
-      <video id="production3VideoOverflow" autoplay loop muted><source src="./img/production/Farewell_Etouin_Shardu.mp4" type="video/mp4"></video>
-      <video id="production4VideoOverflow" autoplay loop muted><source src="./img/production/Real_Time_Clock.mp4" type="video/mp4"></video>
-      <video id="production5VideoOverflow" autoplay loop muted><source src="./img/production/Farewell_Etouin_Shardu.mp4" type="video/mp4"></video>
+                <video class="production-1-video" autoplay loop muted><source src="./img/production/Farewell_Etouin_Shardu.mp4" type="video/mp4"></video>
+                <video class="production-2-video" autoplay loop muted><source src="./img/production/Real_Time_Clock.mp4" type="video/mp4"></video>
+                <video class="production-3-video" autoplay loop muted><source src="./img/production/Farewell_Etouin_Shardu.mp4" type="video/mp4"></video>
+                <video class="production-4-video" autoplay loop muted><source src="./img/production/Real_Time_Clock.mp4" type="video/mp4"></video>
+                <video class="production-5-video" autoplay loop muted><source src="./img/production/Farewell_Etouin_Shardu.mp4" type="video/mp4"></video>
 
-      <video id="pitches1VideoOverflow" autoplay loop muted><source src="./img/pitches/Donald_Draper_Heinz.mp4" type="video/mp4"></video>
-      <video id="pitches2VideoOverflow" autoplay loop muted><source src="./img/pitches/Pedro_Martinez.mp4" type="video/mp4"></video>
-      <video id="pitches3VideoOverflow" autoplay loop muted><source src="./img/pitches/Seinfeld_Roommate_Switch.mp4" type="video/mp4"></video>
-      <video id="pitches4VideoOverflow" autoplay loop muted><source src="./img/pitches/Donald_Draper_Heinz.mp4" type="video/mp4"></video>
-      <video id="pitches5VideoOverflow" autoplay loop muted><source src="./img/pitches/Pedro_Martinez.mp4" type="video/mp4"></video>
+                <video class="pitches-1-video" autoplay loop muted><source src="./img/pitches/Donald_Draper_Heinz.mp4" type="video/mp4"></video>
+                <video class="pitches-2-video" autoplay loop muted><source src="./img/pitches/Pedro_Martinez.mp4" type="video/mp4"></video>
+                <video class="pitches-3-video" autoplay loop muted><source src="./img/pitches/Seinfeld_Roommate_Switch.mp4" type="video/mp4"></video>
+                <video class="pitches-4-video" autoplay loop muted><source src="./img/pitches/Donald_Draper_Heinz.mp4" type="video/mp4"></video>
+                <video class="pitches-5-video" autoplay loop muted><source src="./img/pitches/Pedro_Martinez.mp4" type="video/mp4"></video>
 
-      <video id="info1VideoOverflow" autoplay loop muted><source src="./img/info/Boom_Box_Battle.mp4" type="video/mp4"></video>
-      <video id="info2VideoOverflow" autoplay loop muted><source src="./img/info/Tonys_Therapy_Session.mp4" type="video/mp4"></video>
-      <video id="info3VideoOverflow" autoplay loop muted><source src="./img/info/Boom_Box_Battle.mp4" type="video/mp4"></video>
-      <video id="info4VideoOverflow" autoplay loop muted><source src="./img/info/Tonys_Therapy_Session.mp4" type="video/mp4"></video>
-      <video id="info5VideoOverflow" autoplay loop muted><source src="./img/info/Boom_Box_Battle.mp4" type="video/mp4"></video>
-    </div>
-  </div>
-
-  <div class='container'>
-    <!-- Header -->
-    <div class="header">
-      <p class="navLinks">(<a id="workersLink" href="./workers.html">Workers</a>, <a id="productionLink" href="./production.html">Production</a>, <a id="pitchesLink" href="./pitches.html">Pitches</a>, <a id="infoLink" href="./info.html">Info</a>)</p>
-    </div>
-    <div class="index">
-      <!-- Workers Videos -->
-      <div id="workers1" class="grid_area workersArea"></div>
-      <div id="workers2" class="grid_area workersArea"></div>
-      <div id="workers3" class="grid_area workersArea"></div>
-      <div id="workers4" class="grid_area workersArea"></div>
-      <div id="workers5" class="grid_area workersArea"></div>
-      <!-- Production Videos -->
-      <div id="production1" class="grid_area productionArea"></div>
-      <div id="production2" class="grid_area productionArea"></div>
-      <div id="production3" class="grid_area productionArea"></div>
-      <div id="production4" class="grid_area productionArea"></div>
-      <div id="production5" class="grid_area productionArea"></div>
-      <!-- Pitches Videos -->
-      <div id="pitches1" class="grid_area pitchesArea"></div>
-      <div id="pitches2" class="grid_area pitchesArea"></div>
-      <div id="pitches3" class="grid_area pitchesArea"></div>
-      <div id="pitches4" class="grid_area pitchesArea"></div>
-      <div id="pitches5" class="grid_area pitchesArea"></div>
-      <!-- Info Videos -->
-      <div id="info1" class="grid_area infoArea"></div>
-      <div id="info2" class="grid_area infoArea"></div>
-      <div id="info3" class="grid_area infoArea"></div>
-      <div id="info4" class="grid_area infoArea"></div>
-      <div id="info5" class="grid_area infoArea"></div>
-    </div>
-    <!-- Footer -->
-    <div class="footer">
-      <p class="homeLink"><a href="./index.html">FULLSERVICE OFFICE</a> is a practice of design workers who produce design tools and pitch design collaborations.</p>
-      <div id="videoCredits">
-        <div>
-          <p class="creditsLink">(+)</p>
-          <div class="credits">
-          <div class="checkboxContainer checked">
-              <span class="checkmark"></span>
-              <p class="checkboxLabel">Man With a Movie Camera, Dziga Vertov, 1929</p>
-          </div>
-          <div class="checkboxContainer checked">
-              <span class="checkmark"></span>
-              <p class="checkboxLabel">Meshes of the Afternoon, Maya Deren & Alexander Hammid, 1943</p>
-          </div>
-          <div class="checkboxContainer checked">
-              <span class="checkmark"></span>
-              <p class="checkboxLabel">Ballet Mécanique, Fernand Léger & Dudley Murphy, 1924</p>
-          </div>
-          <div class="checkboxContainer checked">
-              <span class="checkmark"></span>
-              <p class="checkboxLabel">A Movie, Bruce Conner, 1958</p>
-          </div>
-          <div class="checkboxContainer checked">
-              <span class="checkmark"></span>
-              <p class="checkboxLabel">Wavelength, Michael Snow, 1967</p>
-          </div>
-          <div class="checkboxContainer checked">
-              <span class="checkmark"></span>
-              <p class="checkboxLabel">La Jetée, Chris Marker, 1962</p>
-          </div>
-          <div class="checkboxContainer checked">
-              <span class="checkmark"></span>
-              <p class="checkboxLabel">Scorpio Rising, Kenneth Anger, 1963</p>
-          </div>
-          <div class="checkboxContainer checked">
-              <span class="checkmark"></span>
-              <p class="checkboxLabel">The Way Things Go, Peter Fischli & David Weiss, 1987</p>
-          </div>
-          <div class="checkboxContainer checked">
-              <span class="checkmark"></span>
-              <p class="checkboxLabel">Two Women and a Man, Chantal Akerman, 1974</p>
-          </div>
-          <div class="checkboxContainer checked">
-              <span class="checkmark"></span>
-              <p class="checkboxLabel">Serene Velocity, Ernie Gehr, 1970</p>
-          </div>
-          <div class="checkboxContainer checked">
-              <span class="checkmark"></span>
-              <p class="checkboxLabel">Empire, Andy Warhol, 1964</p>
-          </div>
-          <div class="checkboxContainer checked">
-              <span class="checkmark"></span>
-              <p class="checkboxLabel">Histoire(s) du cinéma, Jean-Luc Godard, 1988–1998</p>
-          </div>
-          <div class="checkboxContainer checked">
-              <span class="checkmark"></span>
-              <p class="checkboxLabel">Rabbit’s Moon, Kenneth Anger, 1950/1971</p>
-          </div>
-          <div class="checkboxContainer checked">
-              <span class="checkmark"></span>
-              <p class="checkboxLabel">Mothlight, Stan Brakhage, 1963</p>
-          </div>
-          <div class="checkboxContainer checked">
-              <span class="checkmark"></span>
-              <p class="checkboxLabel">Hand Catching Lead, Richard Serra, 1968</p>
-          </div>
-          <div class="checkboxContainer checked">
-              <span class="checkmark"></span>
-              <p class="checkboxLabel">Walking, Ryan Larkin, 1968</p>
-          </div>
-          <div class="checkboxContainer checked">
-              <span class="checkmark"></span>
-              <p class="checkboxLabel">Window Water Baby Moving, Stan Brakhage, 1959</p>
-          </div>
-          <div class="checkboxContainer checked">
-              <span class="checkmark"></span>
-              <p class="checkboxLabel">Outer Space, Peter Tscherkassky, 1999</p>
-          </div>
-          <div class="checkboxContainer checked">
-              <span class="checkmark"></span>
-              <p class="checkboxLabel">Berlin: Symphony of a Great City, Walter Ruttmann, 1927</p>
-          </div>
-          <div class="checkboxContainer checked">
-              <span class="checkmark"></span>
-              <p class="checkboxLabel">Nostalgia, Hollis Frampton, 1971</p>
-          </div>
-          <div class="checkboxContainer checked">
-              <span class="checkmark"></span>
-              <p class="checkboxLabel">Anémic Cinéma, Marcel Duchamp, 1926</p>
-          </div>
-          <div class="checkboxContainer checked">
-              <span class="checkmark"></span>
-              <p class="checkboxLabel">The House Is Black, Forough Farrokhzad, 1963</p>
-          </div>
-          <div class="checkboxContainer checked">
-              <span class="checkmark"></span>
-              <p class="checkboxLabel">Kustom Kar Kommandos, Kenneth Anger, 1965</p>
-          </div>
-          <div class="checkboxContainer checked">
-              <span class="checkmark"></span>
-              <p class="checkboxLabel">George is Getting Upset, Seinfeld, 1999</p>
-          </div>
-          <p style="margin-top: 2rem;">(These videos have been sourced from public archives, research collections, and screenings, and we have made every effort to contact and credit their makers accurately.)</p>
+                <video class="info-1-video" autoplay loop muted><source src="./img/info/Boom_Box_Battle.mp4" type="video/mp4"></video>
+                <video class="info-2-video" autoplay loop muted><source src="./img/info/Tonys_Therapy_Session.mp4" type="video/mp4"></video>
+                <video class="info-3-video" autoplay loop muted><source src="./img/info/Boom_Box_Battle.mp4" type="video/mp4"></video>
+                <video class="info-4-video" autoplay loop muted><source src="./img/info/Tonys_Therapy_Session.mp4" type="video/mp4"></video>
+                <video class="info-5-video" autoplay loop muted><source src="./img/info/Boom_Box_Battle.mp4" type="video/mp4"></video>
+            </div>
         </div>
-        </div>
+        <div id="copyright">
+            <p>FULLSERVICE OFFICE © 2025</p>
         </div>
     </div>
-  </div>
+<!-- PAGE CONTENT ------------------------------------------------------------------------------->
+    <div id='container'>
+<!-- HEADER ------------------------------------------------------------------------------------->
+        <div id="header">
+        <p id="nav-links">(<a id="production-link" class="page-link">Production</a>, <a id="service-providers-link" class="page-link">Service Providers</a>, <a id="pitches-link" class="page-link">Pitches</a>, <a id="info-link" class="page-link">Info</a>)</p>
+        </div>
+<!-- HOMEPAGE ----------------------------------------------------------------------------------->
+        <div id="index">
+            <!-- Workers Videos -->
+            <div id="service-providers-1" class="grid-area workers-area"></div>
+            <div id="service-providers-2" class="grid-area workers-area"></div>
+            <div id="service-providers-3" class="grid-area workers-area"></div>
+            <div id="service-providers-4" class="grid-area workers-area"></div>
+            <div id="service-providers-5" class="grid-area workers-area"></div>
+            <!-- Production Videos -->
+            <div id="production-1" class="grid-area production-area"></div>
+            <div id="production-2" class="grid-area production-area"></div>
+            <div id="production-3" class="grid-area production-area"></div>
+            <div id="production-4" class="grid-area production-area"></div>
+            <div id="production-5" class="grid-area production-area"></div>
+            <!-- Pitches Videos -->
+            <div id="pitches-1" class="grid-area pitches-area"></div>
+            <div id="pitches-2" class="grid-area pitches-area"></div>
+            <div id="pitches-3" class="grid-area pitches-area"></div>
+            <div id="pitches-4" class="grid-area pitches-area"></div>
+            <div id="pitches-5" class="grid-area pitches-area"></div>
+            <!-- Info Videos -->
+            <div id="info-1" class="grid-area info-area"></div>
+            <div id="info-2" class="grid-area info-area"></div>
+            <div id="info-3" class="grid-area info-area"></div>
+            <div id="info-4" class="grid-area info-area"></div>
+            <div id="info-5" class="grid-area info-area"></div>
+        </div>
+<!-- PRODUCTION --------------------------------------------------------------------------------->
+        <div id="production" class="inactive">
+            <div id="left-arrow-area"></div>
+            <div id="right-arrow-area"></div>
+            <div id="p1" class="product"><img src="./img/projects/An-My-Le-1.jpg"><p>Caption for image here teekay 2025 TK</p></div>
+            <div id="p2" class="product"><img src="./img/projects/commondimensions-1.jpg"><p>Caption for image here teekay 2025 TK</p></div>
+            <div id="p3" class="product"><img src="./img/projects/Composition-2.jpg"><p>Caption for image here teekay 2025 TK</p></div>
+            <div id="p4" class="product"><img src="./img/projects/notations-1.jpg"><p>Caption for image here teekay 2025 TK</p></div>
+            <div id="p5" class="product"><img src="./img/projects/Objects-May-Shift-2.jpg"><p>Caption for image here teekay 2025 TK</p></div>
+            <div id="p6" class="product"><img src="./img/projects/On-the-Impulse-to-Notate-2.jpg"><p>Caption for image here teekay 2025 TK</p></div>
+            <div id="p7" class="product"><img src="./img/projects/Paprika-1.jpg"><p>Caption for image here teekay 2025 TK</p></div>
+            <div id="p8" class="product"><img src="./img/projects/Paul-Rand-Lecture-Series-1.jpg"><p>Caption for image here teekay 2025 TK</p></div>
+            <div id="p9" class="product"><img src="./img/projects/RETROSPECTA_046-2.jpg"><p>Caption for image here teekay 2025 TK</p></div>
+            <div id="p10" class="product"><img src="./img/projects/Saturns-Rings-1.jpg"><p>Caption for image here teekay 2025 TK</p></div>
+            <div id="p11" class="product"><img src="./img/projects/skinandbonesfilm-1.jpg"><p>Caption for image here teekay 2025 TK</p></div>
+            <div id="p12" class="product"><img src="./img/projects/Stanley-Whitney-1.jpg"><p>Caption for image here teekay 2025 TK</p></div>
+            <div id="p13" class="product"><img src="./img/projects/Supersaturated-1.jpg"><p>Caption for image here teekay 2025 TK</p></div>
+            <div id="p14" class="product"><img src="./img/projects/To-read-is-to-1.jpg"><p>Caption for image here teekay 2025 TK</p></div>
+            <div id="p15" class="product"><img src="./img/projects/Yale-Graphic-Design-MFA-1.jpg"><p>Caption for image here teekay 2025 TK</p></div>
+            <div id="p16" class="product"><img src="./img/projects/Yalenciaga-1.jpg"><p>Caption for image here teekay 2025 TK</p></div>
+        </div>
+<!-- SERVICE PROVIDERS -------------------------------------------------------------------------->
+        <div id="service-providers" class="inactive">
+            <div class="service-provider">
+                <p><a href="https://www.linkedin.com/in/lydia-chodosh-a39584112/" target="_blank">Lydia Chodosh</a> (b. New York) is a designer and writer with an interest in language forms and narrative constructions. 
+        She has worked as both an editor and art director in magazine publishing, and designed for various art galleries and museums.
+        Lydia holds an MFA from Rhode Island School of Design,  teaches at Parsons School of Design, and currently works at The Whitney.</p>
+            </div>
+            <div class="service-provider">
+                <p><a href="https://www.linkedin.com/in/orlando-porras/" target="_blank">Orlando Porras</a> (b. California) is an identity and editorial designer with an interest in personal vernaculars, athletic fandoms, and Chicano symbol-making. 
+        He has taught at University of New Haven, Yale Prison Education Initiative, and Yale School of Art, and has worked with several leading design studios across the country. 
+        Orlando holds an MFA from Yale School of Art, and currently works at the National Football League (NFL).
+        </p>
+            </div>
+            <div class="service-provider">
+                <p><a href="https://www.linkedin.com/in/rebecca-wilkinson-19865b2b3/" target="_blank">Rebecca Wilkinson</a> (b. Montreal) is a designer and art director with an interest in design history, tools and processes as they relate to labor and organizational structures.
+        She has worked internationally as a producer and art director in commercial photography, and created identities and publications for visual artists and designers.
+        Rebecca holds an MFA from Rhode Island School of Design, has taught at both RISD and Parson’s School of Design, and currently works at Bloomberg Businessweek.</p>
+            </div>
+        </div>
+<!-- PITCHES ------------------------------------------------------------------------------------>
+        <div id="pitches" class="inactive">
+            <div id="pitch-list">
+                <div class="checkbox-container">
+                    <span class="checkmark"></span>
+                    <p class="checkbox-label">A book that reads the room</p>
+                </div>
+                <div class="checkbox-container">
+                    <span class="checkmark"></span>
+                    <p class="checkbox-label">A clock that resists numerical order</p>
+                </div>
+                <div class="checkbox-container">
+                    <span class="checkmark"></span>
+                    <p class="checkbox-label">A conceptual campaign for restaurant merch</p>
+                </div>
+                <div class="checkbox-container">
+                    <span class="checkmark"></span>
+                    <p class="checkbox-label">A collection of white-collar workwear</p>
+                </div>
+                <div class="checkbox-container">
+                    <span class="checkmark"></span>
+                    <p class="checkbox-label">A colorful object for a paint swatch library</p>
+                </div>
+                <div class="checkbox-container">
+                    <span class="checkmark"></span>
+                    <p class="checkbox-label">A c-suite of uncorporate merch</p>
+                </div>
+                <div class="checkbox-container">
+                    <span class="checkmark"></span>
+                    <p class="checkbox-label">A digital tool that produces a physical object</p>
+                </div>
+                <div class="checkbox-container">
+                    <span class="checkmark"></span>
+                    <p class="checkbox-label">A documentary of the documentation of documents</p>
+                </div>
+                <div class="checkbox-container">
+                    <span class="checkmark"></span>
+                    <p class="checkbox-label">A long book for a short film</p>
+                </div>
+                <div class="checkbox-container">
+                    <span class="checkmark"></span>
+                    <p class="checkbox-label">A low-brow invite for a high-brow party</p>
+                </div>
+                <div class="checkbox-container">
+                    <span class="checkmark"></span>
+                    <p class="checkbox-label">A low profile workshop that plays with scale</p>
+                </div>
+                <div class="checkbox-container">
+                    <span class="checkmark"></span>
+                    <p class="checkbox-label">A microsite for a macro furniture capsule</p>
+                </div>
 
-  <script src="./js/fullservice_office.js"></script>
-  <script src="./js/index.js"></script>
+                <div class="checkbox-container">
+                    <span class="checkmark"></span>
+                    <p class="checkbox-label">A photo campaign shot on film</p>
+                </div>
+                <div class="checkbox-container">
+                    <span class="checkmark"></span>
+                    <p class="checkbox-label">A physical collection representing a digital archive</p>
+                </div>
+                <div class="checkbox-container">
+                    <span class="checkmark"></span>
+                    <p class="checkbox-label">A pop-up flyer with a PDF download</p>
+                </div>
+                <div class="checkbox-container">
+                    <span class="checkmark"></span>
+                    <p class="checkbox-label">A publication that unfolds an installation</p>
+                </div>
+                <div class="checkbox-container">
+                    <span class="checkmark"></span>
+                    <p class="checkbox-label">A short book for a long film</p>
+                </div>
+                <div class="checkbox-container">
+                    <span class="checkmark"></span>
+                    <p class="checkbox-label">A scalable typographic investment in women’s sports</p>
+                </div>
+                <div class="checkbox-container">
+                    <span class="checkmark"></span>
+                    <p class="checkbox-label">A typeface of iconic glyphs</p>
+                </div>
+                <div class="checkbox-container">
+                    <span class="checkmark"></span>
+                    <p class="checkbox-label">A typographic chair</p>
+                </div>
+                <div class="checkbox-container">
+                    <span class="checkmark"></span>
+                    <p class="checkbox-label">A vinyl release for a listening bar</p>
+                </div>
+                <div class="checkbox-container">
+                    <span class="checkmark"></span>
+                    <p class="checkbox-label">An event map that becomes a design object</p>
+                </div>
+                <div class="checkbox-container">
+                    <span class="checkmark"></span>
+                    <p class="checkbox-label">An exhibition of site-specific photographs</p>
+                </div>
+                <div class="checkbox-container">
+                    <span class="checkmark"></span>
+                    <p class="checkbox-label">An experimental website for experimental architecture</p>
+                </div>
+                <div class="checkbox-container">
+                    <span class="checkmark"></span>
+                    <p class="checkbox-label">An extended catalog of condensed typefaces</p>
+                </div>
+            </div>
+            <div id="contact-form">
+                <label for="from">
+                    <p>From:</p> 
+                    <input type="email"
+                    id="from"
+                    name="from"
+                    required
+                    minlength="0"
+                    maxlength="20"
+                    size="20"
+                    placeholder="type email here"/>
+                </label>
+                <hr>
+                <label for="to">
+                    <p>To: info@fullserviceoffice.com</p>
+                </label>
+                <hr>
+                <label for="subject">
+                    <p>Subject:</p> 
+                    <input type="text"
+                    id="subject"
+                    name="subject"
+                    required
+                    minlength="0"
+                    maxlength="20"
+                    size="20"
+                    placeholder="We want to collaborate"/>
+                </label>
+                <hr style="margin-bottom: 4rem;">
+                <textarea id="message" name="message">Hi Fullservice Office,&#10;&#10;Omg, you guys are amazing. I absolutely love your work!&#10;&#10;Lorem ipsum dolor sit amet, consectetur adipiscing elit, emlo sed do eiusmod tempor incididunt ea commodo consequat ut labore et dolore magna aliqua. It would be so much fun to collaborate with you on:</textarea>
+                <div id="pitches-to-send"></div>
+                <div class="spacer"></div>
+                <button id="send-form" type="button">Send</button>
+            </div>
+        </div>
+<!-- INFO --------------------------------------------------------------------------------------->
+        <div id="info" class="inactive">
+            <div class="office">
+                <p>FULLSERVICE OFFICE (Brooklyn, NY) crafts identities and artifacts rooted in typography and image-making. We teach, publish, initiate collaborations and conversations. Our work is grounded in sincere and rigorous engagement with culture. We reject formulaic, surface-level strategies, and instead offer an editorial approach. Informed by broader socio-historical context, we engage the whole arc of a project from conceptual beginnings to material specificity.</p>
+                <p>The office is owned and operated by Lydia Chodosh, Orlando Porras, and Rebecca Wilkinson. Previous collaborators include Bloomberg, Condé Nast, Institute of Contemporary Art (ICA) Boston, NFL, RISD Museum, Yale School of Architecture, Walker Art Center and the Whitney. Our work has received recognition from AIGA, Dezeen, It’s Nice That, Sight Unseen, Society for Typographic Arts, The New York Times, and Tokyo Type Directors Club.</p>
+            </div>
+            <div class="links">
+                <p>Inquiries<br><a href="mailto:info@fullserviceoffice.com" class="dotArea">info@fullserviceoffice.com</a><br><br>
+                Instagram<br><a href="https://www.instagram.com/fullserviceoffice/" target="_blank" class="dotArea">@fullserviceoffice</a></p>        
+            </div>
+        </div>
+<!-- FOOTER ------------------------------------------------------------------------------------->
+        <div id="footer">
+            <p><a id='index-link' class='page-link current-page'>FULLSERVICE OFFICE</a> is a design practice.</p>
+            <div id="video-credits">
+                <div>
+                    <a id="credits-link">(+)</a>
+                    <div id="credits">
+                <div class="checkbox-container checked">
+                    <span class="checkmark"></span>
+                    <p class="checkbox-label">Man With a Movie Camera, Dziga Vertov, 1929</p>
+                </div>
+                <div class="checkbox-container checked">
+                    <span class="checkmark"></span>
+                    <p class="checkbox-label">Meshes of the Afternoon, Maya Deren & Alexander Hammid, 1943</p>
+                </div>
+                <div class="checkbox-container checked">
+                    <span class="checkmark"></span>
+                    <p class="checkbox-label">Ballet Mécanique, Fernand Léger & Dudley Murphy, 1924</p>
+                </div>
+                <div class="checkbox-container checked">
+                    <span class="checkmark"></span>
+                    <p class="checkbox-label">A Movie, Bruce Conner, 1958</p>
+                </div>
+                <div class="checkbox-container checked">
+                    <span class="checkmark"></span>
+                    <p class="checkbox-label">Wavelength, Michael Snow, 1967</p>
+                </div>
+                <div class="checkbox-container checked">
+                    <span class="checkmark"></span>
+                    <p class="checkbox-label">La Jetée, Chris Marker, 1962</p>
+                </div>
+                <div class="checkbox-container checked">
+                    <span class="checkmark"></span>
+                    <p class="checkbox-label">Scorpio Rising, Kenneth Anger, 1963</p>
+                </div>
+                <div class="checkbox-container checked">
+                    <span class="checkmark"></span>
+                    <p class="checkbox-label">The Way Things Go, Peter Fischli & David Weiss, 1987</p>
+                </div>
+                <div class="checkbox-container checked">
+                    <span class="checkmark"></span>
+                    <p class="checkbox-label">Two Women and a Man, Chantal Akerman, 1974</p>
+                </div>
+                <div class="checkbox-container checked">
+                    <span class="checkmark"></span>
+                    <p class="checkbox-label">Serene Velocity, Ernie Gehr, 1970</p>
+                </div>
+                <div class="checkbox-container checked">
+                    <span class="checkmark"></span>
+                    <p class="checkbox-label">Empire, Andy Warhol, 1964</p>
+                </div>
+                <div class="checkbox-container checked">
+                    <span class="checkmark"></span>
+                    <p class="checkbox-label">Histoire(s) du cinéma, Jean-Luc Godard, 1988–1998</p>
+                </div>
+                <div class="checkbox-container checked">
+                    <span class="checkmark"></span>
+                    <p class="checkbox-label">Rabbit’s Moon, Kenneth Anger, 1950/1971</p>
+                </div>
+                <div class="checkbox-container checked">
+                    <span class="checkmark"></span>
+                    <p class="checkbox-label">Mothlight, Stan Brakhage, 1963</p>
+                </div>
+                <div class="checkbox-container checked">
+                    <span class="checkmark"></span>
+                    <p class="checkbox-label">Hand Catching Lead, Richard Serra, 1968</p>
+                </div>
+                <div class="checkbox-container checked">
+                    <span class="checkmark"></span>
+                    <p class="checkbox-label">Walking, Ryan Larkin, 1968</p>
+                </div>
+                <div class="checkbox-container checked">
+                    <span class="checkmark"></span>
+                    <p class="checkbox-label">Window Water Baby Moving, Stan Brakhage, 1959</p>
+                </div>
+                <div class="checkbox-container checked">
+                    <span class="checkmark"></span>
+                    <p class="checkbox-label">Outer Space, Peter Tscherkassky, 1999</p>
+                </div>
+                <div class="checkbox-container checked">
+                    <span class="checkmark"></span>
+                    <p class="checkbox-label">Berlin: Symphony of a Great City, Walter Ruttmann, 1927</p>
+                </div>
+                <div class="checkbox-container checked">
+                    <span class="checkmark"></span>
+                    <p class="checkbox-label">Nostalgia, Hollis Frampton, 1971</p>
+                </div>
+                <div class="checkbox-container checked">
+                    <span class="checkmark"></span>
+                    <p class="checkbox-label">Anémic Cinéma, Marcel Duchamp, 1926</p>
+                </div>
+                <div class="checkbox-container checked">
+                    <span class="checkmark"></span>
+                    <p class="checkbox-label">The House Is Black, Forough Farrokhzad, 1963</p>
+                </div>
+                <div class="checkbox-container checked">
+                    <span class="checkmark"></span>
+                    <p class="checkbox-label">Kustom Kar Kommandos, Kenneth Anger, 1965</p>
+                </div>
+                <div class="checkbox-container checked">
+                    <span class="checkmark"></span>
+                    <p class="checkbox-label">George is Getting Upset, Seinfeld, 1999</p>
+                </div>
+                <p style="margin-top: 2rem;">(These videos have been sourced from public archives, research collections, and screenings, and we have made every effort to contact and credit their makers accurately.)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- SCRIPTS ------------------------------------------------------------------------------------>
+    <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
+    <script src="./js/fullservice_office.js"></script>
+    <script src="./js/index.js"></script>
+    <script src="./js/production.js"></script>
+    <script src="./js/pitches.js"></script>
+    <script src="./js/info.js"></script>
 </body>
 </html>
