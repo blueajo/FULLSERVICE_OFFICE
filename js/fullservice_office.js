@@ -1,99 +1,349 @@
+// BASELINE GRID --------------------------------------------------------------------------------
+
 document.body.onkeyup = function(e) {
-  if (e.key == " " ||
-      e.code == "Space" ||      
-      e.keyCode == 32      
-  ) {
+  if (e.key == " " || e.code == "Space" || e.keyCode == 32) {
     document.documentElement.classList.toggle("show-grid");
-    const items = document.querySelectorAll(".grid-area");
-    for (const item of items) {
-        if (item.style.cssText == "") {
-            item.style.cssText = "outline: .25px dashed red";
-        } else {
-            item.style.cssText = "";
-        }
+  }
+};
+
+// GLOBAL VARIABLES -----------------------------------------------------------------------------
+const index = document.getElementById('index');
+const production = document.getElementById('production');
+const pitches = document.getElementById('pitches');
+const info = document.getElementById('info');
+
+// CUSTOM CURSORS -------------------------------------------------------------------------------
+
+// Index cursor objects
+const videoDot = document.getElementById('video-dot');
+const allVideos = document.querySelectorAll("#videos video");
+const allOverflowVideos = document.querySelectorAll("#overflow-videos video");
+let curVideo = null;
+let activeLink = null;
+const quadrants = [['production', 'service-providers'],
+                   ['pitches', 'info']];
+
+// Info cursor objects
+const copyright = document.getElementById('copyright');
+const infoLinks = document.querySelectorAll('#info a');
+
+// Cursor object
+var mouseX=window.innerWidth/2,
+    mouseY=window.innerHeight/2;
+
+var cursorFollower = { 
+    el: document.getElementById('cursorFollower'),
+    x: window.innerWidth/2, 
+    y: window.innerHeight/2,
+      draggyUpdate: function() {
+                      this.x = lerp (this.x, mouseX, 0.1);
+                      this.y = lerp (this.y, mouseY, 0.1);
+                      this.el.style = 'transform: translate3d('+ this.x +'px,'+ this.y +'px, 0);'
+                    },
+      update: function() {
+                this.x = mouseX;
+                this.y = mouseY;
+                this.el.style = 'transform: translate3d('+ this.x +'px,'+ this.y +'px, 0);'
+              }
+};
+
+function lerp (start, end, amt){
+  return (1-amt)*start+amt*end;
+}
+
+function move() {
+  // update positions
+  const currentPageLink = document.getElementsByClassName('current-page')[0];
+  const currentSection = currentPageLink.id.slice(0, -5);
+  if (currentSection == 'index') {
+    cursorFollower.draggyUpdate();
+    const videoNumber = Math.floor(cursorFollower.x /(window.innerWidth/10)) % 5;
+    const yQuadrant = (cursorFollower.y / window.innerHeight) > .5 ? 1 : 0;
+    const xQuadrant = (cursorFollower.x / window.innerWidth) > .5 ? 1 : 0;
+    const category = quadrants[yQuadrant][xQuadrant];
+    const video = category + '-' + videoNumber + '-video';
+    
+    hideVideo(curVideo);
+    startVideo(video);
+
+  } else if (currentSection == 'info') {
+    cursorFollower.update();
+  }
+}
+
+setInterval(move,1000/60);
+
+document.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+});
+
+// Video cursor behavior
+index.addEventListener("mouseleave", (e) => {
+  videoDot.classList.remove('active');
+  if (activeLink) {
+    activeLink.classList.remove('active-link');
+    activeLink = null;
+  }
+});
+
+index.addEventListener("mouseenter", (e) => {
+  videoDot.classList.add('active');
+});
+
+function hideVideo(videoName) {
+    const video = document.getElementsByClassName(videoName);
+    if (video[0] && video[0].classList.contains("active")) {
+        video[0].classList.remove("active");
+        video[1].classList.remove("active");
+        video[0].pause();
+        video[1].pause();
+    }
+}
+
+function startVideo(videoName) {
+    const video = document.getElementsByClassName(videoName);
+    if (video[0] && !video[0].classList.contains("active")) {
+        video[0].classList.add("active");
+        video[1].classList.add("active");
+        video[0].play();
+        video[1].play();
+    }
+    curVideo = videoName;
+}
+
+// Copyright cursor behavior
+info.addEventListener("mouseleave", (e) => {
+  copyright.classList.remove('active');
+});
+
+info.addEventListener("mouseenter", (e) => {
+  copyright.classList.add('active');
+});
+
+for (let i = 0; i < infoLinks.length; i++) {
+  const link = infoLinks[i];
+  link.addEventListener('mouseenter', () => {
+    copyright.classList.remove('active');
+  });
+  link.addEventListener('mouseout', () => {
+    copyright.classList.add('active');
+  });
+}
+
+// NAV -----------------------------------------------------------------------------------------
+
+const pageLinks = document.getElementsByClassName('page-link');
+const linkAreas = document.getElementsByClassName('link-area');
+
+// Page selection
+function selectPage(section) {
+  const page = document.getElementById(section);
+  const pageLink = document.getElementById(section + '-link');
+  const pageText = document.getElementById(section + '-text');
+  const pageGap = document.getElementById(section + '-gap');
+  const currentPageLink = document.getElementsByClassName('current-page')[0];
+
+  if (currentPageLink) {
+    const currentSection = currentPageLink.id.slice(0, -5);
+    const currentPage = document.getElementById(currentSection);
+    const currentPageText = document.getElementById(currentSection + '-text');
+    const currentPageGap = document.getElementById(currentSection + '-gap');
+    if (currentPage) {
+      currentPage.classList.toggle('inactive');
+      currentPageLink.classList.toggle('current-page');
+    }
+    if (currentPageText) { currentPageText.classList.remove('active'); }
+    if (currentPageGap) { currentPageGap.classList.remove('gap'); }
+  }
+  if (page) { page.classList.toggle('inactive'); }
+  if (pageLink) { pageLink.classList.toggle('current-page'); }
+  if (pageText) { pageText.classList.add('active'); }
+  if (pageGap) { pageGap.classList.add('gap'); }
+
+  if (section == 'index') {
+    copyright.classList.remove('active');
+    videoCredits.classList.add('active');
+  } else if (section == 'info') {
+    videoDot.classList.remove('active');
+    videoCredits.classList.remove('active');
+  } else {
+    videoDot.classList.remove('active');
+    copyright.classList.remove('active');
+    videoCredits.classList.remove('active');
+    if (section == 'production') {
+      var flkty = Flickity.data(document.getElementById('production'));
+      flkty.resize();
     }
   }
 }
 
-// CUSTOM CURSOR --------------------------------------------------------------------------------
-const cursor = document.getElementById('cursor');
-let cursorOn = true;
-
-// Cursor follows mouse
-document.addEventListener('mousemove', (e) => {
-    cursor.style.left = `${e.clientX}px`;
-    cursor.style.top = `${e.clientY}px`;
-});
-
-// Cursor disappears when mouse leaves page
-window.addEventListener("mouseout", (e) => {
-  if (cursorOn && !e.relatedTarget && !e.toElement) {
-    cursor.classList.remove('active');
-  }
-});
-
-// Cursor appears when mouse enters page
-document.body.addEventListener('mouseenter', () => {
-  if (cursorOn) {
-    cursor.classList.add('active');
-  }
-});
-
-const links = document.querySelectorAll('a');
-for (let i = 0; i < links.length; i++) {
-  const link = links[i];
-  link.addEventListener('mouseenter', () => {
-    cursor.classList.remove('active');
-  });
-  link.addEventListener('mouseout', () => {
-    cursor.classList.add('active');
-  });
-}
-
-
-// NAV -----------------------------------------------------------------------------------------
-
-let activePage = document.getElementById("index");
-const pageLinks = document.querySelectorAll(".page-link");
+// Open page on click
 for (let i = 0; i < pageLinks.length; i++) {
   const pageLink = pageLinks[i];
   pageLink.addEventListener('click', () => {
     const section = pageLink.id.slice(0, -5);
-    const page = document.getElementById(section);
-
-    activePage.classList.add('inactive');
-    page.classList.remove('inactive');
-
-    document.querySelector('.current-page').classList.remove('current-page');
-    pageLink.classList.add('current-page');
-
-    if (section == 'index') {
-      cursorOn = true;
-      document.body.classList.add('sp-cursor');
-      cursor.classList.add('active');
-      document.getElementById('video-dot').classList.add('active');
-      document.getElementById('copyright').classList.remove('active');
-      document.getElementById('video-credits').classList.add('active');
-    } else if (section == 'info') {
-      cursorOn = true;
-      document.body.classList.add('sp-cursor');
-      cursor.classList.add('active');
-      document.getElementById('copyright').classList.add('active');
-      document.getElementById('video-dot').classList.remove('active');
-      document.getElementById('video-credits').classList.remove('active');
-    } else {
-      cursorOn = false;
-      document.getElementById('video-dot').classList.remove('active');
-      document.getElementById('copyright').classList.remove('active');
-      document.body.classList.remove('sp-cursor');
-      cursor.classList.remove('active');
-      document.getElementById('video-credits').classList.remove('active');
-      if (section == 'production') {
-        var flkty = Flickity.data(elem);
-        flkty.resize();
-      }
-    }
-
-    activePage = page;
+    selectPage(section);
   });
+}
+
+// Load page on start
+document.addEventListener("DOMContentLoaded", (event) => {
+  const section = 'index';
+  selectPage(section);
+});
+
+// // INDEX -------------------------------------------------------------------------------------------------
+
+const videoCredits = document.getElementById('video-credits');
+const indexLink = document.querySelector('#footer p');
+
+videoCredits.addEventListener('mouseenter', () => {
+    if (window.innerWidth > 900) {
+        indexLink.style.opacity = 1;
+    } else {
+        indexLink.style.opacity = 0;
+    }
+});
+
+videoCredits.addEventListener('mouseleave', () => {
+    indexLink.style.opacity = 1;
+});
+
+// Link areas on index page
+for (let i = 0; i < linkAreas.length; i++) {
+  const linkArea = linkAreas[i];
+  const category = linkArea.id.slice(0, -5);
+  linkArea.addEventListener('mouseenter', () => {
+    const hoverLink = document.getElementById(category + "-link");
+    if ( hoverLink != activeLink ) {
+        if (activeLink) {
+            activeLink.classList.remove('active-link');
+        }
+        hoverLink.classList.add('active-link');
+        activeLink = hoverLink;
+    }
+  });
+
+  linkArea.addEventListener('click', () => {
+    const linkArea = linkAreas[i];
+    const category = linkArea.id.slice(0, -5);
+    const hoverLink = document.getElementById(category + "-link");
+    if ( hoverLink ) {
+      hoverLink.click();
+    }
+  });
+}
+
+// PRODUCTION --------------------------------------------------------------------------------------------
+
+window.onload = function() {
+    var flkty = new Flickity( production, {
+    // options
+    cellAlign: 'center',
+    wrapAround: true,
+    pageDots: false,
+    setGallerySize: false,
+    cellSelector: '.product'
+  });
+  
+  flkty.on( 'staticClick', function( event, pointer, cellElement, cellIndex ) {
+    if ( !cellElement ) {
+      openCloseProduct(openProduct, cellIndex);
+      return;
+    }
+    openCloseProduct(cellElement, cellIndex);
+  });
+}
+
+let openProduct = null;
+let unclicked = true;
+
+function openCloseProduct(cellElement, cellIndex) {
+  var flkty = Flickity.data(production);
+  if (openProduct) {
+    openProduct.classList.remove("open");
+    openProduct.querySelector('img').style.width =  '15vw';
+  }
+  if (cellElement !== openProduct) {
+    cellElement.classList.add('open');
+    const productImg = cellElement.querySelector('img');
+    const w = productImg.naturalWidth;
+    const h = productImg.naturalHeight;
+    const heightRatio = 0.8 * window.innerHeight / h;
+    const widthRatio = 0.8 * window.innerWidth / w;
+    const scaleRatio = Math.min(heightRatio, widthRatio);
+    productImg.style.width = (w * scaleRatio) + 'px';
+  }
+  flkty.reposition();
+  if (cellIndex) {
+    flkty.selectCell(cellIndex, true, false);
+  }
+  openProduct = cellElement.classList.contains('open') ? cellElement : null;
+}
+
+document.getElementById('production-link').addEventListener('click', () => {
+  var flkty = Flickity.data(production);
+  flkty.resize();
+  document.querySelector('.flickity-slider').style.transform = 'translateX(0)';
+});
+
+document.getElementById("left-arrow-area").addEventListener('click', (e) => {
+  var flkty = Flickity.data(production);
+  if (openProduct) {
+    let prevIndex = (flkty.selectedIndex - 1) % flkty.cells.length;
+    let prevElement = flkty.cells[prevIndex].element;
+    openCloseProduct(prevElement, prevIndex);
+  } else {
+    flkty.selectCell((flkty.selectedIndex - 5) % flkty.cells.length, true, false);
+  }
+});
+
+document.getElementById("right-arrow-area").addEventListener('click', (e) => {
+  var flkty = Flickity.data(production);
+  if (openProduct) {
+    let nextIndex = (flkty.selectedIndex + 1) % flkty.cells.length;
+    let nextElement = flkty.cells[nextIndex].element;
+    openCloseProduct(nextElement, nextIndex);
+  } else {
+    flkty.selectCell((flkty.selectedIndex + 5) % flkty.cells.length, true, false);
+  }
+});
+
+// PITCHES -----------------------------------------------------------------------------------------------
+
+const pitchList = document.querySelectorAll(".checkbox-container");
+const pitchesToSend = document.querySelector("#pitches-to-send");
+let checkedCount = 0;
+const contactForm = document.querySelector("#contact-form");
+
+for (let i = 0; i < pitchList.length; i++) {
+    const pitch = pitchList[i];
+    const pitchContent = pitch.querySelector(".checkbox-label").innerHTML;
+    pitch.addEventListener('click', () => {
+        if (pitch.classList.contains('checked')) {
+            pitch.classList.remove('checked');
+            const pitchToRemove = document.querySelector("#pitch" + i);
+            pitchToRemove.remove();
+            checkedCount--;
+            if (checkedCount == 0 ) {
+                contactForm.classList.remove('active');
+            }
+            console.log('-');
+        } else {
+            if (checkedCount < 5) {
+                pitch.classList.add('checked');
+                checkedCount++;
+                pitchesToSend.innerHTML += 
+                    '<div id=pitch' + i + ' class="checkbox-container checked">' +
+                        '<span class="checkmark"></span>' +
+                        '<p class="checkbox-label">' + pitchContent + '</p>' +
+                    '</div>';
+                if ( !contactForm.classList.contains('active') ) {
+                    contactForm.classList.add('active');
+                }
+
+            }
+        }
+    });
 }

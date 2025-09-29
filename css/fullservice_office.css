@@ -18,10 +18,11 @@
   --left-arrow-cursor: url('../img/cursors/left-arrow.png') 6 6, auto;
   --type-cursor: url('../img/cursors/type.png') 6 6, auto;
 
-  --top-margin: 15rem;
-  --sp-margin: 11.25rem;
-  --pi-margin: 25.25rem;
-  --in-margin: 31.25rem;
+  --top-margin: 10rem;
+  --rg-margin: 2rem;
+  --in-margin: 23rem;
+
+  --bg-color: #FAFFE4;
 }
 
 #container {
@@ -37,10 +38,9 @@
 
 /* Show baseline grid */
 html.show-grid body {
-  background-image: linear-gradient(to bottom, red 0, transparent 1px),
-                    linear-gradient(to right, red 0, transparent 1px);
-  background-repeat: repeat-y, repeat-x;
-  background-size: 100% 1rem, 100% 1rem;
+  background-image: linear-gradient(to bottom, red 0, transparent 1px);
+  background-repeat: repeat-y;
+  background-size: 100% 1rem;
 }
 
 /* VIEW STATES ----------------------------------------------------------------------------------- */
@@ -49,10 +49,6 @@ html.show-grid body {
 #index.inactive, #info.inactive, #pitches.inactive, #production.inactive, #service-providers.inactive {
   display: none;
   grid-area: auto;
-}
-
-body.sp-cursor {
-  cursor: none;
 }
 
 /* TYPE ------------------------------------------------------------------------------------------ */
@@ -71,7 +67,7 @@ body {
     font-family: 'Akzidenz Grotesk', monospace;
     font-weight: 500;
     color: black;
-    background-color: #FAFFE4;
+    background-color: var(--bg-color);
     margin: 0;
     cursor: var(--dot-cursor);
 }
@@ -89,7 +85,6 @@ p, ul, ol, a, input, #message {
 .caption {
   font-size: 1rem;
 }
-
 
 /* LINKS ----------------------------------------------------------------------------------------- */
 
@@ -129,24 +124,49 @@ a:active, a:hover, a.current-page, a.active-link {
   padding-left: 2rem;
   padding-right: 2rem;
   display: flex;
-  justify-content: space-between;
   grid-area: 'header';
+  flex-wrap: nowrap;
 }
 
 #footer {
   position: relative;
   bottom: 0;
   right: 0;
-  width: calc(100vw - 4rem);
+  width: calc(100vw - calc(var(--rg-margin) * 2));
   height: auto;
   padding-top: 1rem;
   padding-bottom: 1rem;
-  padding-left: 2rem;
-  padding-right: 2rem;
+  padding-left: var(--rg-margin);
+  padding-right: var(--rg-margin);
   gap: 5rem;
   display: flex;
   justify-content: space-between;
   grid-area: 'footer';
+}
+
+#header p {
+  display: flex;
+  width: 100%;
+  white-space: pre;
+}
+
+#header p a {
+  padding-top: 0;
+  margin-bottom: 0;
+  width: max-content;
+  white-space: nowrap;
+}
+
+.nav-text {
+  display: none;
+}
+
+.nav-text.active {
+  display: inline;
+}
+
+span.gap {
+  flex-grow: 1;
 }
 
 .inactive-nav {
@@ -159,15 +179,14 @@ a:active, a:hover, a.current-page, a.active-link {
 
 /* CURSOR ---------------------------------------------------------------------------------------- */
 
-#cursor {
-  display: none;
+#cursorFollower {
   position: fixed;
   pointer-events: none;
-  z-index: 9999;
+  z-index: -1;
   cursor: none;
 }
 
-#cursor.active, #video-dot.active, #copyright.active, video.active {
+#video-dot.active, #copyright.active, video.active {
   display: block;
 }
 
@@ -230,35 +249,19 @@ video {
 #index {
     grid-area: 'content';
     display: grid;
-    grid-template-columns: repeat(10, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     grid-template-rows: 1fr 1fr;
     grid-template-areas:
-        "pr1 pr2 pr3 pr4 pr5 sp1 sp2 sp3 sp4 sp5"
-        "pi1 pi2 pi3 pi4 pi5 in1 in2 in3 in4 in5";
+        "pr sp"
+        "pi in";
     height: 100%;
     width: 100%;
 }
 
-#production-1 { grid-area: pr1; }
-#production-2 { grid-area: pr2; }
-#production-3 { grid-area: pr3; }
-#production-4 { grid-area: pr4; }
-#production-5 { grid-area: pr5; }
-#service-providers-1 { grid-area: sp1; }
-#service-providers-2 { grid-area: sp2; }
-#service-providers-3 { grid-area: sp3; }
-#service-providers-4 { grid-area: sp4; }
-#service-providers-5 { grid-area: sp5; }
-#pitches-1 { grid-area: pi1; }
-#pitches-2 { grid-area: pi2; }
-#pitches-3 { grid-area: pi3; }
-#pitches-4 { grid-area: pi4; }
-#pitches-5 { grid-area: pi5; }
-#info-1 { grid-area: in1; }
-#info-2 { grid-area: in2; }
-#info-3 { grid-area: in3; }
-#info-4 { grid-area: in4; }
-#info-5 { grid-area: in5; }
+#production-area { grid-area: pr; }
+#service-providers-area { grid-area: sp; }
+#pitches-area { grid-area: pi; }
+#info-area { grid-area: in; }
 
 #video-credits {
   position: relative;
@@ -291,7 +294,6 @@ video {
     display: none;
 }
 
-
 #credits-link {
   position: absolute;
   bottom: 0;
@@ -309,7 +311,7 @@ video {
 #production {
    width: 100vw;
    height: 100%;
-   grid-area: 'content';
+   grid-area: content;
 }
 
 .flickity-viewport {
@@ -411,20 +413,17 @@ video {
 /* SERVICE PROVIDERS --------------------------------------------------------------------------------------- */
 
 #service-providers {
-  grid-area: 'content';
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  align-items: flex-start;
+  grid-area: content;
+  display: grid;
+  grid-template-columns: auto auto auto;
   gap: 5rem;
-  width: calc(100vw - calc(var(--sp-margin) + 5rem));
   padding-top: var(--top-margin);
-  padding-left: var(--sp-margin);
-  padding-right: 5rem;
+  padding-left: var(--rg-margin);
+  padding-right: var(--rg-margin);
 }
 
 .service-provider {
-  width: 40rem;
+  max-width: 50rem;
   height: min-content;
   flex-grow: 1;
   flex-shrink: 0;
@@ -434,28 +433,26 @@ video {
 /* PITCHES --------------------------------------------------------------------------------------- */
 
 #pitches {
-  grid-area: 'content';
-  width: calc(100vw - calc(var(--pi-margin) + 5rem));
+  grid-area: content;
+  display: grid;
+  grid-template-columns: minmax(0, var(--in-margin)) 40rem 15rem 40rem minmax(2rem, 1fr);
+  grid-template-areas: '. pl . cf .';
+  width: auto;
   height: min-content;
   padding-top: var(--top-margin);
-  padding-left: var(--pi-margin);
-  padding-right: 5rem;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  column-gap: 15rem;
-  row-gap: 6rem;
+  padding-left: var(--rg-margin);
+  padding-right: var(--rg-margin);
 }
 
 #pitch-list {
-  width: 40rem;
   height: min-content;
   cursor: var(--dot-cursor);
+  grid-area: pl;
 }
 
 #contact-form {
-  width: 40rem;
   display: none;
+  grid-area: cf;
 }
 
 #contact-form.active, .pitch-container.active {
@@ -486,9 +483,9 @@ video {
 .checkmark {
   margin-top: calc(var(--baseline-shift) + .25rem);
   margin-left: 1px;
-  height: 1rem;
-  width: 1rem;
-  border-radius: 50%;
+  height: calc(1rem - 1px);
+  width: calc(1rem - 1px);
+  border-radius: 100%;
   outline: 1px solid black;
 }
 
@@ -514,27 +511,22 @@ p.checkbox-label {
 
 hr {
   width: 100%;
-  height: 0;
+  height: 1px;
   margin-block-start: 0;
-  margin-bottom: 1rem;
+  margin-bottom: calc(1rem - 3px);
 }
 
-.contact-form label {
-  display: flex;
-  align-items: stretch;
+#contact-form label {
+  display: grid;
+  grid-template-columns: auto 1fr;
   cursor: var(--dot-cursor);
   margin-bottom: 0;
-}
-
-label p {
-  display: inline-block;
+  width: 100%;
 }
 
 label input, #message {
   border-style: none;
-  background-color: #FAFFE4;
-  margin-bottom: 0;
-  width: 25rem;
+  background-color: var(--bg-color);
   padding-top: var(--baseline-shift);
   cursor: var(--type-cursor);
 } 
@@ -550,8 +542,8 @@ label input {
 
 #message {
   height: 18rem;
-  width: 40rem;
-  margin-bottom: 1rem;
+  width: 100%;
+  margin-bottom: calc(1rem + var(--baseline-push));
   color: #999999;
 }
 
@@ -573,7 +565,7 @@ textarea {
 ::placeholder {
   color: #999999;
   opacity: 1; /* Firefox */
-  background-color: #FAFFE4;
+  background-color: var(--bg-color);
 }
 
 #send-form {
@@ -581,7 +573,7 @@ textarea {
   font-weight: 500;
   font-size: 1.6rem;
   line-height: calc(var(--baselines) * 1rem);
-  color: #FAFFE4;
+  color: var(--bg-color);
   background-color: black;
   border: 1px solid black;
   padding: .5rem 1rem;
@@ -590,7 +582,7 @@ textarea {
 
 #send-form:active, #send-form:hover {
   color: black;
-  background-color: #FAFFE4;
+  background-color: var(--bg-color);
   cursor: var(--dot-cursor);
 }
 
@@ -603,37 +595,124 @@ textarea {
 /* INFO ------------------------------------------------------------------------------------------ */
 
 #info {
-  grid-area: 'content';
+  grid-area: content;
+  display: grid;
+  grid-template-columns: minmax(auto, var(--in-margin)) 62rem 15rem 18rem minmax(2rem, 1fr);
+  grid-template-areas: '. of . li';
   padding-top: var(--top-margin);
-  padding-left: var(--in-margin);
-  padding-right: 5rem;
-  width: calc(100vw - calc(var(--in-margin) + 5rem));
-  height: min-content;
-  display: flex;
-  justify-content: flex-start;
-  align-items: flex-start;
-  flex-direction: row;
-  flex-wrap: wrap;
-  column-gap: 15rem;
+  padding-left: var(--rg-margin);
+  padding-right: var(--rg-margin);
+  width: calc(100vw - calc(var(--rg-margin) * 2));
+  height: 100%;
   row-gap: 3rem;
+  cursor: none;
 }
 
-.office {
+#office {
   width: 62rem;
+  grid-area: of;
 }
 
-.links {
+#links {
   min-width: min-content;
   max-width: min-content;
-  flex-basis: min-content;
-  flex-shrink: 1;
-  flex-grow: 1;
+  grid-area: li;
 }
 
-@media only screen and (max-width: 82rem) {
+@media only screen and (max-width: 64rem) {
+  #header p {
+    display: block;
+    white-space: normal;
+  }
+
   #service-providers, #pitches, #info {
+    gap: 3rem;
+    width: auto;
+  }
+
+  #service-providers {
+    display: grid;
+    grid-template-columns: minmax(auto, 62rem);
+    grid-template-rows: auto auto auto 1fr;
+  }
+
+  #pitches {
+    grid-template-columns: minmax(auto, 40rem);
+    grid-template-rows: auto auto 1fr;
+    grid-template-areas: 'pl'
+                         'cf'
+                         '.';
+    gap: 5rem;
+  }
+
+  #pitch-list {
+    width: 100%;
+  }
+
+  #contact-form {
+    width: 100%;
+  }
+
+  .spacer {
+    height: 4rem;
+  }
+
+  #info {
+    grid-template-columns: minmax(auto, 62rem);
+    grid-template-rows: auto 1fr auto;
+    grid-template-areas: 'of'
+                         'li'
+                         '.';
+    height: auto;
+  }
+
+  #office {
+    width: 100%;
+  }
+}
+
+@media only screen and (max-width: 40rem) {
+
+  #container {
+    height: auto;
+    width: 100%;
+    grid-template-rows: min-content (5, minmax(100vh, auto)) min-content;
+    grid-template-columns: 1fr;
+    grid-template-areas:'footer'
+                        'ix'
+                        'pr'
+                        'sp'
+                        'pi'
+                        'in'
+                        'header';
+  }
+
+  #index { 
+    grid-area: ix;
+    height: 100vh;
+  }
+  #pr { grid-area: pr; }
+  #service-providers { grid-area: sp; }
+  #pitches { grid-area: pi; }
+  #info { grid-area: in; }
+  #header { grid-area: header; }
+  #footer { 
+    grid-area: footer;
+    background: linear-gradient(to bottom, #FAFFE4FF, #FAFFE4FF 25%, #FAFFE400);
+    position: fixed;
+    top: 0;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
     padding-left: 2rem;
     padding-right: 2rem;
-    width: calc(100vw - calc(2rem * 2));
+    height: 20rem;
+  }
+
+  #video-credits.active {
+    display: none;
+  }
+
+  #index.inactive, #info.inactive, #pitches.inactive, #production.inactive, #service-providers.inactive {
+    display: block;
   }
 }
