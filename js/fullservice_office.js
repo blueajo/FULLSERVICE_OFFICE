@@ -1,3 +1,16 @@
+// START UP -------------------------------------------------------------------------------------
+
+const section = 'index';
+
+// Load page on start
+document.addEventListener("DOMContentLoaded", (event) => {
+  selectPage(section);
+  if (window.innerWidth < mobileBreakpoint) {
+    mobile = true;
+    setMobile();
+  }
+});
+
 // BASELINE GRID --------------------------------------------------------------------------------
 
 document.body.onkeyup = function(e) {
@@ -7,10 +20,20 @@ document.body.onkeyup = function(e) {
 };
 
 // GLOBAL VARIABLES -----------------------------------------------------------------------------
+let mobile = false;
+
 const index = document.getElementById('index');
 const production = document.getElementById('production');
+const serviceProviders = document.getElementById('service-providers');
 const pitches = document.getElementById('pitches');
 const info = document.getElementById('info');
+const rootFontSize = 16; //parseFloat(getComputedStyle(document.documentElement).fontSize);
+const mobileBreakpoint = remToPx(40);
+const tabletBreakpoint = remToPx(64);
+
+function remToPx(remValue) {
+  return remValue * rootFontSize;
+}
 
 // CUSTOM CURSORS -------------------------------------------------------------------------------
 
@@ -187,13 +210,7 @@ for (let i = 0; i < pageLinks.length; i++) {
   });
 }
 
-// Load page on start
-document.addEventListener("DOMContentLoaded", (event) => {
-  const section = 'index';
-  selectPage(section);
-});
-
-// // INDEX -------------------------------------------------------------------------------------------------
+// INDEX -------------------------------------------------------------------------------------------------
 
 const videoCredits = document.getElementById('video-credits');
 const indexLink = document.querySelector('#footer p');
@@ -237,8 +254,8 @@ for (let i = 0; i < linkAreas.length; i++) {
 
 // PRODUCTION --------------------------------------------------------------------------------------------
 
-window.onload = function() {
-    var flkty = new Flickity( production, {
+function createCarousel() {
+  var flkty = new Flickity( production, {
     // options
     cellAlign: 'center',
     wrapAround: true,
@@ -283,6 +300,7 @@ function openCloseProduct(cellElement, cellIndex) {
 }
 
 document.getElementById('production-link').addEventListener('click', () => {
+  createCarousel();
   var flkty = Flickity.data(production);
   flkty.resize();
   document.querySelector('.flickity-slider').style.transform = 'translateX(0)';
@@ -347,3 +365,39 @@ for (let i = 0; i < pitchList.length; i++) {
         }
     });
 }
+
+// BROSWER RESIZE ----------------------------------------------------------------------------------------
+
+function setMobile() {
+  var flkty = Flickity.data(document.getElementById('production'));
+  flkty.destroy();
+}
+
+window.addEventListener('resize', function(event) {
+    if (window.innerWidth < mobileBreakpoint && !mobile) {
+      mobile = true;
+      setMobile();
+    }
+}, true);
+
+// SCROLL -------------------
+
+const options = {
+  root: null, // default is the viewport
+  rootMargin: "-50px",
+  threshold: 0 // Trigger when 0% of the target element is visible
+};
+
+const observer = new IntersectionObserver((entries, observer) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      console.log(entry.target.id);
+      selectPage(entry.target.id);
+    }
+  });
+}, options);
+
+observer.observe(production);
+observer.observe(serviceProviders);
+observer.observe(pitches);
+observer.observe(info);
