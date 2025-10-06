@@ -1,15 +1,40 @@
 // START UP -------------------------------------------------------------------------------------
-
-const section = 'index';
+let mobile = false;
 
 // Load page on start
 document.addEventListener("DOMContentLoaded", (event) => {
-  selectPage(section);
-  if (window.innerWidth < mobileBreakpoint) {
+  if (screen.width <= 768) {
     mobile = true;
-    setMobile();
+    openPage('index');
+    if (location.hash) {
+      history.pushState("", document.title, window.location.pathname);
+    }
+  } else {
+    if (location.hash) {
+      openPage(location.hash.substring(1));
+    } else {
+      openPage('index');
+    }
   }
 });
+
+// window.onload = function() {
+//   if (screen.width <= 768) {
+//     mobile = true;
+//     openPage('index');
+//     if (location.hash) {
+//       history.pushState("", document.title, window.location.pathname);
+//     }
+//   } else {
+//     if (location.hash) {
+//       openPage(location.hash.substring(1));
+//     } else {
+//       openPage('index');
+//     }
+//   }
+//   const video = document.getElementById('mobile-video');
+//   video.play();
+// }
 
 // BASELINE GRID --------------------------------------------------------------------------------
 
@@ -20,14 +45,13 @@ document.body.onkeyup = function(e) {
 };
 
 // GLOBAL VARIABLES -----------------------------------------------------------------------------
-let mobile = false;
 
-const index = document.getElementById('index');
-const production = document.getElementById('production');
-const serviceProviders = document.getElementById('service-providers');
-const pitches = document.getElementById('pitches');
-const info = document.getElementById('info');
-const rootFontSize = 16; //parseFloat(getComputedStyle(document.documentElement).fontSize);
+const index = document.getElementById('index-page');
+const production = document.getElementById('production-page');
+const serviceProviders = document.getElementById('service-providers-page');
+const pitches = document.getElementById('pitches-page');
+const info = document.getElementById('info-page');
+const rootFontSize = 16;
 const mobileBreakpoint = remToPx(40);
 const tabletBreakpoint = remToPx(64);
 
@@ -45,10 +69,11 @@ let curVideo = null;
 let activeLink = null;
 const quadrants = [['production', 'service-providers'],
                    ['pitches', 'info']];
+let cursorFollowerInterval = null;
 
 // Info cursor objects
 const copyright = document.getElementById('copyright');
-const infoLinks = document.querySelectorAll('#info a');
+const infoLinks = document.querySelectorAll('#info-page a');
 
 // Cursor object
 var mouseX=window.innerWidth/2,
@@ -74,27 +99,23 @@ function lerp (start, end, amt){
   return (1-amt)*start+amt*end;
 }
 
-function move() {
-  // update positions
-  const currentPageLink = document.getElementsByClassName('current-page')[0];
-  const currentSection = currentPageLink.id.slice(0, -5);
-  if (currentSection == 'index') {
-    cursorFollower.draggyUpdate();
-    const videoNumber = Math.floor(cursorFollower.x /(window.innerWidth/10)) % 5;
-    const yQuadrant = (cursorFollower.y / window.innerHeight) > .5 ? 1 : 0;
-    const xQuadrant = (cursorFollower.x / window.innerWidth) > .5 ? 1 : 0;
-    const category = quadrants[yQuadrant][xQuadrant];
-    const video = category + '-' + videoNumber + '-video';
-    
+function indexFollow() {
+  cursorFollower.draggyUpdate();
+  const videoNumber = Math.floor(cursorFollower.x /(window.innerWidth/10)) % 5;
+  const yQuadrant = (cursorFollower.y / window.innerHeight) > .5 ? 1 : 0;
+  const xQuadrant = (cursorFollower.x / window.innerWidth) > .5 ? 1 : 0;
+  const category = quadrants[yQuadrant][xQuadrant];
+  const video = category + '-' + videoNumber + '-video';
+  
+  if (curVideo != video) {
     hideVideo(curVideo);
     startVideo(video);
-
-  } else if (currentSection == 'info') {
-    cursorFollower.update();
   }
 }
 
-setInterval(move,1000/60);
+function infoFollow() {
+  cursorFollower.update();
+}
 
 document.addEventListener('mousemove', (e) => {
     mouseX = e.clientX;
@@ -160,44 +181,62 @@ const pageLinks = document.getElementsByClassName('page-link');
 const linkAreas = document.getElementsByClassName('link-area');
 
 // Page selection
-function selectPage(section) {
-  const page = document.getElementById(section);
+function closePage() {
+  const section = location.hash ? location.hash.substring(1) : 'index';
+  const currentPageLink = document.getElementById(section + '-link');
+  const currentPage = document.getElementById(section + '-page');
+  const currentPageText = document.getElementById(section + '-text');
+  const currentPageGap = document.getElementById(section + '-gap');
+  if (currentPage) { currentPage.classList.toggle('inactive'); }
+  if (currentPageLink) { currentPageLink.classList.toggle('current-page'); }
+  if (currentPageText) { currentPageText.classList.remove('active'); }
+  if (currentPageGap) { currentPageGap.classList.remove('gap'); }
+  if (cursorFollowerInterval) {
+    clearInterval(cursorFollowerInterval);
+    cursorFollowerInterval = null;
+  }
+  if (section == 'index') {
+    videoDot.classList.remove('active');
+    videoCredits.classList.remove('active');
+  } else if (section == 'production') {
+    var flkty = Flickity.data(production);
+    if (flkty) {
+      flkty.destroy();
+    }
+  } else if (section == 'info') {
+    copyright.classList.remove('active');
+  }
+}
+
+function openPage(section) {
+  const page = document.getElementById(section + '-page');
   const pageLink = document.getElementById(section + '-link');
   const pageText = document.getElementById(section + '-text');
   const pageGap = document.getElementById(section + '-gap');
-  const currentPageLink = document.getElementsByClassName('current-page')[0];
-
-  if (currentPageLink) {
-    const currentSection = currentPageLink.id.slice(0, -5);
-    const currentPage = document.getElementById(currentSection);
-    const currentPageText = document.getElementById(currentSection + '-text');
-    const currentPageGap = document.getElementById(currentSection + '-gap');
-    if (currentPage) {
-      currentPage.classList.toggle('inactive');
-      currentPageLink.classList.toggle('current-page');
-    }
-    if (currentPageText) { currentPageText.classList.remove('active'); }
-    if (currentPageGap) { currentPageGap.classList.remove('gap'); }
-  }
   if (page) { page.classList.toggle('inactive'); }
   if (pageLink) { pageLink.classList.toggle('current-page'); }
   if (pageText) { pageText.classList.add('active'); }
   if (pageGap) { pageGap.classList.add('gap'); }
-
+  // page-specific
   if (section == 'index') {
-    copyright.classList.remove('active');
     videoCredits.classList.add('active');
-  } else if (section == 'info') {
-    videoDot.classList.remove('active');
-    videoCredits.classList.remove('active');
-  } else {
-    videoDot.classList.remove('active');
-    copyright.classList.remove('active');
-    videoCredits.classList.remove('active');
-    if (section == 'production') {
-      var flkty = Flickity.data(document.getElementById('production'));
-      flkty.resize();
+    if (!mobile) {
+      cursorFollowerInterval = setInterval(indexFollow,1000/60);
     }
+  }
+  if (section == 'info' && !mobile) {
+    cursorFollowerInterval = setInterval(infoFollow,1000/60);
+  }
+  if (section == 'production' && !mobile) {
+    createCarousel();
+    document.querySelector('.flickity-slider').style.transform = 'translateX(0)';
+  }
+
+  // set anchor link
+  if (section == 'index') {
+    history.pushState("", document.title, window.location.pathname);
+  } else {
+    location.hash = section;
   }
 }
 
@@ -206,7 +245,15 @@ for (let i = 0; i < pageLinks.length; i++) {
   const pageLink = pageLinks[i];
   pageLink.addEventListener('click', () => {
     const section = pageLink.id.slice(0, -5);
-    selectPage(section);
+    closePage();
+    openPage(section);
+    if (mobile) {
+      scrollAnimations = false;
+      setTimeout(scrollAnimationOn, 1250);
+      document.getElementById(section + '-page').scrollIntoView({
+        behavior: 'smooth'
+      });
+    }
   });
 }
 
@@ -299,13 +346,6 @@ function openCloseProduct(cellElement, cellIndex) {
   openProduct = cellElement.classList.contains('open') ? cellElement : null;
 }
 
-document.getElementById('production-link').addEventListener('click', () => {
-  createCarousel();
-  var flkty = Flickity.data(production);
-  flkty.resize();
-  document.querySelector('.flickity-slider').style.transform = 'translateX(0)';
-});
-
 document.getElementById("left-arrow-area").addEventListener('click', (e) => {
   var flkty = Flickity.data(production);
   if (openProduct) {
@@ -366,38 +406,67 @@ for (let i = 0; i < pitchList.length; i++) {
     });
 }
 
-// BROSWER RESIZE ----------------------------------------------------------------------------------------
-
-function setMobile() {
-  var flkty = Flickity.data(document.getElementById('production'));
-  flkty.destroy();
-}
-
-window.addEventListener('resize', function(event) {
-    if (window.innerWidth < mobileBreakpoint && !mobile) {
-      mobile = true;
-      setMobile();
-    }
-}, true);
-
 // SCROLL -------------------
+
+// document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+//     anchor.addEventListener('click', function (e) {
+//         e.preventDefault();
+
+//         document.querySelector(this.getAttribute('href') + '-page').scrollIntoView({
+//             behavior: 'smooth'
+//         });
+//     });
+// });
+
+let scrollAnimations = false;
+setTimeout(scrollAnimationOn, 500);
+
+function scrollAnimationOn() {
+  scrollAnimations = true;
+}
 
 const options = {
   root: null, // default is the viewport
-  rootMargin: "-50px",
+  rootMargin: "-10% 0px -89.5% 0px",
   threshold: 0 // Trigger when 0% of the target element is visible
 };
 
 const observer = new IntersectionObserver((entries, observer) => {
   entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      console.log(entry.target.id);
-      selectPage(entry.target.id);
+    if (mobile && scrollAnimations) {
+      closePage();
+      openPage(entry.target.id.slice(0, -5));
     }
   });
 }, options);
 
+observer.observe(index);
 observer.observe(production);
 observer.observe(serviceProviders);
 observer.observe(pitches);
 observer.observe(info);
+
+const thresholds = [];
+  const numSteps = 20;
+
+  for (let i = 1.0; i <= numSteps; i++) {
+    const ratio = i / numSteps;
+    thresholds.push(ratio);
+  }
+
+const options2 = {
+  root: null, // default is the viewport
+  rootMargin: "0px",
+  threshold: thresholds // Trigger when 0% of the target element is visible
+};
+
+const observer2 = new IntersectionObserver((entries, observer) => {
+  entries.forEach(entry => {
+    if (mobile && scrollAnimations) {
+      const indexText = document.getElementById('index-text');
+      indexText.style.opacity = entry.intersectionRatio;
+    }
+  });
+}, options2);
+
+observer2.observe(document.getElementById('mobile-video'));

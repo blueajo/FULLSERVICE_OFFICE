@@ -46,7 +46,7 @@ html.show-grid body {
 /* VIEW STATES ----------------------------------------------------------------------------------- */
 
 
-#index.inactive, #info.inactive, #pitches.inactive, #production.inactive, #service-providers.inactive {
+#index-page.inactive, #info-page.inactive, #pitches-page.inactive, #production-page.inactive, #service-providers-page.inactive {
   display: none;
   grid-area: auto;
 }
@@ -250,10 +250,10 @@ video {
 
 /* INDEX ----------------------------------------------------------------------------------------- */
 
-#index {
+#index-page {
     grid-area: 'content';
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr;
     grid-template-areas:
         "pr sp"
@@ -262,10 +262,25 @@ video {
     width: 100%;
 }
 
-#production-area { grid-area: pr; }
-#service-providers-area { grid-area: sp; }
-#pitches-area { grid-area: pi; }
-#info-area { grid-area: in; }
+#production-area {
+  grid-area: pr;
+}
+
+#service-providers-area {
+  grid-area: sp;
+}
+
+#pitches-area {
+  grid-area: pi;
+}
+
+#info-area {
+  grid-area: in;
+}
+
+#mobile-area { 
+  display: none;
+}
 
 #video-credits {
   position: relative;
@@ -312,7 +327,7 @@ video {
 
 /* PRODUCTION ------------------------------------------------------------------------------------ */
 
-#production {
+#production-page {
    width: 100vw;
    height: 100%;
    grid-area: content;
@@ -416,7 +431,7 @@ video {
 
 /* SERVICE PROVIDERS --------------------------------------------------------------------------------------- */
 
-#service-providers {
+#service-providers-page {
   grid-area: content;
   display: grid;
   grid-template-columns: auto auto auto;
@@ -424,6 +439,7 @@ video {
   padding-top: var(--top-margin);
   padding-left: var(--rg-margin);
   padding-right: var(--rg-margin);
+  max-width: 165rem;
 }
 
 .service-provider {
@@ -436,7 +452,7 @@ video {
 
 /* PITCHES --------------------------------------------------------------------------------------- */
 
-#pitches {
+#pitches-page {
   grid-area: content;
   display: grid;
   grid-template-columns: minmax(0, var(--in-margin)) 40rem 15rem 40rem minmax(2rem, 1fr);
@@ -598,7 +614,7 @@ textarea {
 
 /* INFO ------------------------------------------------------------------------------------------ */
 
-#info {
+#info-page {
   grid-area: content;
   display: grid;
   grid-template-columns: minmax(auto, var(--in-margin)) 62rem 15rem 18rem minmax(2rem, 1fr);
@@ -628,24 +644,24 @@ textarea {
     white-space: normal;
   }
 
-  #service-providers, #pitches, #info {
+  #service-providers-page, #pitches-page, #info-page {
     gap: 3rem;
     width: auto;
   }
 
-  #service-providers {
+  #service-providers-page {
     display: grid;
     grid-template-columns: minmax(auto, 62rem);
     grid-template-rows: auto auto auto 1fr;
   }
 
-  #service-providers a {
+  #service-providers-page a {
     text-decoration: underline;
     text-decoration-thickness: 1.5px;
     text-underline-offset: 3px;
   }
 
-  #pitches {
+  #pitches-page {
     display: grid;
     grid-template-columns: minmax(auto, 40rem);
     grid-template-rows: auto auto 1fr;
@@ -667,7 +683,7 @@ textarea {
     height: 4rem;
   }
 
-  #info {
+  #info-page {
     grid-template-columns: minmax(auto, 62rem);
     grid-template-rows: auto 1fr;
     grid-template-areas: 'of'
@@ -680,18 +696,21 @@ textarea {
   }
 }
 
-@media only screen and (max-width: 40rem) {
+@media only screen and (max-device-width: 768px) {
 
   #container {
     height: auto;
     width: 100%;
-    grid-template-rows: repeat(7, minmax(0, auto));
+    grid-template-rows: minmax(0, auto) minmax(0, auto) minmax(0, auto) 3rem minmax(0, auto) 3rem minmax(0, auto) 3rem minmax(0, auto) minmax(0, auto);
     grid-auto-columns: minmax(0, auto);
     grid-template-areas:'ix'
                         'header'
                         'pr'
+                        '.'
                         'sp'
+                        '.'
                         'pi'
+                        '.'
                         'in'
                         'mf';
   }
@@ -700,14 +719,21 @@ textarea {
     display: none;
   }
 
-  #index, #index.inactive { 
+  #index-page, #index-page.inactive { 
     grid-area: ix;
     margin-top: 5rem;
+    margin-left: var(--rg-margin);
+    margin-right: var(--rg-margin);
     height: calc(100vh - 10rem);
     display: grid;
+    width: calc(100vw - calc(var(--rg-margin)*2));
+    grid-template-rows: 1fr auto;
+    grid-template-columns: 1fr;
+    grid-template-areas: '.'
+                         'm';
   }
 
-  #production, #production.inactive {
+  #production-page, #production-page.inactive {
     grid-area: pr;
     display: grid;
     grid-template-columns: 100vw;
@@ -715,37 +741,41 @@ textarea {
     justify-items: center;
     gap: 5rem;
     height: auto;
-    margin-top: calc(var(--top-margin) * 2);
+    padding-top: calc(var(--top-margin) * 2);
     margin-bottom: 2rem;
     min-width: 0;
     min-height: 0;
   }
-  #service-providers, #service-providers.inactive {
+  #service-providers-page, #service-providers-page.inactive {
     grid-area: sp;
     display: grid;
     padding-top: calc(var(--top-margin) * 2);
     padding-bottom: 2rem;
   }
-  #pitches, #pitches.inactive {
+  #pitches-page, #pitches-page.inactive {
     grid-area: pi;
     display: grid;
     padding-top: calc(var(--top-margin) * 2);
     padding-bottom: 2rem;
   }
-  #info, #info.inactive {
+  #info-page, #info-page.inactive {
     grid-area: in;
     display: grid;
     row-gap: 5rem;
     padding-top: calc(var(--top-margin) * 2);
-    padding-bottom: 15vh;
+    padding-bottom: 20rem;
     cursor: var(--dot-cursor);
   }
   #header {
+    padding-top: 0rem;
+    margin-top: 1rem;
     padding-left: 2rem;
     padding-right: 2rem;
+    padding-bottom: 10rem;
     position: sticky;
-    top: 3rem;
+    top: 3.5rem;
     z-index: 3;
+    background: linear-gradient(to bottom, #FAFFE4FF, #FAFFE4FF 40%, #FAFFE400);
   }
 
   #header p {
@@ -754,16 +784,15 @@ textarea {
   }
 
   #footer { 
-    background: linear-gradient(to bottom, #FAFFE4FF, #FAFFE4FF 27.5%, #FAFFE400);
+    background: linear-gradient(to bottom, #FAFFE4FF, #FAFFE4FF 35%, #FAFFE400);
     top: 0;
     padding-top: 1rem;
-    padding-bottom: 1rem;
+    padding-bottom: 10rem;
     padding-left: 2rem;
     padding-right: 2rem;
-    height: 25rem;
+    height: min-content;
     position: fixed;
     z-index: 2;
-    pointer-events: none;
   }
 
   #mobile-footer {
@@ -779,10 +808,19 @@ textarea {
     display: none;
   }
 
-  #index div video {
+  #production-area, #service-providers-area, #pitches-area, #info-area {
+    display: none;
+  }
+
+  #mobile-area { 
     display: block;
-    width: 50vw;
-    height: calc(50vh - 5rem);
+    grid-area: m;
+  }
+
+  #mobile-area video {
+    display: block;
+    width: calc(100vw - calc(var(--rg-margin)*2));
+    height: calc(100vh - 20rem);
     object-fit: cover;
   }
 
@@ -824,5 +862,11 @@ textarea {
     width: 100%;
     padding-top: 0;
     margin-top: var(--baseline-shift);
+  }
+}
+
+@media only screen and (max-device-width: 362px) {
+  #index-page, #index-page.inactive { 
+    height: calc(100vh - 12rem);
   }
 }
