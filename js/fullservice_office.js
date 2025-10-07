@@ -249,7 +249,7 @@ for (let i = 0; i < pageLinks.length; i++) {
     openPage(section);
     if (mobile) {
       scrollAnimations = false;
-      setTimeout(scrollAnimationOn, 1250);
+      setTimeout(scrollAnimationOn, 1500);
       document.getElementById(section + '-page').scrollIntoView({
         behavior: 'smooth'
       });
@@ -422,7 +422,7 @@ for (let i = 0; i < pitchList.length; i++) {
 // });
 
 let scrollAnimations = false;
-setTimeout(scrollAnimationOn, 500);
+setTimeout(scrollAnimationOn, 1000);
 
 function scrollAnimationOn() {
   scrollAnimations = true;
