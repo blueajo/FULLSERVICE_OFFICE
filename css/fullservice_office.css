@@ -231,7 +231,7 @@ span.gap {
 }
 
 video {
-  object-position: right top;
+  object-position: left top;
   object-fit: contain;
   display: none;
   width: 45rem;
@@ -397,7 +397,7 @@ video {
     grid-area: "caption";
     display: none;
     margin: 0;
-    margin-top: 1rem;
+    margin-top: 0;
 }
 
 .product.open img {
@@ -407,7 +407,8 @@ video {
 
 .product.open p {
     display: block;
-    margin-top: .25rem;
+    margin-top: 0rem;
+    padding-top: 0.4rem;
 }
 
 .left-arrow-area {
@@ -435,11 +436,11 @@ video {
   grid-area: content;
   display: grid;
   grid-template-columns: auto auto auto;
-  gap: 5rem;
+  gap: 3rem;
   padding-top: var(--top-margin);
   padding-left: var(--rg-margin);
   padding-right: var(--rg-margin);
-  max-width: 165rem;
+  max-width: 159rem;
 }
 
 .service-provider {
@@ -840,11 +841,9 @@ textarea {
     padding-right: var(--rg-margin);
     pointer-events: none;
     cursor: var(--dot-cursor);
-    opacity: 100%;
-    filter: grayscale(0);
   }
 
-  .product img, .product img:hover {
+  .product img, .product img:hover, .product img {
     /* object-fit: contain; */
     display: block;
     width: auto;
@@ -852,16 +851,19 @@ textarea {
     height: auto;
     max-height: 100vw;
     margin-bottom: 0;
-    pointer-events: none;
     opacity: 100%; 
     filter: grayscale(0);
+    mix-blend-mode: normal;
+  }
+
+  .category {
+    display: none;
   }
 
   .product p {
     display: block;
     width: 100%;
-    padding-top: 0;
-    margin-top: var(--baseline-shift);
+    margin-top: 0;
   }
 }
 
