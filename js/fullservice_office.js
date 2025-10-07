@@ -465,7 +465,7 @@ const options2 = {
 
 const observer2 = new IntersectionObserver((entries, observer) => {
   entries.forEach(entry => {
-    if (mobile && scrollAnimations) {
+    if (mobile) {
       const indexText = document.getElementById('index-text');
       indexText.style.opacity = entry.intersectionRatio;
     }
