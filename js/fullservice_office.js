@@ -316,6 +316,8 @@ function createCarousel() {
       openCloseProduct(openProduct, cellIndex);
       return;
     }
+    console.log(cellElement);
+    console.log(cellIndex);
     openCloseProduct(cellElement, cellIndex);
   });
 }
@@ -327,7 +329,7 @@ function openCloseProduct(cellElement, cellIndex) {
   var flkty = Flickity.data(production);
   if (openProduct) {
     openProduct.classList.remove("open");
-    openProduct.querySelector('img').style.width =  '15vw';
+    openProduct.querySelector('img').style.width = '15vw';
   }
   if (cellElement !== openProduct) {
     cellElement.classList.add('open');
@@ -340,9 +342,7 @@ function openCloseProduct(cellElement, cellIndex) {
     productImg.style.width = (w * scaleRatio) + 'px';
   }
   flkty.reposition();
-  if (cellIndex) {
-    flkty.selectCell(cellIndex, true, false);
-  }
+  flkty.selectCell(cellIndex, true, false);
   openProduct = cellElement.classList.contains('open') ? cellElement : null;
 }
 
@@ -350,10 +350,13 @@ document.getElementById("left-arrow-area").addEventListener('click', (e) => {
   var flkty = Flickity.data(production);
   if (openProduct) {
     let prevIndex = (flkty.selectedIndex - 1) % flkty.cells.length;
+    prevIndex = prevIndex < 0 ? flkty.cells.length - 1 : prevIndex;
     let prevElement = flkty.cells[prevIndex].element;
     openCloseProduct(prevElement, prevIndex);
   } else {
-    flkty.selectCell((flkty.selectedIndex - 5) % flkty.cells.length, true, false);
+    let selectedIndex = ((flkty.selectedIndex - 5) % flkty.cells.length);
+    selectedIndex = selectedIndex < 0 ? flkty.cells.length + selectedIndex : selectedIndex;
+    flkty.selectCell(selectedIndex, true, false);
   }
 });
 
