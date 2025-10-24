@@ -51,9 +51,7 @@ const production = document.getElementById('production-page');
 const serviceProviders = document.getElementById('service-providers-page');
 const pitches = document.getElementById('pitches-page');
 const info = document.getElementById('info-page');
-const rootFontSize = 16;
-const mobileBreakpoint = remToPx(40);
-const tabletBreakpoint = remToPx(64);
+const rootFontSize = 10;
 
 function remToPx(remValue) {
   return remValue * rootFontSize;
@@ -62,48 +60,57 @@ function remToPx(remValue) {
 // CUSTOM CURSORS -------------------------------------------------------------------------------
 
 // Index cursor objects
-const videoDot = document.getElementById('video-dot');
-const allVideos = document.querySelectorAll("#videos video");
-const allOverflowVideos = document.querySelectorAll("#overflow-videos video");
+const videoDot = document.getElementById('index-cursor');
+const allVideos = videoDot.querySelectorAll("video");
 let curVideo = null;
 let activeLink = null;
 const quadrants = [['production', 'service-providers'],
                    ['pitches', 'info']];
-let cursorFollowerInterval = null;
-
-// Info cursor objects
-const copyright = document.getElementById('copyright');
-const infoLinks = document.querySelectorAll('#info-page a');
-
+let cursorInterval = null;
 // Cursor object
 var mouseX=window.innerWidth/2,
     mouseY=window.innerHeight/2;
+var videoXOffset = (mouseX / window.innerWidth) > .5 ? remToPx(45) : 0;
+var videoYOffset = (mouseY / window.innerHeight) > .5 ? remToPx(45) : 0;;
 
-var cursorFollower = { 
-    el: document.getElementById('cursorFollower'),
+var indexCursor = { 
+    el: document.getElementById('index-cursor'),
     x: window.innerWidth/2, 
     y: window.innerHeight/2,
-      draggyUpdate: function() {
-                      this.x = lerp (this.x, mouseX, 0.1);
-                      this.y = lerp (this.y, mouseY, 0.1);
-                      this.el.style = 'transform: translate3d('+ this.x +'px,'+ this.y +'px, 0);'
-                    },
-      update: function() {
-                this.x = mouseX;
-                this.y = mouseY;
-                this.el.style = 'transform: translate3d('+ this.x +'px,'+ this.y +'px, 0);'
-              }
+    update: function() {
+              const xOffset = (this.x / window.innerWidth) > .5 ? remToPx(45) : 0;
+              const yOffset = (this.y / window.innerHeight) > .5 ? remToPx(45) : 0;
+              videoXOffset = lerp (videoXOffset, xOffset, 0.075);
+              videoYOffset = lerp (videoYOffset, yOffset, 0.075);
+              this.x = lerp (this.x, mouseX, 0.05);
+              this.y = lerp (this.y, mouseY, 0.05);
+              this.el.style = 'transform: translate3d('+ (this.x - videoXOffset) +'px,'+ (this.y - videoYOffset) +'px, 0);'
+            }
 };
 
 function lerp (start, end, amt){
   return (1-amt)*start+amt*end;
 }
 
+// Info cursor objects
+const copyright = document.getElementById('info-cursor');
+const infoLinks = document.querySelectorAll('#info-page a');
+var infoCursor = {
+    el: copyright,
+    x: window.innerWidth/2, 
+    y: window.innerHeight/2,
+    update: function() {
+              this.x = mouseX;
+              this.y = mouseY;
+              this.el.style = 'transform: translate3d('+ this.x +'px,'+ this.y +'px, 0);'
+            }
+};
+
 function indexFollow() {
-  cursorFollower.draggyUpdate();
-  const videoNumber = Math.floor(cursorFollower.x /(window.innerWidth/10)) % 5;
-  const yQuadrant = (cursorFollower.y / window.innerHeight) > .5 ? 1 : 0;
-  const xQuadrant = (cursorFollower.x / window.innerWidth) > .5 ? 1 : 0;
+  indexCursor.update();
+  const videoNumber = Math.floor(indexCursor.x / (window.innerWidth/16)) % 8;
+  const yQuadrant = (indexCursor.y / window.innerHeight) > .5 ? 1 : 0;
+  const xQuadrant = (indexCursor.x / window.innerWidth) > .5 ? 1 : 0;
   const category = quadrants[yQuadrant][xQuadrant];
   const video = category + '-' + videoNumber + '-video';
   
@@ -114,7 +121,7 @@ function indexFollow() {
 }
 
 function infoFollow() {
-  cursorFollower.update();
+  infoCursor.update();
 }
 
 document.addEventListener('mousemove', (e) => {
@@ -136,22 +143,18 @@ index.addEventListener("mouseenter", (e) => {
 });
 
 function hideVideo(videoName) {
-    const video = document.getElementsByClassName(videoName);
-    if (video[0] && video[0].classList.contains("active")) {
-        video[0].classList.remove("active");
-        video[1].classList.remove("active");
-        video[0].pause();
-        video[1].pause();
+    const video = document.getElementById(videoName);
+    if (video && video.classList.contains("active")) {
+        video.classList.remove("active");
+        video.pause();
     }
 }
 
 function startVideo(videoName) {
-    const video = document.getElementsByClassName(videoName);
-    if (video[0] && !video[0].classList.contains("active")) {
-        video[0].classList.add("active");
-        video[1].classList.add("active");
-        video[0].play();
-        video[1].play();
+    const video = document.getElementById(videoName);
+    if (video && !video.classList.contains("active")) {
+        video.classList.add("active");
+        video.play();
     }
     curVideo = videoName;
 }
@@ -162,6 +165,14 @@ info.addEventListener("mouseleave", (e) => {
 });
 
 info.addEventListener("mouseenter", (e) => {
+  copyright.classList.add('active');
+});
+
+info.addEventListener("mousedown", (e) => {
+  copyright.classList.remove('active');
+});
+
+info.addEventListener("mouseup", (e) => {
   copyright.classList.add('active');
 });
 
@@ -183,24 +194,22 @@ const linkAreas = document.getElementsByClassName('link-area');
 // Page selection
 function closePage() {
   const section = location.hash ? location.hash.substring(1) : 'index';
-  const currentPageLink = document.getElementById(section + '-link');
   const currentPage = document.getElementById(section + '-page');
-  const currentPageText = document.getElementById(section + '-text');
-  const currentPageGap = document.getElementById(section + '-gap');
   if (currentPage) { currentPage.classList.toggle('inactive'); }
-  if (currentPageLink) { currentPageLink.classList.toggle('current-page'); }
-  if (currentPageText) { currentPageText.classList.remove('active'); }
-  if (currentPageGap) { currentPageGap.classList.remove('gap'); }
-  if (cursorFollowerInterval) {
-    clearInterval(cursorFollowerInterval);
-    cursorFollowerInterval = null;
+  closeHeader(section);
+
+  if (cursorInterval) {
+    clearInterval(cursorInterval);
+    cursorInterval = null;
   }
   if (section == 'index') {
     videoDot.classList.remove('active');
     videoCredits.classList.remove('active');
+    document.getElementById('header').classList.remove('index-header');
   } else if (section == 'production') {
     var flkty = Flickity.data(production);
     if (flkty) {
+      closeOpenProduct();
       flkty.destroy();
     }
   } else if (section == 'info') {
@@ -210,26 +219,21 @@ function closePage() {
 
 function openPage(section) {
   const page = document.getElementById(section + '-page');
-  const pageLink = document.getElementById(section + '-link');
-  const pageText = document.getElementById(section + '-text');
-  const pageGap = document.getElementById(section + '-gap');
-  if (page) { page.classList.toggle('inactive'); }
-  if (pageLink) { pageLink.classList.toggle('current-page'); }
-  if (pageText) { pageText.classList.add('active'); }
-  if (pageGap) { pageGap.classList.add('gap'); }
+  if (page) { page.classList.remove('inactive'); }
+  expandHeader(section);
   // page-specific
   if (section == 'index') {
     videoCredits.classList.add('active');
+    document.getElementById('header').classList.add('index-header');
     if (!mobile) {
-      cursorFollowerInterval = setInterval(indexFollow,1000/60);
+      cursorInterval = setInterval(indexFollow,1000/60);
     }
   }
   if (section == 'info' && !mobile) {
-    cursorFollowerInterval = setInterval(infoFollow,1000/60);
+    cursorInterval = setInterval(infoFollow,1000/60);
   }
   if (section == 'production' && !mobile) {
     createCarousel();
-    document.querySelector('.flickity-slider').style.transform = 'translateX(0)';
   }
 
   // set anchor link
@@ -238,6 +242,24 @@ function openPage(section) {
   } else {
     location.hash = section;
   }
+}
+
+function closeHeader(section) {
+  const pageLink = document.getElementById(section + '-link');
+  const pageText = document.getElementById(section + '-text');
+  const pageGap = document.getElementById(section + '-gap');
+  if (pageLink) { pageLink.classList.remove('current-page'); }
+  if (pageText) { pageText.classList.remove('active'); }
+  if (pageGap) { pageGap.classList.remove('gap'); }
+}
+
+function expandHeader(section) {
+  const pageLink = document.getElementById(section + '-link');
+  const pageText = document.getElementById(section + '-text');
+  const pageGap = document.getElementById(section + '-gap');
+  if (pageLink) { pageLink.classList.add('current-page'); }
+  if (pageText) { pageText.classList.add('active'); }
+  if (pageGap) { pageGap.classList.add('gap'); }
 }
 
 // Open page on click
@@ -308,51 +330,111 @@ function createCarousel() {
     wrapAround: true,
     pageDots: false,
     setGallerySize: false,
+    accessibility: true,
+    prevNextButtons: false,
     cellSelector: '.product'
   });
-  
+
+  document.querySelector('.flickity-slider').style.transform = 'translateX(0%)';
+
+  // cellElement Element If a cell was clicked, the element.
+  // cellIndex Integer If a cell was clicked, the cell’s zero-based number.
   flkty.on( 'staticClick', function( event, pointer, cellElement, cellIndex ) {
     if ( !cellElement ) {
-      openCloseProduct(openProduct, cellIndex);
       return;
     }
-    console.log(cellElement);
-    console.log(cellIndex);
-    openCloseProduct(cellElement, cellIndex);
+
+    // if the product is open, close it; if not, open it
+    if (cellElement == currOpenProduct) {
+      closeOpenProduct();
+      return;
+    } else {
+      openProduct(cellElement, cellIndex);
+    }
   });
 }
 
-let openProduct = null;
+let currOpenProduct = null;
 let unclicked = true;
 
-function openCloseProduct(cellElement, cellIndex) {
-  var flkty = Flickity.data(production);
-  if (openProduct) {
-    openProduct.classList.remove("open");
-    openProduct.querySelector('img').style.width = '15vw';
+// Closes the currently open product if there is one
+function closeOpenProduct() {
+  if (currOpenProduct) {
+    var flkty = Flickity.data(production);
+
+    currOpenProduct.classList.remove("open");
+    let productImg = currOpenProduct.querySelector('img');
+    if (!productImg) {
+      productImg = currOpenProduct.querySelector('video');
+      productImg.pause();
+    }
+    productImg.style.width = '15vw';
+
+    // reposition flkty to center the opened and scaled product
+    flkty.reposition();
+
+    currOpenProduct = null;
+    document.getElementById("left-arrow-area").classList.remove('expanded');
+    document.getElementById("right-arrow-area").classList.remove('expanded');
+
+    flkty.options.dragThreshold = 3;
+    flkty.updateDraggable();
   }
-  if (cellElement !== openProduct) {
+}
+
+// Opens a product
+// cellElement | Element | The product to open.
+// cellIndex | Integer | The product to open’s zero-based index.
+function openProduct(cellElement, cellIndex) {
+  var flkty = Flickity.data(production);
+
+  // if the product is not already open
+  if (currOpenProduct != cellElement) {
+    closeOpenProduct();
+    // open the clicked product
     cellElement.classList.add('open');
-    const productImg = cellElement.querySelector('img');
-    const w = productImg.naturalWidth;
-    const h = productImg.naturalHeight;
+    // scale the image
+    let productImg = cellElement.querySelector('img');
+    let w = 0;
+    let h = 0;
+    if (!productImg) {
+      productImg = cellElement.querySelector('video');
+      w = productImg.videoWidth;
+      h = productImg.videoHeight;
+      productImg.play();
+    } else {
+      w = productImg.naturalWidth;
+      h = productImg.naturalHeight;
+    }
     const heightRatio = 0.8 * window.innerHeight / h;
     const widthRatio = 0.8 * window.innerWidth / w;
     const scaleRatio = Math.min(heightRatio, widthRatio);
     productImg.style.width = (w * scaleRatio) + 'px';
+    // reposition flkty to center the opened and scaled product
+    flkty.reposition();
+    flkty.selectCell(cellIndex, true, false);
+    currOpenProduct = cellElement;
+
+    flkty.options.dragThreshold = 10000;
+    flkty.updateDraggable();
+
+    document.getElementById("left-arrow-area").classList.add('expanded');
+    document.getElementById("right-arrow-area").classList.add('expanded');
   }
-  flkty.reposition();
-  flkty.selectCell(cellIndex, true, false);
-  openProduct = cellElement.classList.contains('open') ? cellElement : null;
 }
 
 document.getElementById("left-arrow-area").addEventListener('click', (e) => {
   var flkty = Flickity.data(production);
-  if (openProduct) {
+  if (currOpenProduct) {
     let prevIndex = (flkty.selectedIndex - 1) % flkty.cells.length;
     prevIndex = prevIndex < 0 ? flkty.cells.length - 1 : prevIndex;
     let prevElement = flkty.cells[prevIndex].element;
-    openCloseProduct(prevElement, prevIndex);
+    openProduct(prevElement, prevIndex);
+    // temporarily pause cursor events for flkty on left/right arrow press until mouse is moved
+    document.querySelector(".flickity-viewport").style.zIndex = "-1";
+    production.addEventListener('mousemove', function(event) {
+      document.querySelector(".flickity-viewport").style.zIndex = "1";
+    }, { once: true });
   } else {
     let selectedIndex = ((flkty.selectedIndex - 5) % flkty.cells.length);
     selectedIndex = selectedIndex < 0 ? flkty.cells.length + selectedIndex : selectedIndex;
@@ -362,14 +444,37 @@ document.getElementById("left-arrow-area").addEventListener('click', (e) => {
 
 document.getElementById("right-arrow-area").addEventListener('click', (e) => {
   var flkty = Flickity.data(production);
-  if (openProduct) {
+  if (currOpenProduct) {
     let nextIndex = (flkty.selectedIndex + 1) % flkty.cells.length;
     let nextElement = flkty.cells[nextIndex].element;
-    openCloseProduct(nextElement, nextIndex);
+    openProduct(nextElement, nextIndex);
+    // temporarily pause cursor events for flkty on left/right arrow press until mouse is moved
+    document.querySelector(".flickity-viewport").style.zIndex = "-1";
+    production.addEventListener('mousemove', function(event) {
+      document.querySelector(".flickity-viewport").style.zIndex = "1";
+    }, { once: true });
   } else {
     flkty.selectCell((flkty.selectedIndex + 5) % flkty.cells.length, true, false);
   }
 });
+
+document.getElementById("center-area").addEventListener('click', (e) => {
+  closeOpenProduct();
+});
+
+// SERVICE PROVIDERS --------------------------------------------------------------------------------
+
+const serviceProviderLinks = document.querySelectorAll(".service-provider-link");
+const serviceProviderPortraits = document.querySelectorAll(".portrait");
+
+for (let i = 0; i < serviceProviderLinks.length; i++) {
+  serviceProviderLinks[i].addEventListener('mouseenter', () => {
+    serviceProviderPortraits[i].classList.add('visible');
+  });
+  serviceProviderLinks[i].addEventListener('mouseleave', () => {
+    serviceProviderPortraits[i].classList.remove('visible');
+  });
+}
 
 // PITCHES -----------------------------------------------------------------------------------------------
 
@@ -377,6 +482,7 @@ const pitchList = document.querySelectorAll(".checkbox-container");
 const pitchesToSend = document.querySelector("#pitches-to-send");
 let checkedCount = 0;
 const contactForm = document.querySelector("#contact-form");
+const message = document.getElementById('message');
 
 for (let i = 0; i < pitchList.length; i++) {
     const pitch = pitchList[i];
@@ -396,9 +502,9 @@ for (let i = 0; i < pitchList.length; i++) {
                 pitch.classList.add('checked');
                 checkedCount++;
                 pitchesToSend.innerHTML += 
-                    '<div id=pitch' + i + ' class="checkbox-container checked">' +
-                        '<span class="checkmark"></span>' +
-                        '<p class="checkbox-label">' + pitchContent + '</p>' +
+                    '<div id=pitch' + i + ' class="dot-container">' +
+                        '<span class="dot"></span>' +
+                        '<p>' + pitchContent + '</p>' +
                     '</div>';
                 if ( !contactForm.classList.contains('active') ) {
                     contactForm.classList.add('active');
@@ -408,6 +514,11 @@ for (let i = 0; i < pitchList.length; i++) {
         }
     });
 }
+
+message.addEventListener('input', (event) => {
+  console.log('Content changed');
+  message.style.color = 'black';
+});
 
 // SCROLL -------------------
 

@@ -8,80 +8,59 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png">
-  <link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
+  <link href="./css/flickity.css" type="text/css" rel="stylesheet" />
   <link href="./css/fullservice_office.css" type="text/css" rel="stylesheet" />
 </head>
 <body>
-<!-- CURSOR ------------------------------------------------------------------------------------->
-    <div id="cursorFollower">
-        <div id="copyright">
-            <p>FULLSERVICE OFFICE © 2025</p>
-        </div>
-        <div id="video-dot">
-            <div id="videos">
-                <video class="service-providers-0-video" autoplay loop muted src="./img/service-providers/2001-space-oddessy-service.mp4" type="video/mp4"></video>
-                <video class="service-providers-1-video" autoplay loop muted src="./img/service-providers/brent-rambo.mp4" type="video/mp4"></video>
-                <video class="service-providers-2-video" autoplay loop muted src="./img/service-providers/fired-on-mars.mp4" type="video/mp4"></video>
-                <video class="service-providers-3-video" autoplay loop muted src="./img/service-providers/jobs-not-finished.mp4" type="video/mp4"></video>
-                <video class="service-providers-4-video" autoplay loop muted src="./img/service-providers/one-year-performance.mp4" type="video/mp4"></video>
-
-                <video class="production-0-video" autoplay loop muted src="./img/production/balenciaga-winter.mp4" type="video/mp4"></video>
-                <video class="production-1-video" autoplay loop muted src="./img/production/balloon-pop.mp4" type="video/mp4"></video>
-                <video class="production-2-video" autoplay loop muted src="./img/production/freakout-jam.mp4" type="video/mp4"></video>
-                <video class="production-3-video" autoplay loop muted src="./img/production/linotype.mp4" type="video/mp4"></video>
-                <video class="production-4-video" autoplay loop muted src="./img/production/man-with-a-movie-camera.mp4" type="video/mp4"></video>
-
-                <video class="pitches-0-video" autoplay loop muted src="./img/pitches/2001-space-oddessy-intro.mp4" type="video/mp4"></video>
-                <video class="pitches-1-video" autoplay loop muted src="./img/pitches/always-sunny-in-philadelphia.mp4" type="video/mp4"></video>
-                <video class="pitches-2-video" autoplay loop muted src="./img/pitches/buster-keaton.mp4" type="video/mp4"></video>
-                <video class="pitches-3-video" autoplay loop muted src="./img/pitches/donald-draper-heinz.mp4" type="video/mp4"></video>
-                <video class="pitches-4-video" autoplay loop muted src="./img/pitches/hand-of-god.mp4" type="video/mp4"></video>
-
-                <video class="info-0-video" autoplay loop muted src="./img/info/all-watched-over.mp4" type="video/mp4"></video>
-                <video class="info-1-video" autoplay loop muted src="./img/info/appolo-8.mp4" type="video/mp4"></video>
-                <video class="info-2-video" autoplay loop muted src="./img/info/dieter-rams.mp4" type="video/mp4"></video>
-                <video class="info-3-video" autoplay loop muted src="./img/info/do-the-right-thing.mp4" type="video/mp4"></video>
-                <video class="info-4-video" autoplay loop muted src="./img/info/lady-gaga-ryan-murphy.mp4" type="video/mp4"></video>
-            </div>
-            <div id="overflow-videos">
-                <video class="service-providers-0-video" autoplay loop muted src="./img/service-providers/2001-space-oddessy-service.mp4" type="video/mp4"></video>
-                <video class="service-providers-1-video" autoplay loop muted src="./img/service-providers/brent-rambo.mp4" type="video/mp4"></video>
-                <video class="service-providers-2-video" autoplay loop muted src="./img/service-providers/fired-on-mars.mp4" type="video/mp4"></video>
-                <video class="service-providers-3-video" autoplay loop muted src="./img/service-providers/jobs-not-finished.mp4" type="video/mp4"></video>
-                <video class="service-providers-4-video" autoplay loop muted src="./img/service-providers/one-year-performance.mp4" type="video/mp4"></video>
-
-                <video class="production-0-video" autoplay loop muted src="./img/production/balenciaga-winter.mp4" type="video/mp4"></video>
-                <video class="production-1-video" autoplay loop muted src="./img/production/balloon-pop.mp4" type="video/mp4"></video>
-                <video class="production-2-video" autoplay loop muted src="./img/production/freakout-jam.mp4" type="video/mp4"></video>
-                <video class="production-3-video" autoplay loop muted src="./img/production/linotype.mp4" type="video/mp4"></video>
-                <video class="production-4-video" autoplay loop muted src="./img/production/man-with-a-movie-camera.mp4" type="video/mp4"></video>
-
-                <video class="pitches-0-video" autoplay loop muted src="./img/pitches/2001-space-oddessy-intro.mp4" type="video/mp4"></video>
-                <video class="pitches-1-video" autoplay loop muted src="./img/pitches/always-sunny-in-philadelphia.mp4" type="video/mp4"></video>
-                <video class="pitches-2-video" autoplay loop muted src="./img/pitches/buster-keaton.mp4" type="video/mp4"></video>
-                <video class="pitches-3-video" autoplay loop muted src="./img/pitches/donald-draper-heinz.mp4" type="video/mp4"></video>
-                <video class="pitches-4-video" autoplay loop muted src="./img/pitches/hand-of-god.mp4" type="video/mp4"></video>
-
-                <video class="info-0-video" autoplay loop muted src="./img/info/all-watched-over.mp4" type="video/mp4"></video>
-                <video class="info-1-video" autoplay loop muted src="./img/info/appolo-8.mp4" type="video/mp4"></video>
-                <video class="info-2-video" autoplay loop muted src="./img/info/dieter-rams.mp4" type="video/mp4"></video>
-                <video class="info-3-video" autoplay loop muted src="./img/info/do-the-right-thing.mp4" type="video/mp4"></video>
-                <video class="info-4-video" autoplay loop muted src="./img/info/lady-gaga-ryan-murphy.mp4" type="video/mp4"></video>
-            </div>
-        </div>
-    </div>
 <!-- PAGE CONTENT ------------------------------------------------------------------------------->
     <div id='container'>
 <!-- HEADER ------------------------------------------------------------------------------------->
         <div id="header">
-            <p>(<a id="production-link" class="page-link" href="#production">Production</a><span id="production-text" class="nav-text"> is the output of our work</span>, <span id="production-gap"></span>
-                <a id="service-providers-link" class="page-link" href="#service-providers">Service Providers</a><span id="service-providers-text" class="nav-text"> include Lydia Chodosh, Orlando Porras, and Rebecca Wilkinson</span>, <span id="service-providers-gap"></span>
-                <a id="pitches-link" class="page-link" href="#pitches">Pitches</a><span id="pitches-text" class="nav-text"> are prompts for collaboration</span>, <span id="pitches-gap"></span>
-                <a id="info-link" class="page-link" href="#info">Info</a><span id="info-gap"></span><span>)</span>
+            <p><span class="paren">(</span><a id="production-link" class="page-link" href="#production">Production</a><span id="production-text" class="nav-text"> is the output of our work</span><span>, </span><span id="production-gap"></span>
+                <a id="service-providers-link" class="page-link" href="#service-providers">Service Providers</a><span id="service-providers-text" class="nav-text"> include Lydia Chodosh, Orlando Porras, and Rebecca Wilkinson</span><span>, </span><span id="service-providers-gap"></span>
+                <a id="pitches-link" class="page-link" href="#pitches">Pitches</a><span id="pitches-text" class="nav-text"> are prompts for collaboration</span><span>, </span><span id="pitches-gap"></span>
+                <a id="info-link" class="page-link" href="#info">Info</a><span id="info-gap"></span><span><span class="paren">)</span></span>
             </p>
         </div>
 <!-- HOMEPAGE ----------------------------------------------------------------------------------->
         <div id="index-page" class="inactive">
+            <div id="index-cursor">
+                <video id="production-0-video" class="production-video" loop muted src="./img/index/production/balenciaga-winter.mp4" type="video/mp4"></video>
+                <video id="production-1-video" class="production-video" loop muted src="./img/index/production/balloon-pop.mp4" type="video/mp4"></video>
+                <video id="production-2-video" class="production-video" loop muted src="./img/index/production/freakout-jam.mp4" type="video/mp4"></video>
+                <video id="production-3-video" class="production-video" loop muted src="./img/index/production/linotype.mp4" type="video/mp4"></video>
+                <video id="production-4-video" class="production-video" loop muted src="./img/index/production/man-with-a-movie-camera.mp4" type="video/mp4"></video>
+                <video id="production-5-video" class="production-video" loop muted src="./img/index/production/paradox-of-praxis.mp4" type="video/mp4"></video>
+                <video id="production-6-video" class="production-video" loop muted src="./img/index/production/sweepers-clock.mp4" type="video/mp4"></video>
+                <video id="production-7-video" class="production-video" loop muted src="./img/index/production/talking-heads.mp4" type="video/mp4"></video>
+
+                <video id="service-providers-0-video" class="service-providers-video" loop muted src="./img/index/service_providers/2001-space-oddessy-service.mp4" type="video/mp4"></video>
+                <video id="service-providers-1-video" class="service-providers-video" loop muted src="./img/index/service_providers/brent-rambo.mp4" type="video/mp4"></video>
+                <video id="service-providers-2-video" class="service-providers-video" loop muted src="./img/index/service_providers/fired-on-mars.mp4" type="video/mp4"></video>
+                <video id="service-providers-3-video" class="service-providers-video" loop muted src="./img/index/service_providers/jobs-not-finished.mp4" type="video/mp4"></video>
+                <video id="service-providers-4-video" class="service-providers-video" loop muted src="./img/index/service_providers/one-year-performance.mp4" type="video/mp4"></video>
+                <video id="service-providers-5-video" class="service-providers-video" loop muted src="./img/index/service_providers/paris-is-burning.mp4" type="video/mp4"></video>
+                <video id="service-providers-6-video" class="service-providers-video" loop muted src="./img/index/service_providers/severance.mp4" type="video/mp4"></video>
+                <video id="service-providers-7-video" class="service-providers-video" loop muted src="./img/index/service_providers/worker-efficiency.mp4" type="video/mp4"></video>
+
+                <video id="pitches-0-video" class="pitches-video" loop muted src="./img/index/pitches/2001-space-oddessy-intro.mp4" type="video/mp4"></video>
+                <video id="pitches-1-video" class="pitches-video" loop muted src="./img/index/pitches/always-sunny-in-philadelphia.mp4" type="video/mp4"></video>
+                <video id="pitches-2-video" class="pitches-video" loop muted src="./img/index/pitches/buster-keaton.mp4" type="video/mp4"></video>
+                <video id="pitches-3-video" class="pitches-video" loop muted src="./img/index/pitches/donald-draper-heinz.mp4" type="video/mp4"></video>
+                <video id="pitches-4-video" class="pitches-video" loop muted src="./img/index/pitches/hand-of-god.mp4" type="video/mp4"></video>
+                <video id="pitches-5-video" class="pitches-video" loop muted src="./img/index/pitches/introducing-the-macintosh.mp4" type="video/mp4"></video>
+                <video id="pitches-6-video" class="pitches-video" loop muted src="./img/index/pitches/jack-of-all-trades.mp4" type="video/mp4"></video>
+                <video id="pitches-7-video" class="pitches-video" loop muted src="./img/index/pitches/the-switch.mp4" type="video/mp4"></video>
+
+                <video id="info-0-video" class="info-video" loop muted src="./img/index/info/all-watched-over.mp4" type="video/mp4"></video>
+                <video id="info-1-video" class="info-video" loop muted src="./img/index/info/appolo-8.mp4" type="video/mp4"></video>
+                <video id="info-2-video" class="info-video" loop muted src="./img/index/info/dieter-rams.mp4" type="video/mp4"></video>
+                <video id="info-3-video" class="info-video" loop muted src="./img/index/info/do-the-right-thing.mp4" type="video/mp4"></video>
+                <video id="info-4-video" class="info-video" loop muted src="./img/index/info/lady-gaga-ryan-murphy.mp4" type="video/mp4"></video>
+                <video id="info-5-video" class="info-video" loop muted src="./img/index/info/microsoft-excel-intro.mp4" type="video/mp4"></video>
+                <video id="info-6-video" class="info-video" loop muted src="./img/index/info/umberto-eco.mp4" type="video/mp4"></video>
+                <video id="info-7-video" class="info-video" loop muted src="./img/index/info/all-watched-over.mp4" type="video/mp4"></video>
+            </div>
             <div id="service-providers-area" class="link-area">
             </div>
             <div id="production-area" class="link-area">
@@ -91,60 +70,66 @@
             <div id="info-area" class="link-area">
             </div>
             <div id="mobile-area">
-                <video id="mobile-video" autoplay loop muted playsinline src="./img/pitches/2001-space-oddessy-intro.mp4" type="video/mp4"></video>
+                <video id="mobile-video" autoplay loop muted playsinline src="./img/index/info/umberto-eco.mp4" type="video/mp4"></video>
             </div>
         </div>
 <!-- PRODUCTION --------------------------------------------------------------------------------->
         <div id="production-page" class="inactive">
             <div id="left-arrow-area"></div>
             <div id="right-arrow-area"></div>
-            
-            <div id="p1" class="product"><img src="./img/projects/RETROSPECTA_046-1.jpg"><p>RETROSPECTA_046, <span class="category">publication, </span>2023</p></div>
-            <div id="p2" class="product"><img src="./img/projects/Composition-1.jpg"><p>Composition, <span class="category">performance lecture and broadsheet, </span>2024</p></div>
-            <div id="p3" class="product"><img src="./img/projects/On-the-Impulse-to-Notate-1.jpg"><p>On the Impulse to Notate, <span class="category">publication, </span>2024</p></div>
-            <div id="p4" class="product"><img src="./img/projects/RETROSPECTA_046-2.jpg"><p>RETROSPECTA_046, <span class="category">publication, </span>2023</p></div>
-            <div id="p5" class="product"><img src="./img/projects/Paul-Rand-Lecture-Series-1.jpg"><p>Paul Rand (‘85) Lecture Series, <span class="category">event announcement, </span>2022</p></div>
-            <div id="p6" class="product"><img src="./img/projects/Saturns-Rings-1.jpg"><p>Saturn’s Rings (after W.G. Sebald), <span class="category">artist book, </span>2023</p></div>
-            <div id="p7" class="product"><img src="./img/projects/Yalenciaga-1.jpg"><p>Yalenciaga, <span class="category">product launch, </span>2024</p></div>
-            <div id="p8" class="product"><img src="./img/projects/notations-1.jpg"><p>notations.xyz, <span class="category">website, </span>2024</p></div>
-            <div id="p9" class="product"><img src="./img/projects/Objects-May-Shift-1.jpg"><p>Objects May Shift, <span class="category">event attire, </span>2024</p></div>
-            <div id="p10" class="product"><img src="./img/projects/notations-2.jpg"><p>notations.xyz, <span class="category">website, </span>2024</p></div>
-            <div id="p11" class="product"><img src="./img/projects/Yalenciaga-2.jpg"><p>Yalenciaga, <span class="category">product launch, </span>2024</p></div>
-            <div id="p12" class="product"><img src="./img/projects/Objects-May-Shift-2.jpg"><p>Object May Shift, <span class="category">exhibition postcards, </span>2024</p></div>
-            <div id="p13" class="product"><img src="./img/projects/Stanley-Whitney-1.jpg"><p>Stanley Whitney: How High the Moon, <span class="category">bus shelter, </span>2024</p></div>
-            <div id="p14" class="product"><img src="./img/projects/Yale-Graphic-Design-MFA-1.jpg"><p>Yale Graphic Design MFA Thesis Exhibition, <span class="category">print invitation, </span>2024 </p></div>
-            <div id="p15" class="product"><img src="./img/projects/skinandbonesfilm-1.jpg"><p>skinandbonesfilm.com, <span class="category">website and visual identity, </span>2025</p></div>
-            <div id="p16" class="product"><img src="./img/projects/Yalenciaga-3.jpg"><p>Yalenciaga, <span class="category">product launch, </span>2024</p></div>
-            <div id="p17" class="product"><img src="./img/projects/RETROSPECTA_046-3.jpg"><p>RETROSPECTA_046, <span class="category">publication, </span>2023</p></div>
-            <div id="p18" class="product"><img src="./img/projects/Objects-May-Shift-2.jpg"><p>Object May Shift, <span class="category">exhibition postcards, </span>2024</p></div>
-            <div id="p19" class="product"><img src="./img/projects/On-the-Impulse-to-Notate-2.jpg"><p>On the Impulse to Notate, <span class="category">publication, </span>2024</p></div>
-            <div id="p20" class="product"><img src="./img/projects/An-My-Le-1.jpg"><p>An-My Lê: This Means Something, <span class="category">exhibition poster, </span>2024</p></div>
-            <div id="p21" class="product"><img src="./img/projects/Composition-2.jpg"><p>Composition, <span class="category">performance lecture and broadsheet, </span>2024</p></div>
-            <div id="p22" class="product"><img src="./img/projects/commondimensions-1.jpg"><p>Dis/Assembly, Common Dimensions, Issue 1, <span class="category">publication, </span>2023</p></div>
-            <div id="p23" class="product"><img src="./img/projects/Objects-May-Shift-3.jpg"><p>Object May Shift, <span class="category">exhibition postcards, </span>2024</p></div>
-            <div id="p24" class="product"><img src="./img/projects/Paprika-1.jpg"><p>Paprika, Volume 8, Issue 3, <span class="category">publication, </span>2024</p></div>
-            <div id="p25" class="product"><img src="./img/projects/Supersaturated-1.jpg"><p>Supersaturated, <span class="category">exhibition, </span>2024</p></div>
-            <div id="p26" class="product"><img src="./img/projects/Yalenciaga-4.jpg"><p>Yalenciaga, <span class="category">product launch, </span>2024</p></div>
-            <div id="p27" class="product"><img src="./img/projects/To-read-is-to-1.jpg"><p>To read is to, <span class="category">installation, </span>2023</p></div>
-            <div id="p28" class="product"><img src="./img/projects/Composition-3.jpg"><p>Composition, <span class="category">performance lecture and broadsheet, </span>2024</p></div>
-            <div id="p29" class="product"><img src="./img/projects/commondimensions-2.jpg"><p>commondimensions.com, <span class="category">website, </span>2023</p></div>
+            <div id="center-area"></div>
+            <div id="p1" class="product"><img src="./img/production/RETROSPECTA_046-1.jpg"><p>RETROSPECTA_046, <span class="category">publication, </span>2023</p></div>
+            <div id="p2" class="product"><img src="./img/production/Composition-1.jpg"><p>Composition, <span class="category">performance lecture and broadsheet, </span>2024</p></div>
+            <div id="p3" class="product"><img src="./img/production/On-the-Impulse-to-Notate-1.jpg"><p>On the Impulse to Notate, <span class="category">publication, </span>2024</p></div>
+            <div id="p4" class="product"><img src="./img/production/RETROSPECTA_046-2.jpg"><p>RETROSPECTA_046, <span class="category">publication, </span>2023</p></div>
+            <div id="p5" class="product"><img src="./img/production/Paul-Rand-Lecture-Series-1.jpg"><p>Paul Rand (‘85) Lecture Series, <span class="category">event announcement, </span>2022</p></div>
+            <div id="p6" class="product"><img src="./img/production/Saturns-Rings-1.jpg"><p>Saturn’s Rings (after W.G. Sebald), <span class="category">artist book, </span>2023</p></div>
+            <div id="p7" class="product"><img src="./img/production/Yalenciaga-1.jpg"><p>Yalenciaga, <span class="category">product launch, </span>2024</p></div>
+            <div id="p8" class="product"><img src="./img/production/notations-1.jpg"><p>notations.xyz, <span class="category">website, </span>2024</p></div>
+            <div id="p9" class="product"><img src="./img/production/Objects-May-Shift-1.jpg"><p>Objects May Shift, <span class="category">event attire, </span>2024</p></div>
+            <div id="p10" class="product"><img src="./img/production/notations-2.jpg"><p>notations.xyz, <span class="category">website, </span>2024</p></div>
+            <div id="p11" class="product"><img src="./img/production/Yalenciaga-2.jpg"><p>Yalenciaga, <span class="category">product launch, </span>2024</p></div>
+            <div id="p12" class="product"><img src="./img/production/Objects-May-Shift-2.jpg"><p>Object May Shift, <span class="category">exhibition postcards, </span>2024</p></div>
+            <div id="p13" class="product"><img src="./img/production/Stanley-Whitney-1.jpg"><p>Stanley Whitney: How High the Moon, <span class="category">bus shelter, </span>2024</p></div>
+            <div id="p14" class="product"><img src="./img/production/Yale-Graphic-Design-MFA-1.jpg"><p>Yale Graphic Design MFA Thesis Exhibition, <span class="category">print invitation, </span>2024 </p></div>
+            <div id="p15" class="product"><img src="./img/production/skinandbonesfilm-1.jpg"><p>skinandbonesfilm.com, <span class="category">website and visual identity, </span>2025</p></div>
+            <div id="p16" class="product"><img src="./img/production/Yalenciaga-3.jpg"><p>Yalenciaga, <span class="category">product launch, </span>2024</p></div>
+            <div id="p17" class="product"><img src="./img/production/RETROSPECTA_046-3.jpg"><p>RETROSPECTA_046, <span class="category">publication, </span>2023</p></div>
+            <div id="p18" class="product"><img src="./img/production/Objects-May-Shift-2.jpg"><p>Object May Shift, <span class="category">exhibition postcards, </span>2024</p></div>
+            <div id="p19" class="product"><img src="./img/production/On-the-Impulse-to-Notate-2.jpg"><p>On the Impulse to Notate, <span class="category">publication, </span>2024</p></div>
+            <div id="p20" class="product"><img src="./img/production/An-My-Le-1.jpg"><p>An-My Lê: This Means Something, <span class="category">exhibition poster, </span>2024</p></div>
+            <div id="p21" class="product"><img src="./img/production/Composition-2.jpg"><p>Composition, <span class="category">performance lecture and broadsheet, </span>2024</p></div>
+            <div id="p22" class="product"><img src="./img/production/commondimensions-1.jpg"><p>Dis/Assembly, Common Dimensions, Issue 1, <span class="category">publication, </span>2023</p></div>
+            <div id="p23" class="product"><img src="./img/production/Objects-May-Shift-3.jpg"><p>Object May Shift, <span class="category">exhibition postcards, </span>2024</p></div>
+            <div id="p24" class="product"><img src="./img/production/Paprika-1.jpg"><p>Paprika, Volume 8, Issue 3, <span class="category">publication, </span>2024</p></div>
+            <div id="p25" class="product"><img src="./img/production/Supersaturated-1.jpg"><p>Supersaturated, <span class="category">exhibition, </span>2024</p></div>
+            <div id="p26" class="product"><img src="./img/production/Yalenciaga-4.jpg"><p>Yalenciaga, <span class="category">product launch, </span>2024</p></div>
+            <div id="p27" class="product"><img src="./img/production/To-read-is-to-1.jpg"><p>To read is to, <span class="category">installation, </span>2023</p></div>
+            <div id="p28" class="product"><img src="./img/production/Composition-3.jpg"><p>Composition, <span class="category">performance lecture and broadsheet, </span>2024</p></div>
+            <div id="p29" class="product"><img src="./img/production/commondimensions-2.jpg"><p>commondimensions.com, <span class="category">website, </span>2023</p></div>
+            <div id="p30" class="product"><video id="info-2-video" class="info-video" loop muted src="./img/index/info/dieter-rams.mp4" type="video/mp4"></video><p>Dieter Rams, <span class="category">Film, </span>2023</p></div>
         </div>
 <!-- SERVICE PROVIDERS -------------------------------------------------------------------------->
         <div id="service-providers-page" class="inactive">
             <div class="service-provider">
-                <p><a href="https://www.linkedin.com/in/lydia-chodosh-a39584112/" target="_blank">Lydia Chodosh</a> (b. New York) is a designer and writer with an interest in language forms and narrative constructions.</p>
+                <p><a class="service-provider-link" href="https://www.linkedin.com/in/lydia-chodosh-a39584112/" target="_blank">Lydia Chodosh</a> (b. New York) is a designer and writer with an interest in language forms and narrative constructions.</p>
                 <p>She has worked as both an editor and art director in magazine publishing, and designed for various art galleries and museums.</p>
                 <p>Lydia holds an MFA from Rhode Island School of Design, teaches at Parsons School of Design, and currently works at The Whitney.</p>
             </div>
             <div class="service-provider">
-                <p><a href="https://www.linkedin.com/in/orlando-porras/" target="_blank">Orlando Porras</a> (b. California) is an identity and editorial designer with an interest in personal vernaculars, athletic fandoms, and Chicano symbol-making.</p>
+                <p><a class="service-provider-link" href="https://www.linkedin.com/in/orlando-porras/" target="_blank">Orlando Porras</a> (b. California) is an identity and editorial designer with an interest in personal vernaculars, athletic fandoms, and Chicano symbol-making.</p>
                 <p>He has taught at University of New Haven, Yale Prison Education Initiative, and Yale School of Art, and has worked with several leading design studios across the country.</p>
                 <p>Orlando holds an MFA from Yale School of Art, and currently works at the National Football League (NFL).</p>
             </div>
             <div class="service-provider">
-                <p><a href="https://www.linkedin.com/in/rebecca-wilkinson-19865b2b3/" target="_blank">Rebecca Wilkinson</a> (b. Montreal) is a designer and art director with an interest in design history, tools and processes as they relate to labor and organizational structures.</p>
+                <p><a class="service-provider-link" href="https://www.linkedin.com/in/rebecca-wilkinson-19865b2b3/" target="_blank">Rebecca Wilkinson</a> (b. Montreal) is a designer and art director with an interest in design history, tools and processes as they relate to labor and organizational structures.</p>
                 <p>She has worked internationally as a producer and art director in commercial photography, and created identities and publications for visual artists and designers.</p>
                 <p>Rebecca holds an MFA from Rhode Island School of Design, has taught at both RISD and Parson’s School of Design, and currently works at Bloomberg Businessweek.</p>
+            </div>
+            <div id="portraits">
+                <img id="portrait-lydia" class="portrait" src="./img/service_providers/lydia.jpeg" />
+                <img id="portrait-orlando" class="portrait" src="./img/service_providers/orlando.jpeg" />
+                <img id="portrait-rebecca" class="portrait" src="./img/service_providers/rebecca.jpeg" />
             </div>
         </div>
 <!-- PITCHES ------------------------------------------------------------------------------------>
@@ -264,12 +249,10 @@
                     size="20"
                     placeholder="type email here"/>
                 </label>
-                <hr>
                 <label for="to">
                     <p>To: info@fullserviceoffice.com</p>
                 </label>
-                <hr>
-                <label for="subject">
+                <label for="subject" style="margin-bottom: calc(3rem - 2px);">
                     <p>Subject:</p> 
                     <input type="text"
                     id="subject"
@@ -280,8 +263,7 @@
                     size="20"
                     placeholder="We want to collaborate"/>
                 </label>
-                <hr style="margin-bottom: calc(3rem - 3px);">
-                <textarea id="message" name="message">Hi Fullservice Office,&#10;&#10;Omg, you guys are amazing. I absolutely love your work!&#10;&#10;Lorem ipsum dolor sit amet, consectetur adipiscing elit, emlo sed do eiusmod tempor incididunt ea commodo consequat ut labore et dolore magna aliqua. It would be so much fun to collaborate with you on:</textarea>
+                <div id="message" name="message" role="textarea" contenteditable>Hi Fullservice Office,<br><br>Omg, you guys are amazing. I absolutely love your work!<br><br>Lorem ipsum dolor sit amet, consectetur adipiscing elit, emlo sed do eiusmod tempor incididunt ea commodo consequat ut labore et dolore magna aliqua. It would be so much fun to collaborate with you on:</div>
                 <div id="pitches-to-send"></div>
                 <div class="spacer"></div>
                 <button id="send-form" type="button">Send</button>
@@ -289,6 +271,9 @@
         </div>
 <!-- INFO --------------------------------------------------------------------------------------->
         <div id="info-page" class="inactive">
+            <div id="info-cursor">
+                <p>FULLSERVICE OFFICE © 2025</p>
+            </div>
             <div id="office">
                 <p>FULLSERVICE OFFICE (Brooklyn, NY) crafts identities and artifacts rooted in typography and image-making. We teach, publish, initiate collaborations and conversations. Our work is grounded in sincere and rigorous engagement with culture. We reject formulaic, surface-level strategies, and instead offer an editorial approach. Informed by broader socio-historical context, we engage the whole arc of a project from conceptual beginnings to material specificity.</p>
                 <p>The office is owned and operated by Lydia Chodosh, Orlando Porras, and Rebecca Wilkinson. Previous collaborators include Bloomberg, Condé Nast, Institute of Contemporary Art (ICA) Boston, NFL, RISD Museum, Yale School of Architecture, Walker Art Center and the Whitney. Our work has received recognition from AIGA, Dezeen, It’s Nice That, Sight Unseen, Society for Typographic Arts, The New York Times, and Tokyo Type Directors Club.</p>
@@ -305,103 +290,103 @@
                 <div>
                     <a id="credits-link">(+)</a>
                     <div id="credits">
-                <div class="checkbox-container checked">
-                    <span class="checkmark"></span>
-                    <p class="checkbox-label">Man With a Movie Camera, Dziga Vertov, 1929</p>
+                <div class="dot-container">
+                    <span class="caption-dot"></span>
+                    <p class="caption">Man With a Movie Camera, Dziga Vertov, 1929</p>
                 </div>
-                <div class="checkbox-container checked">
-                    <span class="checkmark"></span>
-                    <p class="checkbox-label">Meshes of the Afternoon, Maya Deren & Alexander Hammid, 1943</p>
+                <div class="dot-container">
+                    <span class="caption-dot"></span>
+                    <p class="caption">Meshes of the Afternoon, Maya Deren & Alexander Hammid, 1943</p>
                 </div>
-                <div class="checkbox-container checked">
-                    <span class="checkmark"></span>
-                    <p class="checkbox-label">Ballet Mécanique, Fernand Léger & Dudley Murphy, 1924</p>
+                <div class="dot-container">
+                    <span class="caption-dot"></span>
+                    <p class="caption">Ballet Mécanique, Fernand Léger & Dudley Murphy, 1924</p>
                 </div>
-                <div class="checkbox-container checked">
-                    <span class="checkmark"></span>
-                    <p class="checkbox-label">A Movie, Bruce Conner, 1958</p>
+                <div class="dot-container">
+                    <span class="caption-dot"></span>
+                    <p class="caption">A Movie, Bruce Conner, 1958</p>
                 </div>
-                <div class="checkbox-container checked">
-                    <span class="checkmark"></span>
-                    <p class="checkbox-label">Wavelength, Michael Snow, 1967</p>
+                <div class="dot-container">
+                    <span class="caption-dot"></span>
+                    <p class="caption">Wavelength, Michael Snow, 1967</p>
                 </div>
-                <div class="checkbox-container checked">
-                    <span class="checkmark"></span>
-                    <p class="checkbox-label">La Jetée, Chris Marker, 1962</p>
+                <div class="dot-container">
+                    <span class="caption-dot"></span>
+                    <p class="caption">La Jetée, Chris Marker, 1962</p>
                 </div>
-                <div class="checkbox-container checked">
-                    <span class="checkmark"></span>
-                    <p class="checkbox-label">Scorpio Rising, Kenneth Anger, 1963</p>
+                <div class="dot-container">
+                    <span class="caption-dot"></span>
+                    <p class="caption">Scorpio Rising, Kenneth Anger, 1963</p>
                 </div>
-                <div class="checkbox-container checked">
-                    <span class="checkmark"></span>
-                    <p class="checkbox-label">The Way Things Go, Peter Fischli & David Weiss, 1987</p>
+                <div class="dot-container">
+                    <span class="caption-dot"></span>
+                    <p class="caption">The Way Things Go, Peter Fischli & David Weiss, 1987</p>
                 </div>
-                <div class="checkbox-container checked">
-                    <span class="checkmark"></span>
-                    <p class="checkbox-label">Two Women and a Man, Chantal Akerman, 1974</p>
+                <div class="dot-container">
+                    <span class="caption-dot"></span>
+                    <p class="caption">Two Women and a Man, Chantal Akerman, 1974</p>
                 </div>
-                <div class="checkbox-container checked">
-                    <span class="checkmark"></span>
-                    <p class="checkbox-label">Serene Velocity, Ernie Gehr, 1970</p>
+                <div class="dot-container">
+                    <span class="caption-dot"></span>
+                    <p class="caption">Serene Velocity, Ernie Gehr, 1970</p>
                 </div>
-                <div class="checkbox-container checked">
-                    <span class="checkmark"></span>
-                    <p class="checkbox-label">Empire, Andy Warhol, 1964</p>
+                <div class="dot-container">
+                    <span class="caption-dot"></span>
+                    <p class="caption">Empire, Andy Warhol, 1964</p>
                 </div>
-                <div class="checkbox-container checked">
-                    <span class="checkmark"></span>
-                    <p class="checkbox-label">Histoire(s) du cinéma, Jean-Luc Godard, 1988–1998</p>
+                <div class="dot-container">
+                    <span class="caption-dot"></span>
+                    <p class="caption">Histoire(s) du cinéma, Jean-Luc Godard, 1988–1998</p>
                 </div>
-                <div class="checkbox-container checked">
-                    <span class="checkmark"></span>
-                    <p class="checkbox-label">Rabbit’s Moon, Kenneth Anger, 1950/1971</p>
+                <div class="dot-container">
+                    <span class="caption-dot"></span>
+                    <p class="caption">Rabbit’s Moon, Kenneth Anger, 1950/1971</p>
                 </div>
-                <div class="checkbox-container checked">
-                    <span class="checkmark"></span>
-                    <p class="checkbox-label">Mothlight, Stan Brakhage, 1963</p>
+                <div class="dot-container">
+                    <span class="caption-dot"></span>
+                    <p class="caption">Mothlight, Stan Brakhage, 1963</p>
                 </div>
-                <div class="checkbox-container checked">
-                    <span class="checkmark"></span>
-                    <p class="checkbox-label">Hand Catching Lead, Richard Serra, 1968</p>
+                <div class="dot-container">
+                    <span class="caption-dot"></span>
+                    <p class="caption">Hand Catching Lead, Richard Serra, 1968</p>
                 </div>
-                <div class="checkbox-container checked">
-                    <span class="checkmark"></span>
-                    <p class="checkbox-label">Walking, Ryan Larkin, 1968</p>
+                <div class="dot-container">
+                    <span class="caption-dot"></span>
+                    <p class="caption">Walking, Ryan Larkin, 1968</p>
                 </div>
-                <div class="checkbox-container checked">
-                    <span class="checkmark"></span>
-                    <p class="checkbox-label">Window Water Baby Moving, Stan Brakhage, 1959</p>
+                <div class="dot-container">
+                    <span class="caption-dot"></span>
+                    <p class="caption">Window Water Baby Moving, Stan Brakhage, 1959</p>
                 </div>
-                <div class="checkbox-container checked">
-                    <span class="checkmark"></span>
-                    <p class="checkbox-label">Outer Space, Peter Tscherkassky, 1999</p>
+                <div class="dot-container">
+                    <span class="caption-dot"></span>
+                    <p class="caption">Outer Space, Peter Tscherkassky, 1999</p>
                 </div>
-                <div class="checkbox-container checked">
-                    <span class="checkmark"></span>
-                    <p class="checkbox-label">Berlin: Symphony of a Great City, Walter Ruttmann, 1927</p>
+                <div class="dot-container">
+                    <span class="caption-dot"></span>
+                    <p class="caption">Berlin: Symphony of a Great City, Walter Ruttmann, 1927</p>
                 </div>
-                <div class="checkbox-container checked">
-                    <span class="checkmark"></span>
-                    <p class="checkbox-label">Nostalgia, Hollis Frampton, 1971</p>
+                <div class="dot-container">
+                    <span class="caption-dot"></span>
+                    <p class="caption">Nostalgia, Hollis Frampton, 1971</p>
                 </div>
-                <div class="checkbox-container checked">
-                    <span class="checkmark"></span>
-                    <p class="checkbox-label">Anémic Cinéma, Marcel Duchamp, 1926</p>
+                <div class="dot-container">
+                    <span class="caption-dot"></span>
+                    <p class="caption">Anémic Cinéma, Marcel Duchamp, 1926</p>
                 </div>
-                <div class="checkbox-container checked">
-                    <span class="checkmark"></span>
-                    <p class="checkbox-label">The House Is Black, Forough Farrokhzad, 1963</p>
+                <div class="dot-container">
+                    <span class="caption-dot"></span>
+                    <p class="caption">The House Is Black, Forough Farrokhzad, 1963</p>
                 </div>
-                <div class="checkbox-container checked">
-                    <span class="checkmark"></span>
-                    <p class="checkbox-label">Kustom Kar Kommandos, Kenneth Anger, 1965</p>
+                <div class="dot-container">
+                    <span class="caption-dot"></span>
+                    <p class="caption">Kustom Kar Kommandos, Kenneth Anger, 1965</p>
                 </div>
-                <div class="checkbox-container checked">
-                    <span class="checkmark"></span>
-                    <p class="checkbox-label">George is Getting Upset, Seinfeld, 1999</p>
+                <div class="dot-container">
+                    <span class="caption-dot"></span>
+                    <p class="caption">George is Getting Upset, Seinfeld, 1999</p>
                 </div>
-                <p style="margin-top: 2rem;">(These videos have been sourced from public archives, research collections, and screenings, and we have made every effort to contact and credit their makers accurately.)</p>
+                <p class='caption' style="margin-top: 1rem;">(These videos have been sourced from public archives, research collections, and screenings, and we have made every effort to contact and credit their makers accurately.)</p>
                     </div>
                 </div>
             </div>
@@ -412,7 +397,7 @@
         </div>
     </div>
 <!-- SCRIPTS ------------------------------------------------------------------------------------>
-    <script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
+    <script src="./js/flickity.js"></script>
     <script src="./js/fullservice_office.js"></script>
 </body>
 </html>
