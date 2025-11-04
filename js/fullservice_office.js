@@ -1,5 +1,6 @@
 // START UP -------------------------------------------------------------------------------------
 let mobile = false;
+let scrollInterval = null;
 
 // Load page on start
 document.addEventListener("DOMContentLoaded", (event) => {
@@ -9,6 +10,7 @@ document.addEventListener("DOMContentLoaded", (event) => {
     if (location.hash) {
       history.pushState("", document.title, window.location.pathname);
     }
+    scrollInterval = setInterval(scrollHandler,1000/30);
   } else {
     if (location.hash) {
       openPage(location.hash.substring(1));
@@ -16,6 +18,12 @@ document.addEventListener("DOMContentLoaded", (event) => {
       openPage('index');
     }
   }
+});
+
+window.addEventListener('hashchange', function(){
+  const section = window.location.hash ? window.location.hash.substring(1) : 'index';
+  closePage();
+  openPage(section);
 });
 
 // window.onload = function() {
@@ -62,10 +70,9 @@ function remToPx(remValue) {
 // Index cursor objects
 const videoDot = document.getElementById('index-cursor');
 const allVideos = videoDot.querySelectorAll("video");
-let curVideo = null;
 let activeLink = null;
-const quadrants = [['production', 'service-providers'],
-                   ['pitches', 'info']];
+const quadrants = [['production', 'pitches'],
+                   ['service-providers', 'info']];
 let cursorInterval = null;
 // Cursor object
 var mouseX=window.innerWidth/2,
@@ -77,14 +84,40 @@ var indexCursor = {
     el: document.getElementById('index-cursor'),
     x: window.innerWidth/2, 
     y: window.innerHeight/2,
+    offsetX: 0,
+    offsetY: 0,
+    quadrant: [0,0],
+    curVideo: null,
     update: function() {
-              const xOffset = (this.x / window.innerWidth) > .5 ? remToPx(45) : 0;
-              const yOffset = (this.y / window.innerHeight) > .5 ? remToPx(45) : 0;
-              videoXOffset = lerp (videoXOffset, xOffset, 0.075);
-              videoYOffset = lerp (videoYOffset, yOffset, 0.075);
-              this.x = lerp (this.x, mouseX, 0.05);
-              this.y = lerp (this.y, mouseY, 0.05);
-              this.el.style = 'transform: translate3d('+ (this.x - videoXOffset) +'px,'+ (this.y - videoYOffset) +'px, 0);'
+              // LOCATION OF FOLLOWER
+              this.x = lerp (this.x, mouseX, 0.075);
+              this.y = lerp (this.y, mouseY, 0.075);
+
+              // SET VIDEO
+              const videoNumber = Math.floor(this.x / (window.innerWidth/16)) % 8;
+              this.quadrant[0] = (this.x / window.innerWidth) > .5 ? 1 : 0;
+              this.quadrant[1] = (this.y / window.innerHeight) > .5 ? 1 : 0;
+              const category = quadrants[this.quadrant[0]][this.quadrant[1]];
+              const video = document.getElementById(category + '-' + videoNumber + '-video');
+              if (this.curVideo != video) {
+                // PAUSE THE CURRENT VIDEO
+                if (this.curVideo && this.curVideo.classList.contains("active")) {
+                    this.curVideo.classList.remove("active");
+                    this.curVideo.pause();
+                }
+                // PLAY THE NEW VIDEO
+                if (video && !video.classList.contains("active")) {
+                    video.classList.add("active");
+                    video.play();
+                }
+                this.curVideo = video;
+              }
+
+              // OFFSET OF FOLLOWER (BASED ON QUADRANT)
+              this.offsetX = this.quadrant[0]*remToPx(45);
+              this.offsetY = this.quadrant[1]*remToPx(45);
+              
+              this.el.style = 'transform: translate3d('+ (this.x - this.offsetX) +'px,'+ (this.y - this.offsetY) +'px, 0);'
             }
 };
 
@@ -108,16 +141,6 @@ var infoCursor = {
 
 function indexFollow() {
   indexCursor.update();
-  const videoNumber = Math.floor(indexCursor.x / (window.innerWidth/16)) % 8;
-  const yQuadrant = (indexCursor.y / window.innerHeight) > .5 ? 1 : 0;
-  const xQuadrant = (indexCursor.x / window.innerWidth) > .5 ? 1 : 0;
-  const category = quadrants[yQuadrant][xQuadrant];
-  const video = category + '-' + videoNumber + '-video';
-  
-  if (curVideo != video) {
-    hideVideo(curVideo);
-    startVideo(video);
-  }
 }
 
 function infoFollow() {
@@ -141,23 +164,6 @@ index.addEventListener("mouseleave", (e) => {
 index.addEventListener("mouseenter", (e) => {
   videoDot.classList.add('active');
 });
-
-function hideVideo(videoName) {
-    const video = document.getElementById(videoName);
-    if (video && video.classList.contains("active")) {
-        video.classList.remove("active");
-        video.pause();
-    }
-}
-
-function startVideo(videoName) {
-    const video = document.getElementById(videoName);
-    if (video && !video.classList.contains("active")) {
-        video.classList.add("active");
-        video.play();
-    }
-    curVideo = videoName;
-}
 
 // Copyright cursor behavior
 info.addEventListener("mouseleave", (e) => {
@@ -193,7 +199,7 @@ const linkAreas = document.getElementsByClassName('link-area');
 
 // Page selection
 function closePage() {
-  const section = location.hash ? location.hash.substring(1) : 'index';
+  const section = document.querySelector('.page:not(.inactive)').id.slice(0, -5) ;
   const currentPage = document.getElementById(section + '-page');
   if (currentPage) { currentPage.classList.toggle('inactive'); }
   closeHeader(section);
@@ -211,6 +217,10 @@ function closePage() {
     if (flkty) {
       closeOpenProduct();
       flkty.destroy();
+    }
+    const productionVideos = production.querySelectorAll('video');
+    for (let i = 0; i < productionVideos.length; i++) {
+      productionVideos[i].pause();
     }
   } else if (section == 'info') {
     copyright.classList.remove('active');
@@ -234,13 +244,6 @@ function openPage(section) {
   }
   if (section == 'production' && !mobile) {
     createCarousel();
-  }
-
-  // set anchor link
-  if (section == 'index') {
-    history.pushState("", document.title, window.location.pathname);
-  } else {
-    location.hash = section;
   }
 }
 
@@ -267,12 +270,21 @@ for (let i = 0; i < pageLinks.length; i++) {
   const pageLink = pageLinks[i];
   pageLink.addEventListener('click', () => {
     const section = pageLink.id.slice(0, -5);
-    closePage();
-    openPage(section);
+    // set anchor link
+    if (section == 'index') {
+      history.pushState("", document.title, window.location.pathname);
+      closePage();
+      openPage(section);
+    } else {
+      location.hash = section;
+    }
     if (mobile) {
       scrollAnimations = false;
       setTimeout(scrollAnimationOn, 1500);
-      document.getElementById(section + '-page').scrollIntoView({
+      const scrollCoord = document.getElementById(section + '-page').offsetTop - remToPx(10);
+      window.scrollTo({
+        top: scrollCoord,
+        left: 0,
         behavior: 'smooth'
       });
     }
@@ -332,7 +344,8 @@ function createCarousel() {
     setGallerySize: false,
     accessibility: true,
     prevNextButtons: false,
-    cellSelector: '.product'
+    cellSelector: '.product',
+    freeScroll: true
   });
 
   document.querySelector('.flickity-slider').style.transform = 'translateX(0%)';
@@ -352,6 +365,11 @@ function createCarousel() {
       openProduct(cellElement, cellIndex);
     }
   });
+
+  const productionVideos = production.querySelectorAll('video');
+  for (let i = 0; i < productionVideos.length; i++) {
+    productionVideos[i].play();
+  }
 }
 
 let currOpenProduct = null;
@@ -366,7 +384,7 @@ function closeOpenProduct() {
     let productImg = currOpenProduct.querySelector('img');
     if (!productImg) {
       productImg = currOpenProduct.querySelector('video');
-      productImg.pause();
+      // productImg.pause();
     }
     productImg.style.width = '15vw';
 
@@ -388,6 +406,10 @@ function closeOpenProduct() {
 function openProduct(cellElement, cellIndex) {
   var flkty = Flickity.data(production);
 
+  if (ticking) {
+      return;
+  }
+
   // if the product is not already open
   if (currOpenProduct != cellElement) {
     closeOpenProduct();
@@ -401,12 +423,12 @@ function openProduct(cellElement, cellIndex) {
       productImg = cellElement.querySelector('video');
       w = productImg.videoWidth;
       h = productImg.videoHeight;
-      productImg.play();
+      // productImg.play();
     } else {
       w = productImg.naturalWidth;
       h = productImg.naturalHeight;
     }
-    const heightRatio = 0.8 * window.innerHeight / h;
+    const heightRatio = (window.innerHeight - remToPx(18)) / h;
     const widthRatio = 0.8 * window.innerWidth / w;
     const scaleRatio = Math.min(heightRatio, widthRatio);
     productImg.style.width = (w * scaleRatio) + 'px';
@@ -462,16 +484,89 @@ document.getElementById("center-area").addEventListener('click', (e) => {
   closeOpenProduct();
 });
 
+const viewport = production.querySelector('.flickity-viewport');
+
+let scrollMomentum = 0;
+let ticking = false;
+let isHoveringCarousel = false;
+let pauseScroll = false;
+
+// Track when the cursor is inside the carousel
+production.addEventListener('mouseenter', () => (isHoveringCarousel = true));
+production.addEventListener('mouseleave', () => (isHoveringCarousel = false));
+
+window.addEventListener('wheel', handleWheel, { passive: false });
+
+function handleWheel(e) {
+  // Only handle if mouse is over the carousel
+  if (!isHoveringCarousel) return;
+  // Only horizontal movement
+  if (Math.abs(e.deltaX) < Math.abs(e.deltaY)) return;
+  e.preventDefault();
+
+  if (pauseScroll) return;
+  
+  if (currOpenProduct) {
+    const direction = Math.sign(e.deltaX);
+    var flkty = Flickity.data(production);
+    let index = (flkty.selectedIndex + direction) % flkty.cells.length;
+    index = index < 0 ? flkty.cells.length - 1 : index;
+    let element = flkty.cells[index].element;
+    openProduct(element, index);
+    
+    // temporarily pause scroll events
+    pauseScroll = true;
+    setTimeout(() => {
+      pauseScroll = false;
+    }, 1000);
+  } else {
+    closeOpenProduct();
+    // Add to the momentum
+    scrollMomentum += Math.sign(e.deltaX) * Math.pow(Math.abs(e.deltaX), 0.9) * 0.3; // adjust sensitivity
+    scrollMomentum = Math.max(-100, Math.min(100, scrollMomentum));
+    production.classList.add('scrolling');
+    if (!ticking) animateScroll();
+  }
+}
+
+function animateScroll() {
+  if (ticking) return;
+  ticking = true;
+
+  function update() {
+    // Apply friction
+    scrollMomentum *= 0.9; // lower = slower stop
+
+    var flkty = Flickity.data(production);
+
+    // Apply the motion
+    if (Math.abs(scrollMomentum) > .3) {
+      flkty.x -= scrollMomentum;
+      flkty.dragX = flkty.x;
+      flkty.positionSlider();
+      requestAnimationFrame(update);
+    } else {
+      flkty.dragX = flkty.x;
+      flkty.velocity = 0;
+      flkty.dragEnd();
+      ticking = false;
+      production.classList.remove('scrolling');
+    }
+  }
+
+  requestAnimationFrame(update);
+}
+
 // SERVICE PROVIDERS --------------------------------------------------------------------------------
 
-const serviceProviderLinks = document.querySelectorAll(".service-provider-link");
+const serviceProvider = document.querySelectorAll(".service-provider");
 const serviceProviderPortraits = document.querySelectorAll(".portrait");
 
-for (let i = 0; i < serviceProviderLinks.length; i++) {
-  serviceProviderLinks[i].addEventListener('mouseenter', () => {
+for (let i = 0; i < serviceProvider.length; i++) {
+  serviceProvider[i].addEventListener('mouseenter', () => {
     serviceProviderPortraits[i].classList.add('visible');
   });
-  serviceProviderLinks[i].addEventListener('mouseleave', () => {
+  serviceProvider[i].addEventListener('mouseleave', () => {
     serviceProviderPortraits[i].classList.remove('visible');
   });
 }
@@ -495,6 +590,7 @@ for (let i = 0; i < pitchList.length; i++) {
             checkedCount--;
             if (checkedCount == 0 ) {
                 contactForm.classList.remove('active');
+                pitches.classList.remove('expanded');
             }
             console.log('-');
         } else {
@@ -508,8 +604,8 @@ for (let i = 0; i < pitchList.length; i++) {
                     '</div>';
                 if ( !contactForm.classList.contains('active') ) {
                     contactForm.classList.add('active');
+                    pitches.classList.add('expanded');
                 }
-
             }
         }
     });
@@ -533,40 +629,36 @@ message.addEventListener('input', (event) => {
 // });
 
 let scrollAnimations = false;
+let currPage = null;
 setTimeout(scrollAnimationOn, 1000);
 
 function scrollAnimationOn() {
   scrollAnimations = true;
 }
 
-const options = {
-  root: null, // default is the viewport
-  rootMargin: "-10% 0px -89.5% 0px",
-  threshold: 0 // Trigger when 0% of the target element is visible
-};
-
-const observer = new IntersectionObserver((entries, observer) => {
-  entries.forEach(entry => {
-    if (mobile && scrollAnimations) {
-      closePage();
-      openPage(entry.target.id.slice(0, -5));
+function scrollHandler() {
+  if (!scrollAnimations) return;
+  [index, production, serviceProviders, pitches, info].forEach(page => {
+    const pageTop = page.offsetTop;
+    const pageHeight = page.offsetHeight;
+    if (window.scrollY >= pageTop - remToPx(20) &&
+        window.scrollY < pageTop + pageHeight - remToPx(20)) {
+          if (currPage !== page) {
+            closePage();
+            openPage(page.id.slice(0, -5));
+            currPage = page;
+          }
     }
   });
-}, options);
-
-observer.observe(index);
-observer.observe(production);
-observer.observe(serviceProviders);
-observer.observe(pitches);
-observer.observe(info);
+}
 
 const thresholds = [];
-  const numSteps = 20;
+const numSteps = 20;
 
-  for (let i = 1.0; i <= numSteps; i++) {
-    const ratio = i / numSteps;
-    thresholds.push(ratio);
-  }
+for (let i = 1.0; i <= numSteps; i++) {
+  const ratio = i / numSteps;
+  thresholds.push(ratio);
+}
 
 const options2 = {
   root: null, // default is the viewport

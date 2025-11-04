@@ -57,6 +57,10 @@ html.show-grid body {
   background: black; /* Gecko Browsers */
 }
 
+#index-page, #production-page, #service-providers-page, #pitches-page, #info-page {
+  scroll-margin-top: 10rem;
+} 
+
 /* VIEW STATES ----------------------------------------------------------------------------------- */
 
 
@@ -260,16 +264,6 @@ span.gap {
 }
 
 #index-cursor video {
-  object-position: left top;
-  object-fit: contain;
-  display: none;
-  width: 45rem;
-  height: 45rem;
-  transform: translate(.5rem, -4.5rem);
-  pointer-events: none;
-}
-
-#index-cursor video {
   object-fit: contain;
   display: none;
   width: 45rem;
@@ -458,6 +452,11 @@ span.gap {
     cursor: var(--plus-cursor);
 }
 
+#production-page.scrolling, #production-page.scrolling .product, #production-page.scrolling #left-arrow-area, #production-page.scrolling #right-arrow-area, #production-page.scrolling #center-area {
+    pointer-events: none;
+    cursor: none;
+}
+
 .product.open {
     width: auto;
     height: auto;
@@ -465,7 +464,7 @@ span.gap {
     cursor: var(--minus-cursor);
 }
 
-.product img:hover {
+.product img:hover, .product video:hover {
     pointer-events: auto;
     opacity: 100%; 
     filter: grayscale(0);
@@ -540,6 +539,14 @@ img.portrait {
 img.portrait.visible {
   display: block;
 }
+
+#wheel-capture {
+  position: absolute;
+  inset: 0; /* cover entire carousel */
+  z-index: 10;
+  pointer-events: auto;
+}
+
 
 /* PITCHES --------------------------------------------------------------------------------------- */
 
@@ -755,11 +762,15 @@ input {
   #pitches-page {
     display: grid;
     grid-template-columns: minmax(auto, 47.5rem);
-    grid-template-rows: auto auto 1fr;
-    grid-template-areas: 'pl'
-                         'cf'
-                         '.';
+    grid-template-rows: auto;
+    grid-template-areas: 'pl';
     gap: 5rem;
+  }
+
+  #pitches-page.expanded {
+    grid-template-rows: auto auto;
+    grid-template-areas: 'pl'
+                         'cf';
   }
 
   #pitch-list {
@@ -829,28 +840,30 @@ input {
     justify-items: center;
     gap: 5rem;
     height: auto;
-    padding-top: 2.5rem;
-    margin-bottom: 5rem;
+    padding-top: 4.5rem;
+    padding-bottom: 9rem;
     min-width: 0;
     min-height: 0;
   }
   #service-providers-page, #service-providers-page.inactive {
     grid-area: sp;
     display: grid;
-    padding-top: 2.5rem;
-    padding-bottom: 2.5rem;
+    padding-top: .5rem;
+    padding-bottom: 3rem;
   }
   #pitches-page, #pitches-page.inactive {
     grid-area: pi;
     display: grid;
-    padding-top: 2.5rem;
-    padding-bottom: 2.5rem;
+    padding-top: 1.5rem;
+    padding-bottom: 8rem;
+    grid-template-rows: auto;
   }
   #info-page, #info-page.inactive {
     grid-area: in;
     display: grid;
     row-gap: 5rem;
-    padding-top: 2.5rem;
+    margin-top: 0;
+    padding-top: 0;
     padding-bottom: 10rem;
     cursor: var(--dot-cursor);
   }
@@ -859,11 +872,11 @@ input {
     margin-top: 1rem;
     padding-left: 2rem;
     padding-right: 2rem;
-    padding-bottom: 10rem;
+    padding-bottom: 3rem;
     position: sticky;
     top: 3.5rem;
     z-index: 3;
-    background: linear-gradient(to bottom, #FAFFE4FF, #FAFFE4FF 40%, #FAFFE400);
+    background: linear-gradient(to bottom, #FAFFE4FF, #FAFFE4FF 75%, #FAFFE400);
   }
 
   #header p {
@@ -872,10 +885,10 @@ input {
   }
 
   #footer { 
-    background: linear-gradient(to bottom, #FAFFE4FF, #FAFFE4FF 35%, #FAFFE400);
+    background: linear-gradient(to bottom, #FAFFE4FF, #FAFFE4FF 75%, #FAFFE400);
     top: 0;
     padding-top: 1rem;
-    padding-bottom: 10rem;
+    padding-bottom: 2.5rem;
     padding-left: 2rem;
     padding-right: 2rem;
     height: min-content;
