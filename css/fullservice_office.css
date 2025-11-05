@@ -278,17 +278,17 @@ span.gap {
 
 #index-cursor video.service-providers-video {
   object-position: right top;
-  transform: translate(-.5rem, -4.5rem);
+  transform: translate(-45.5rem, -4.5rem);
 }
 
 #index-cursor video.pitches-video {
   object-position: left bottom;
-  transform: translate(.5rem, -5.5rem);
+  transform: translate(.5rem, -50.5rem);
 }
 
 #index-cursor video.info-video {
   object-position: right bottom;
-  transform: translate(-.5rem, -5.5rem);
+  transform: translate(-45.5rem, -50.5rem);
 }
 
 #index-cursor.active, #info-cursor.active, #index-cursor video.active {
@@ -831,7 +831,6 @@ input {
     grid-template-areas: '.'
                          'm';
   }
-
   #production-page, #production-page.inactive {
     grid-area: pr;
     display: grid;

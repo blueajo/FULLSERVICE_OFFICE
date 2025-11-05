@@ -26,32 +26,6 @@ window.addEventListener('hashchange', function(){
   openPage(section);
 });
 
-// window.onload = function() {
-//   if (screen.width <= 768) {
-//     mobile = true;
-//     openPage('index');
-//     if (location.hash) {
-//       history.pushState("", document.title, window.location.pathname);
-//     }
-//   } else {
-//     if (location.hash) {
-//       openPage(location.hash.substring(1));
-//     } else {
-//       openPage('index');
-//     }
-//   }
-//   const video = document.getElementById('mobile-video');
-//   video.play();
-// }
-
-// BASELINE GRID --------------------------------------------------------------------------------
-
-document.body.onkeyup = function(e) {
-  if (e.key == " " || e.code == "Space" || e.keyCode == 32) {
-    document.documentElement.classList.toggle("show-grid");
-  }
-};
-
 // GLOBAL VARIABLES -----------------------------------------------------------------------------
 
 const index = document.getElementById('index-page');
@@ -77,15 +51,11 @@ let cursorInterval = null;
 // Cursor object
 var mouseX=window.innerWidth/2,
     mouseY=window.innerHeight/2;
-var videoXOffset = (mouseX / window.innerWidth) > .5 ? remToPx(45) : 0;
-var videoYOffset = (mouseY / window.innerHeight) > .5 ? remToPx(45) : 0;;
 
 var indexCursor = { 
     el: document.getElementById('index-cursor'),
     x: window.innerWidth/2, 
     y: window.innerHeight/2,
-    offsetX: 0,
-    offsetY: 0,
     quadrant: [0,0],
     curVideo: null,
     update: function() {
@@ -113,11 +83,7 @@ var indexCursor = {
                 this.curVideo = video;
               }
 
-              // OFFSET OF FOLLOWER (BASED ON QUADRANT)
-              this.offsetX = this.quadrant[0]*remToPx(45);
-              this.offsetY = this.quadrant[1]*remToPx(45);
-              
-              this.el.style = 'transform: translate3d('+ (this.x - this.offsetX) +'px,'+ (this.y - this.offsetY) +'px, 0);'
+              this.el.style = 'transform: translate3d('+ this.x +'px,'+ this.y +'px, 0);'
             }
 };
 
@@ -213,10 +179,8 @@ function closePage() {
     videoCredits.classList.remove('active');
     document.getElementById('header').classList.remove('index-header');
   } else if (section == 'production') {
-    var flkty = Flickity.data(production);
-    if (flkty) {
-      closeOpenProduct();
-      flkty.destroy();
+    if (ProductionCarousel.initialized()) {
+      ProductionCarousel.deinitialize();
     }
     const productionVideos = production.querySelectorAll('video');
     for (let i = 0; i < productionVideos.length; i++) {
@@ -243,7 +207,7 @@ function openPage(section) {
     cursorInterval = setInterval(infoFollow,1000/60);
   }
   if (section == 'production' && !mobile) {
-    createCarousel();
+    ProductionCarousel.init();
   }
 }
 
@@ -335,227 +299,276 @@ for (let i = 0; i < linkAreas.length; i++) {
 
 // PRODUCTION --------------------------------------------------------------------------------------------
 
-function createCarousel() {
-  var flkty = new Flickity( production, {
-    // options
-    cellAlign: 'center',
-    wrapAround: true,
-    pageDots: false,
-    setGallerySize: false,
-    accessibility: true,
-    prevNextButtons: false,
-    cellSelector: '.product',
-    freeScroll: true
-  });
+// =======================
+// Production Carousel
+// =======================
+const ProductionCarousel = (() => {
+  const state = {
+    flkty: null,
+    currOpenProduct: null,
+    pauseScroll: false,
+    scrollMomentum: 0,
+    scrollDelta: 0,
+    ticking: false,
+    isHoveringCarousel: false
+  };
 
-  document.querySelector('.flickity-slider').style.transform = 'translateX(0%)';
+  let viewport = null;
+  const leftArrow = document.getElementById("left-arrow-area");
+  const rightArrow = document.getElementById("right-arrow-area");
+  const centerArea = document.getElementById("center-area");
 
-  // cellElement Element If a cell was clicked, the element.
-  // cellIndex Integer If a cell was clicked, the cell’s zero-based number.
-  flkty.on( 'staticClick', function( event, pointer, cellElement, cellIndex ) {
-    if ( !cellElement ) {
+  // =======================
+  // Utility Functions
+  // =======================
+  const remToPx = rem => rem * parseFloat(getComputedStyle(document.documentElement).fontSize);
+
+  const clamp = (val, min, max) => Math.max(min, Math.min(max, val));
+
+  const temporarilyPauseScroll = (duration = 600) => {
+    state.pauseScroll = true;
+    setTimeout(() => (state.pauseScroll = false), duration);
+  };
+
+  // =======================
+  // Carousel Initialization
+  // =======================
+  function createCarousel() {
+    state.flkty = new Flickity(production, {
+      cellAlign: "center",
+      wrapAround: true,
+      pageDots: false,
+      setGallerySize: false,
+      accessibility: true,
+      prevNextButtons: false,
+      cellSelector: ".product",
+      freeScroll: true
+    });
+
+    viewport = document.querySelector(".flickity-viewport");
+
+    // Reset transform (important for Flickity)
+    document.querySelector(".flickity-slider").style.transform = "translateX(0%)";
+
+    // Static click: open/close products
+    state.flkty.on("staticClick", (event, pointer, cellElement, cellIndex) => {
+      if (!cellElement) return;
+      if (cellElement === state.currOpenProduct) closeProduct();
+      else openProduct(cellElement, cellIndex);
+    });
+
+    // Auto-play visible video only
+    const videos = production.querySelectorAll("video");
+    state.flkty.on("select", () => {
+      videos.forEach(v => v.pause());
+      const active = state.flkty.selectedElement?.querySelector("video");
+      if (active) active.play();
+    });
+
+    // Play all videos initially if desired
+    videos.forEach(v => v.play());
+
+    console.log('flkty initialized');
+  }
+
+  function initialized() {
+    return !(state.flkty == null);
+  }
+
+  function deinitialize() {
+    if (state.flkty) {
+      closeProduct();
+      state.flkty.destroy();
+    }
+    state.flkty = null;
+  }
+
+  // =======================
+  // Product Controls
+  // =======================
+  function openProduct(cellElement, cellIndex) {
+    temporarilyPauseScroll(750);
+    if (!state.currOpenProduct && state.ticking) cancelScroll();
+
+    if (state.currOpenProduct !== cellElement) {
+      closeProduct();
+
+      cellElement.classList.add("open");
+      let productMedia = cellElement.querySelector("img, video");
+
+      let w = productMedia.naturalWidth || productMedia.videoWidth;
+      let h = productMedia.naturalHeight || productMedia.videoHeight;
+
+      const heightRatio = (window.innerHeight - remToPx(18)) / h;
+      const widthRatio = (0.8 * window.innerWidth) / w;
+      const scaleRatio = Math.min(heightRatio, widthRatio);
+
+      productMedia.style.width = `${w * scaleRatio}px`;
+
+      state.flkty.reposition();
+      state.flkty.selectCell(cellIndex, true, false);
+      state.flkty.once('settle', () => state.flkty.reposition());
+
+      state.currOpenProduct = cellElement;
+      state.flkty.options.dragThreshold = 10000;
+      state.flkty.updateDraggable();
+
+      leftArrow.classList.add("expanded");
+      rightArrow.classList.add("expanded");
+    }
+  }
+
+  function closeProduct() {
+    if (!state.currOpenProduct) return;
+
+    const product = state.currOpenProduct;
+    product.classList.remove("open");
+
+    const productMedia = product.querySelector("img, video");
+    productMedia.style.width = "15vw";
+
+    state.flkty.reposition();
+    state.currOpenProduct = null;
+
+    leftArrow.classList.remove("expanded");
+    rightArrow.classList.remove("expanded");
+
+    state.flkty.options.dragThreshold = 3;
+    state.flkty.updateDraggable();
+  }
+
+  // =======================
+  // Arrow Controls
+  // =======================
+
+  function handleArrowPress(dir) {
+    if (state.currOpenProduct) {
+        let index = (state.flkty.selectedIndex + dir) % state.flkty.cells.length;
+        index = index < 0 ? state.flkty.cells.length - 1 : index;
+        openProduct(state.flkty.cells[index].element, index);
+      } else {
+        let index = (state.flkty.selectedIndex + (dir * 5)) % state.flkty.cells.length;
+        index = index < 0 ? state.flkty.cells.length - 5 : index;
+        state.flkty.selectCell(index, true, false);
+      }
+    temporarilyDisablePointer();
+  }
+
+  function setupArrowControls() {
+    leftArrow.addEventListener("click", () => {
+      handleArrowPress(-1);
+    });
+
+    rightArrow.addEventListener("click", () => {
+      handleArrowPress(1);
+    });
+
+    centerArea.addEventListener("click", closeProduct);
+  }
+
+  function temporarilyDisablePointer() {
+    viewport.style.zIndex = "-1";
+    production.addEventListener(
+      "mousemove",
+      () => (viewport.style.zIndex = "1"),
+      { once: true }
+    );
+  }
+
+  // =======================
+  // Scroll Momentum Logic
+  // =======================
+  function setupScrollHandling() {
+    production.addEventListener("mouseenter", () => (state.isHoveringCarousel = true));
+    production.addEventListener("mouseleave", () => (state.isHoveringCarousel = false));
+
+    window.addEventListener("wheel", handleWheel, { passive: false });
+  }
+
+  function handleWheel(e) {
+    if (!state.isHoveringCarousel || state.pauseScroll) return;
+    if (Math.abs(e.deltaY) < Math.abs(e.deltaX)) return;
+
+    e.preventDefault();
+
+    // If a product is open, use scrolling to switch products
+    if (state.currOpenProduct && Math.abs(state.scrollDelta) > 300) {
+      temporarilyPauseScroll(750);
+
+      let nextIndex = (state.flkty.selectedIndex + Math.sign(e.deltaY)) % state.flkty.cells.length;
+      nextIndex = nextIndex < 0 ? state.flkty.cells.length - 1 : nextIndex;
+      const nextEl = state.flkty.cells[nextIndex].element;
+      
+      openProduct(nextEl, nextIndex);
+
+      state.scrollDelta = 0;
+      state.scrollMomentum = 0;
       return;
     }
 
-    // if the product is open, close it; if not, open it
-    if (cellElement == currOpenProduct) {
-      closeOpenProduct();
-      return;
-    } else {
-      openProduct(cellElement, cellIndex);
-    }
-  });
+    // Apply momentum
+    state.scrollMomentum += Math.sign(e.deltaY) * Math.pow(Math.abs(e.deltaY), 0.9) * 0.3;
+    state.scrollMomentum = clamp(state.scrollMomentum, -100, 100);
+    state.scrollDelta += e.deltaY;
 
-  const productionVideos = production.querySelectorAll('video');
-  for (let i = 0; i < productionVideos.length; i++) {
-    productionVideos[i].play();
-  }
-}
-
-let currOpenProduct = null;
-let unclicked = true;
-
-// Closes the currently open product if there is one
-function closeOpenProduct() {
-  if (currOpenProduct) {
-    var flkty = Flickity.data(production);
-
-    currOpenProduct.classList.remove("open");
-    let productImg = currOpenProduct.querySelector('img');
-    if (!productImg) {
-      productImg = currOpenProduct.querySelector('video');
-      // productImg.pause();
-    }
-    productImg.style.width = '15vw';
-
-    // reposition flkty to center the opened and scaled product
-    flkty.reposition();
-
-    currOpenProduct = null;
-    document.getElementById("left-arrow-area").classList.remove('expanded');
-    document.getElementById("right-arrow-area").classList.remove('expanded');
-
-    flkty.options.dragThreshold = 3;
-    flkty.updateDraggable();
-  }
-}
-
-// Opens a product
-// cellElement | Element | The product to open.
-// cellIndex | Integer | The product to open’s zero-based index.
-function openProduct(cellElement, cellIndex) {
-  var flkty = Flickity.data(production);
-
-  if (ticking) {
-      return;
+    production.classList.add("scrolling");
+    animateScroll();
   }
 
-  // if the product is not already open
-  if (currOpenProduct != cellElement) {
-    closeOpenProduct();
-    // open the clicked product
-    cellElement.classList.add('open');
-    // scale the image
-    let productImg = cellElement.querySelector('img');
-    let w = 0;
-    let h = 0;
-    if (!productImg) {
-      productImg = cellElement.querySelector('video');
-      w = productImg.videoWidth;
-      h = productImg.videoHeight;
-      // productImg.play();
-    } else {
-      w = productImg.naturalWidth;
-      h = productImg.naturalHeight;
-    }
-    const heightRatio = (window.innerHeight - remToPx(18)) / h;
-    const widthRatio = 0.8 * window.innerWidth / w;
-    const scaleRatio = Math.min(heightRatio, widthRatio);
-    productImg.style.width = (w * scaleRatio) + 'px';
-    // reposition flkty to center the opened and scaled product
-    flkty.reposition();
-    flkty.selectCell(cellIndex, true, false);
-    currOpenProduct = cellElement;
-
-    flkty.options.dragThreshold = 10000;
-    flkty.updateDraggable();
-
-    document.getElementById("left-arrow-area").classList.add('expanded');
-    document.getElementById("right-arrow-area").classList.add('expanded');
-  }
-}
-
-document.getElementById("left-arrow-area").addEventListener('click', (e) => {
-  var flkty = Flickity.data(production);
-  if (currOpenProduct) {
-    let prevIndex = (flkty.selectedIndex - 1) % flkty.cells.length;
-    prevIndex = prevIndex < 0 ? flkty.cells.length - 1 : prevIndex;
-    let prevElement = flkty.cells[prevIndex].element;
-    openProduct(prevElement, prevIndex);
-    // temporarily pause cursor events for flkty on left/right arrow press until mouse is moved
-    document.querySelector(".flickity-viewport").style.zIndex = "-1";
-    production.addEventListener('mousemove', function(event) {
-      document.querySelector(".flickity-viewport").style.zIndex = "1";
-    }, { once: true });
-  } else {
-    let selectedIndex = ((flkty.selectedIndex - 5) % flkty.cells.length);
-    selectedIndex = selectedIndex < 0 ? flkty.cells.length + selectedIndex : selectedIndex;
-    flkty.selectCell(selectedIndex, true, false);
-  }
-});
-
-document.getElementById("right-arrow-area").addEventListener('click', (e) => {
-  var flkty = Flickity.data(production);
-  if (currOpenProduct) {
-    let nextIndex = (flkty.selectedIndex + 1) % flkty.cells.length;
-    let nextElement = flkty.cells[nextIndex].element;
-    openProduct(nextElement, nextIndex);
-    // temporarily pause cursor events for flkty on left/right arrow press until mouse is moved
-    document.querySelector(".flickity-viewport").style.zIndex = "-1";
-    production.addEventListener('mousemove', function(event) {
-      document.querySelector(".flickity-viewport").style.zIndex = "1";
-    }, { once: true });
-  } else {
-    flkty.selectCell((flkty.selectedIndex + 5) % flkty.cells.length, true, false);
-  }
-});
-
-document.getElementById("center-area").addEventListener('click', (e) => {
-  closeOpenProduct();
-});
-
-const viewport = production.querySelector('.flickity-viewport');
-
-let scrollMomentum = 0;
-let ticking = false;
-let isHoveringCarousel = false;
-let pauseScroll = false;
-
-// Track when the cursor is inside the carousel
-production.addEventListener('mouseenter', () => (isHoveringCarousel = true));
-production.addEventListener('mouseleave', () => (isHoveringCarousel = false));
-
-window.addEventListener('wheel', handleWheel, { passive: false });
-
-function handleWheel(e) {
-  // Only handle if mouse is over the carousel
-  if (!isHoveringCarousel) return;
-  // Only horizontal movement
-  if (Math.abs(e.deltaX) < Math.abs(e.deltaY)) return;
-  e.preventDefault();
-
-  if (pauseScroll) return;
-  
-  if (currOpenProduct) {
-    const direction = Math.sign(e.deltaX);
-    var flkty = Flickity.data(production);
-    let index = (flkty.selectedIndex + direction) % flkty.cells.length;
-    index = index < 0 ? flkty.cells.length - 1 : index;
-    let element = flkty.cells[index].element;
-    openProduct(element, index);
-    
-    // temporarily pause scroll events
-    pauseScroll = true;
-    setTimeout(() => {
-      pauseScroll = false;
-    }, 1000);
-  } else {
-    closeOpenProduct();
-    // Add to the momentum
-    scrollMomentum += Math.sign(e.deltaX) * Math.pow(Math.abs(e.deltaX), 0.9) * 0.3; // adjust sensitivity
-    scrollMomentum = Math.max(-100, Math.min(100, scrollMomentum));
-    production.classList.add('scrolling');
-    if (!ticking) animateScroll();
-  }
-}
-
-function animateScroll() {
-  if (ticking) return;
-  ticking = true;
-
-  function update() {
-    // Apply friction
-    scrollMomentum *= 0.9; // lower = slower stop
-
-    var flkty = Flickity.data(production);
-
-    // Apply the motion
-    if (Math.abs(scrollMomentum) > .3) {
-      flkty.x -= scrollMomentum;
-      flkty.dragX = flkty.x;
-      flkty.positionSlider();
-      requestAnimationFrame(update);
-    } else {
-      flkty.dragX = flkty.x;
-      flkty.velocity = 0;
-      flkty.dragEnd();
-      ticking = false;
-      production.classList.remove('scrolling');
-    }
+  function cancelScroll() {
+    state.flkty.dragX = state.flkty.x;
+    state.flkty.velocity = 0;
+    state.flkty.dragEnd();
+    state.ticking = false;
+    state.scrollMomentum = 0;
+    if (!state.currOpenProduct) state.scrollDelta = 0;
+    production.classList.remove("scrolling");
   }
 
-  requestAnimationFrame(update);
-}
+  function animateScroll() {
+    if (state.ticking) return;
+    state.ticking = true;
+    state.pauseScroll = false; 
+
+    const update = () => {
+      if (state.pauseScroll) {
+        state.ticking = false;
+        state.scrollMomentum = 0;
+        state.scrollDelta = 0;
+        production.classList.remove("scrolling");
+        return;
+      }
+
+      state.scrollMomentum *= 0.9; // friction
+
+      if (Math.abs(state.scrollMomentum) > 0.3) {
+        state.flkty.x -= state.scrollMomentum;
+        state.flkty.dragX = state.flkty.x;
+        state.flkty.positionSlider();
+        requestAnimationFrame(update);
+      } else {
+        cancelScroll();
+      }
+    };
+
+    requestAnimationFrame(update);
+  }
+
+  // =======================
+  // Public API
+  // =======================
+  return {
+    init() {
+      createCarousel();
+      setupArrowControls();
+      setupScrollHandling();
+    },
+    openProduct,
+    closeProduct,
+    initialized,
+    deinitialize
+  };
+})();
 
 // SERVICE PROVIDERS --------------------------------------------------------------------------------
 
@@ -617,16 +630,6 @@ message.addEventListener('input', (event) => {
 });
 
 // SCROLL -------------------
-
-// document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-//     anchor.addEventListener('click', function (e) {
-//         e.preventDefault();
-
-//         document.querySelector(this.getAttribute('href') + '-page').scrollIntoView({
-//             behavior: 'smooth'
-//         });
-//     });
-// });
 
 let scrollAnimations = false;
 let currPage = null;
