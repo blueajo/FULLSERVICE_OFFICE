@@ -482,7 +482,6 @@ span.gap {
 }
 
 .product p {
-    font-size: 1.2rem;
     grid-area: "caption";
     display: none;
     margin: 0;
@@ -498,6 +497,7 @@ span.gap {
     display: block;
     margin-top: 0rem;
     padding-top: 0.4rem;
+    overflow-y: hidden;
 }
 
 .flickity-prev-next-button {

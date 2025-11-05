@@ -395,6 +395,7 @@ const ProductionCarousel = (() => {
 
       cellElement.classList.add("open");
       let productMedia = cellElement.querySelector("img, video");
+      let productCaption = cellElement.querySelector("p");
 
       let w = productMedia.naturalWidth || productMedia.videoWidth;
       let h = productMedia.naturalHeight || productMedia.videoHeight;
@@ -404,6 +405,7 @@ const ProductionCarousel = (() => {
       const scaleRatio = Math.min(heightRatio, widthRatio);
 
       productMedia.style.width = `${w * scaleRatio}px`;
+      productCaption.style.width = `${w * scaleRatio}px`;
 
       state.flkty.reposition();
       state.flkty.selectCell(cellIndex, true, false);
@@ -464,6 +466,22 @@ const ProductionCarousel = (() => {
     });
 
     centerArea.addEventListener("click", closeProduct);
+
+    document.addEventListener("keydown", (event) => {
+      const section = document.querySelector('.page:not(.inactive)').id.slice(0, -5) ;
+      if (section == 'production') {
+        if (event.key === 'ArrowLeft') {
+          event.preventDefault();
+          // Left arrow key pressed
+          handleArrowPress(-1);
+        } else if (event.key === 'ArrowRight') {
+          event.preventDefault();
+          // Right arrow key pressed
+          handleArrowPress(1);
+        }
+      }
+    });
+
   }
 
   function temporarilyDisablePointer() {
