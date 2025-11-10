@@ -26,6 +26,76 @@ window.addEventListener('hashchange', function(){
   openPage(section);
 });
 
+// VIDEO PRELOAD --------------------------------
+
+const videoCache = new Map();
+let videosLoaded = false;
+
+// Preload all videos and track their state
+function preloadIndexVideos() {
+  const videos = document.querySelectorAll('#index-page video');
+  
+  videos.forEach(video => {
+    const src = video.src || video.querySelector('source')?.src;
+    if (src) {
+      videoCache.set(video, {
+        src: src,
+        loaded: false,
+        loading: false
+      });
+      
+      // Add load event listener
+      video.addEventListener('loadeddata', () => {
+        const cache = videoCache.get(video);
+        if (cache) {
+          cache.loaded = true;
+          cache.loading = false;
+        }
+      });
+      
+      // Force preload
+      video.load();
+    }
+  });
+}
+
+// Reload a specific video if needed
+function ensureVideoLoaded(video) {
+  if (!video) return Promise.resolve();
+  
+  const cache = videoCache.get(video);
+  
+  // Check if video needs reloading (Safari unloaded it)
+  if (video.readyState === 0 || video.networkState === 3) {
+    console.log('Video needs reload:', video.id);
+    
+    if (cache && !cache.loading) {
+      cache.loading = true;
+      cache.loaded = false;
+      
+      return new Promise((resolve) => {
+        const onLoaded = () => {
+          cache.loaded = true;
+          cache.loading = false;
+          video.removeEventListener('loadeddata', onLoaded);
+          resolve();
+        };
+        
+        video.addEventListener('loadeddata', onLoaded);
+        video.load();
+        
+        // Timeout fallback
+        setTimeout(() => {
+          video.removeEventListener('loadeddata', onLoaded);
+          resolve();
+        }, 3000);
+      });
+    }
+  }
+  
+  return Promise.resolve();
+}
+
 // GLOBAL VARIABLES -----------------------------------------------------------------------------
 
 const index = document.getElementById('index-page');
@@ -58,7 +128,7 @@ var indexCursor = {
     y: window.innerHeight/2,
     quadrant: [0,0],
     curVideo: null,
-    update: function() {
+    update: async function() {
               // LOCATION OF FOLLOWER
               this.x = lerp (this.x, mouseX, 0.075);
               this.y = lerp (this.y, mouseY, 0.075);
@@ -69,16 +139,27 @@ var indexCursor = {
               this.quadrant[1] = (this.y / window.innerHeight) > .5 ? 1 : 0;
               const category = quadrants[this.quadrant[0]][this.quadrant[1]];
               const video = document.getElementById(category + '-' + videoNumber + '-video');
+              
               if (this.curVideo != video) {
                 // PAUSE THE CURRENT VIDEO
                 if (this.curVideo && this.curVideo.classList.contains("active")) {
                     this.curVideo.classList.remove("active");
                     this.curVideo.pause();
                 }
-                // PLAY THE NEW VIDEO
+                
+                // PLAY THE NEW VIDEO (with reload check)
                 if (video && !video.classList.contains("active")) {
                     video.classList.add("active");
-                    video.play();
+                    
+                    // Ensure video is loaded before playing
+                    await ensureVideoLoaded(video);
+                    
+                    const playPromise = video.play();
+                    if (playPromise !== undefined) {
+                      playPromise.catch(error => {
+                        console.log("Video play prevented:", error);
+                      });
+                    }
                 }
                 this.curVideo = video;
               }
@@ -174,6 +255,11 @@ function closePage() {
     clearInterval(cursorInterval);
     cursorInterval = null;
   }
+  if (scrollInterval) {
+    clearInterval(scrollInterval);
+    scrollInterval = null;
+  }
+
   if (section == 'index') {
     videoDot.classList.remove('active');
     videoCredits.classList.remove('active');
@@ -200,6 +286,15 @@ function openPage(section) {
     videoCredits.classList.add('active');
     document.getElementById('header').classList.add('index-header');
     if (!mobile) {
+      // Preload videos if not already done
+      if (!videosLoaded) {
+        preloadIndexVideos();
+        videosLoaded = true;
+      } else {
+        // Reload videos that may have been unloaded
+        const videos = document.querySelectorAll('#index-page video');
+        videos.forEach(video => ensureVideoLoaded(video));
+      }
       cursorInterval = setInterval(indexFollow,1000/60);
     }
   }
@@ -310,10 +405,12 @@ const ProductionCarousel = (() => {
     scrollMomentum: 0,
     scrollDelta: 0,
     ticking: false,
-    isHoveringCarousel: false
+    isHoveringCarousel: false,
+    scrollTimeout: null
   };
 
   let viewport = null;
+  let wheelEndTimeout = null;
   const leftArrow = document.getElementById("left-arrow-area");
   const rightArrow = document.getElementById("right-arrow-area");
   const centerArea = document.getElementById("center-area");
@@ -327,13 +424,20 @@ const ProductionCarousel = (() => {
 
   const temporarilyPauseScroll = (duration = 600) => {
     state.pauseScroll = true;
-    setTimeout(() => (state.pauseScroll = false), duration);
+    setTimeout(() => {
+      state.pauseScroll = false;
+    }, duration);
   };
 
   // =======================
   // Carousel Initialization
   // =======================
   function createCarousel() {
+    // Destroy any existing instance first
+    if (state.flkty) {
+      state.flkty.destroy();
+    }
+
     state.flkty = new Flickity(production, {
       cellAlign: "center",
       wrapAround: true,
@@ -356,17 +460,6 @@ const ProductionCarousel = (() => {
       if (cellElement === state.currOpenProduct) closeProduct();
       else openProduct(cellElement, cellIndex);
     });
-
-    // Auto-play visible video only
-    const videos = production.querySelectorAll("video");
-    state.flkty.on("select", () => {
-      videos.forEach(v => v.pause());
-      const active = state.flkty.selectedElement?.querySelector("video");
-      if (active) active.play();
-    });
-
-    // Play all videos initially if desired
-    videos.forEach(v => v.play());
 
     console.log('flkty initialized');
   }
@@ -396,6 +489,11 @@ const ProductionCarousel = (() => {
       cellElement.classList.add("open");
       let productMedia = cellElement.querySelector("img, video");
       let productCaption = cellElement.querySelector("p");
+
+      if ( productMedia.tagName === 'VIDEO' ) {
+        productMedia.currentTime = 0;
+        productMedia.play();
+      }
 
       let w = productMedia.naturalWidth || productMedia.videoWidth;
       let h = productMedia.naturalHeight || productMedia.videoHeight;
@@ -427,6 +525,7 @@ const ProductionCarousel = (() => {
     product.classList.remove("open");
 
     const productMedia = product.querySelector("img, video");
+    if ( productMedia.tagName === 'VIDEO' ) productMedia.pause();
     productMedia.style.width = "15vw";
 
     state.flkty.reposition();
@@ -503,25 +602,51 @@ const ProductionCarousel = (() => {
     window.addEventListener("wheel", handleWheel, { passive: false });
   }
 
+  let lastDeltaY = 0;
+  let lastGap = 0;
+  let scrollDebounceTimeout = null; // timer for scroll debouncer 
+  let swiped = false;
+
   function handleWheel(e) {
+    clearTimeout(scrollDebounceTimeout);
+    scrollDebounceTimeout = setTimeout(() => {
+      if ( !swiped && state.currOpenProduct ) {
+        let nextIndex = (state.flkty.selectedIndex + Math.sign(e.deltaY)) % state.flkty.cells.length;
+        nextIndex = nextIndex < 0 ? state.flkty.cells.length - 1 : nextIndex;
+        const nextEl = state.flkty.cells[nextIndex].element;
+        openProduct(nextEl, nextIndex);
+        return;
+      }
+      state.scrollDelta = 0;
+      state.scrollMomentum = 0;
+      swiped = false;
+      production.classList.remove("scrolling");
+    }, 120);
+
     if (!state.isHoveringCarousel || state.pauseScroll) return;
     if (Math.abs(e.deltaY) < Math.abs(e.deltaX)) return;
 
     e.preventDefault();
 
-    // If a product is open, use scrolling to switch products
-    if (state.currOpenProduct && Math.abs(state.scrollDelta) > 300) {
-      temporarilyPauseScroll(750);
+    // next product opens when a swipe is detected (measured by a spike in e.deltaY)
+    if ( state.currOpenProduct ) {
+      const gap = e.deltaY - lastDeltaY;
+      const swipe = (Math.sign(gap) !== Math.sign(lastGap)) && (Math.abs(e.deltaY) > 10) || state.scrollDelta > 200;
+      console.log("swipe");
 
-      let nextIndex = (state.flkty.selectedIndex + Math.sign(e.deltaY)) % state.flkty.cells.length;
-      nextIndex = nextIndex < 0 ? state.flkty.cells.length - 1 : nextIndex;
-      const nextEl = state.flkty.cells[nextIndex].element;
-      
-      openProduct(nextEl, nextIndex);
+      // const swipe = (Math.sign(gap) !== Math.sign(lastGap)) && (Math.abs(e.deltaY) > 15);
 
-      state.scrollDelta = 0;
-      state.scrollMomentum = 0;
-      return;
+      if ( swipe ) {
+        swiped = true;
+        let nextIndex = (state.flkty.selectedIndex + Math.sign(e.deltaY)) % state.flkty.cells.length;
+        nextIndex = nextIndex < 0 ? state.flkty.cells.length - 1 : nextIndex;
+        const nextEl = state.flkty.cells[nextIndex].element;
+        openProduct(nextEl, nextIndex);
+        return;
+      }
+
+      lastGap = e.deltaY-lastDeltaY;
+      lastDeltaY = e.deltaY;
     }
 
     // Apply momentum
@@ -530,23 +655,25 @@ const ProductionCarousel = (() => {
     state.scrollDelta += e.deltaY;
 
     production.classList.add("scrolling");
-    animateScroll();
+    if ( !swiped ) {
+      animateScroll();
+    }
   }
 
   function cancelScroll() {
+    console.log('scroll canceled');
     state.flkty.dragX = state.flkty.x;
     state.flkty.velocity = 0;
     state.flkty.dragEnd();
     state.ticking = false;
     state.scrollMomentum = 0;
-    if (!state.currOpenProduct) state.scrollDelta = 0;
+    state.scrollDelta = 0;
     production.classList.remove("scrolling");
   }
 
   function animateScroll() {
     if (state.ticking) return;
     state.ticking = true;
-    state.pauseScroll = false; 
 
     const update = () => {
       if (state.pauseScroll) {
@@ -559,7 +686,7 @@ const ProductionCarousel = (() => {
 
       state.scrollMomentum *= 0.9; // friction
 
-      if (Math.abs(state.scrollMomentum) > 0.3) {
+      if (Math.abs(state.scrollMomentum) > 0.1) {
         state.flkty.x -= state.scrollMomentum;
         state.flkty.dragX = state.flkty.x;
         state.flkty.positionSlider();
@@ -697,3 +824,67 @@ const observer2 = new IntersectionObserver((entries, observer) => {
 }, options2);
 
 observer2.observe(document.getElementById('mobile-video'));
+
+// Visibility Handler
+
+let pausedVideos = [];
+
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) {
+    // Pause all videos
+    document.querySelectorAll('video').forEach(v => {
+      pausedVideos.push(v);
+      v.pause();
+    });
+    
+    // Clear intervals
+    if (cursorInterval) {
+      clearInterval(cursorInterval);
+      cursorInterval = null;
+    }
+    if (scrollInterval) {
+      clearInterval(scrollInterval);
+      scrollInterval = null;
+    }
+  } else {
+    // Resume based on current page
+    const section = document.querySelector('.page:not(.inactive)')?.id.slice(0, -5);
+    if (section === 'index' && !mobile) {
+      const videos = document.querySelectorAll('#index-page video');
+      videos.forEach(video => {
+        // Mark all as potentially needing reload
+        const cache = videoCache.get(video);
+        if (cache) {
+          cache.loaded = false;
+        }
+      });
+      cursorInterval = setInterval(indexFollow, 1000/60);
+    } else if (section === 'info' && !mobile) {
+      cursorInterval = setInterval(infoFollow, 1000/60);
+    } else if (mobile) {
+      scrollInterval = setInterval(scrollHandler, 1000/30);
+    }
+    pausedVideos.forEach(v => {
+      v.play();
+    });
+    pausedVideos = [];
+  }
+});
+
+// Global Error Handler
+
+window.addEventListener('error', (event) => {
+  console.error('Global error caught:', event.error);
+  
+  // Attempt recovery
+  try {
+    // Reset to safe state
+    const section = document.querySelector('.page:not(.inactive)')?.id.slice(0, -5);
+    if (section === 'production' && ProductionCarousel.initialized()) {
+      ProductionCarousel.deinitialize();
+      setTimeout(() => ProductionCarousel.init(), 100);
+    }
+  } catch (recoveryError) {
+    console.error('Recovery failed:', recoveryError);
+  }
+});

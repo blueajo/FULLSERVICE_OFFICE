@@ -560,6 +560,7 @@ img.portrait.visible {
   padding-top: var(--top-margin);
   padding-left: var(--rg-margin);
   padding-right: var(--rg-margin);
+  margin-bottom: 5rem;
 }
 
 #pitch-list {
@@ -700,6 +701,7 @@ input {
   width: calc(100vw - calc(var(--rg-margin) * 2));
   row-gap: 3rem;
   cursor: none;
+  margin-bottom: 5rem;
 }
 
 #info-page:active {
