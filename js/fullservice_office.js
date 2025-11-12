@@ -138,9 +138,10 @@ var indexCursor = {
     quadrant: [0,0],
     curVideo: null,
     update: async function() {
+
               // LOCATION OF FOLLOWER
-              this.x = lerp (this.x, mouseX, 0.075);
-              this.y = lerp (this.y, mouseY, 0.075);
+              this.x = lerp (this.x, mouseX, 0.05);
+              this.y = lerp (this.y, mouseY, 0.05);
 
               // SET VIDEO
               const videoNumber = Math.floor(this.x / (window.innerWidth/16)) % 8;
@@ -150,6 +151,7 @@ var indexCursor = {
               const video = document.getElementById(category + '-' + videoNumber + '-video');
               
               if (this.curVideo != video) {
+
                 // PAUSE THE CURRENT VIDEO
                 if (this.curVideo && this.curVideo.classList.contains("active")) {
                     this.curVideo.classList.remove("active");
@@ -170,20 +172,24 @@ var indexCursor = {
                       });
                     }
                 }
+
                 this.curVideo = video;
+
               }
 
-              this.el.style = 'transform: translate3d('+ this.x +'px,'+ this.y +'px, 0);'
+              this.el.style = 'transform: translate3d('+ this.x +'px,'+ this.y +'px, 0);';
+
             }
 };
 
-function lerp (start, end, amt){
+function lerp (start, end, amt) {
   return (1-amt)*start+amt*end;
 }
 
 // Info cursor objects
 const copyright = document.getElementById('info-cursor');
 const infoLinks = document.querySelectorAll('#info-page a');
+
 var infoCursor = {
     el: copyright,
     x: window.innerWidth/2, 
@@ -191,7 +197,7 @@ var infoCursor = {
     update: function() {
               this.x = mouseX;
               this.y = mouseY;
-              this.el.style = 'transform: translate3d('+ this.x +'px,'+ this.y +'px, 0);'
+              this.el.style = 'transform: translate3d('+ this.x +'px,'+ this.y +'px, 0);';
             }
 };
 
@@ -347,7 +353,7 @@ for (let i = 0; i < pageLinks.length; i++) {
     if (mobile) {
       scrollAnimations = false;
       setTimeout(scrollAnimationOn, 1500);
-      const scrollCoord = document.getElementById(section + '-page').offsetTop - remToPx(10);
+      const scrollCoord = document.getElementById(section + '-page').offsetTop - remToPx(6);
       window.scrollTo({
         top: scrollCoord,
         left: 0,
@@ -643,7 +649,6 @@ const ProductionCarousel = (() => {
     if ( state.currOpenProduct ) {
       const gap = e.deltaY - lastDeltaY;
       const swipe = (Math.sign(gap) !== Math.sign(lastGap)) && (Math.abs(e.deltaY) > 10) || state.scrollDelta > 200;
-      console.log("swipe");
 
       // const swipe = (Math.sign(gap) !== Math.sign(lastGap)) && (Math.abs(e.deltaY) > 15);
 
@@ -672,7 +677,6 @@ const ProductionCarousel = (() => {
   }
 
   function cancelScroll() {
-    console.log('scroll canceled');
     state.flkty.dragX = state.flkty.x;
     state.flkty.velocity = 0;
     state.flkty.dragEnd();

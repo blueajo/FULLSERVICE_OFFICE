@@ -52,6 +52,7 @@ html.show-grid body {
   color: var(--bg-color);
   background: black; /* WebKit/Blink Browsers */
 }
+
 ::-moz-selection {
   color: var(--bg-color);
   background: black; /* Gecko Browsers */
@@ -103,7 +104,7 @@ p, ul, ol, a, input, #message {
 }
 
 p.caption {
-  font-size: 1.3rem;
+  font-size: 1.4rem;
   line-height: calc(var(--caption-baselines) * 1rem);
   padding-top: var(--caption-baseline-shift);
   margin-bottom: var(--caption-baseline-push);
@@ -156,21 +157,15 @@ a {
   cursor: none;
 }
 
-a:active, a:hover, a.current-page, a.active-link {
+a:active, a:hover, a.current-page, a.active-link, #footer a.current-page:hover {
   text-decoration: underline;
-  text-decoration-thickness: 1.8px;
-  text-underline-offset: 3px;
+  text-decoration-thickness: .18rem;
+  text-underline-offset: .3rem;
   cursor: var(--dot-big-cursor);
 }
 
 #footer a.current-page {
   text-decoration: none;
-}
-
-#footer a.current-page:hover {
-  text-decoration: underline;
-  text-decoration-thickness: 1.8px;
-  text-underline-offset: 3px;
 }
 
 /* HEADER/FOOTER --------------------------------------------------------------------------------- */
@@ -547,8 +542,9 @@ img.portrait.visible {
   pointer-events: auto;
 }
 
-
+/* ----------------------------------------------------------------------------------------------- */
 /* PITCHES --------------------------------------------------------------------------------------- */
+/* ----------------------------------------------------------------------------------------------- */
 
 #pitches-page {
   grid-area: content;
@@ -686,7 +682,9 @@ input {
   flex-grow: 2;
 }
 
+/* ----------------------------------------------------------------------------------------------- */
 /* INFO ------------------------------------------------------------------------------------------ */
+/* ----------------------------------------------------------------------------------------------- */
 
 #info-page {
   grid-area: content;
@@ -721,7 +719,9 @@ input {
   z-index: 1;
 }
 
-/* MEDIA QUERIES ---------------------------------------------------------------------------------------- */
+/* ----------------------------------------------------------------------------------------------- */
+/* MEDIA QUERIES --------------------------------------------------------------------------------- */
+/* ----------------------------------------------------------------------------------------------- */
 
 @media only screen and (min-width: 100rem) {
   :root {
@@ -749,8 +749,8 @@ input {
 
   #service-providers-page a {
     text-decoration: underline;
-    text-decoration-thickness: 1.8px;
-    text-underline-offset: 3px;
+    text-decoration-thickness: .18rem;
+    text-underline-offset: .3rem;
   }
 
   #portraits {
@@ -800,6 +800,10 @@ input {
   }
 }
 
+/* ----------------------------------------------------------------------------------------------- */
+/* MOBILE ---------------------------------------------------------------------------------------- */
+/* ----------------------------------------------------------------------------------------------- */
+
 @media only screen and (max-device-width: 768px) {
 
   #container {
@@ -822,10 +826,10 @@ input {
 
   #index-page, #index-page.inactive { 
     grid-area: ix;
-    margin-top: 5rem;
+    margin-top: 7rem;
     margin-left: var(--rg-margin);
     margin-right: var(--rg-margin);
-    height: calc(100vh - 15rem);
+    height: calc(100dvh - 12rem);
     display: grid;
     width: calc(100vw - calc(var(--rg-margin)*2));
     grid-template-rows: 1fr auto;
@@ -841,22 +845,22 @@ input {
     justify-items: center;
     gap: 5rem;
     height: auto;
-    padding-top: 4.5rem;
-    padding-bottom: 9rem;
+    padding-top: 7rem;
+    padding-bottom: 7rem;
     min-width: 0;
     min-height: 0;
   }
   #service-providers-page, #service-providers-page.inactive {
     grid-area: sp;
     display: grid;
-    padding-top: .5rem;
-    padding-bottom: 3rem;
+    padding-top: 7rem;
+    padding-bottom: 2rem;
   }
   #pitches-page, #pitches-page.inactive {
     grid-area: pi;
     display: grid;
-    padding-top: 1.5rem;
-    padding-bottom: 8rem;
+    padding-top: 7rem;
+    padding-bottom: 2rem;
     grid-template-rows: auto;
   }
   #info-page, #info-page.inactive {
@@ -864,8 +868,8 @@ input {
     display: grid;
     row-gap: 5rem;
     margin-top: 0;
-    padding-top: 0;
-    padding-bottom: 10rem;
+    padding-top: 7rem;
+    padding-bottom: 15vh;
     cursor: var(--dot-cursor);
   }
   #header {
@@ -877,7 +881,12 @@ input {
     position: sticky;
     top: 3.5rem;
     z-index: 3;
-    background: linear-gradient(to bottom, #FAFFE4FF, #FAFFE4FF 75%, #FAFFE400);
+    background: linear-gradient(to bottom, 
+                              #FAFFE4FF, 
+                              #FAFFE4FF 73%, 
+                              rgba(250, 255, 228, 0.5) 85%,
+                              rgba(250, 255, 228, 0) 100%
+                            );
   }
 
   #header p {
@@ -886,7 +895,12 @@ input {
   }
 
   #footer { 
-    background: linear-gradient(to bottom, #FAFFE4FF, #FAFFE4FF 75%, #FAFFE400);
+    background: linear-gradient(to bottom, 
+                              #FAFFE4FF, 
+                              #FAFFE4FF 73%, 
+                              rgba(250, 255, 228, 0.5) 85%,
+                              rgba(250, 255, 228, 0) 100%
+                            );
     top: 0;
     padding-top: 1rem;
     padding-bottom: 2.5rem;
@@ -922,7 +936,7 @@ input {
   #mobile-area video {
     display: block;
     width: calc(100vw - calc(var(--rg-margin)*2));
-    height: calc(100vh - 20rem);
+    height: calc(100dvh - 20rem);
     object-fit: cover;
   }
 
@@ -966,10 +980,25 @@ input {
     width: 100%;
     margin-top: 0;
   }
+
+  p.caption {
+    margin-top: .4rem;
+  }
 }
 
 @media only screen and (max-device-width: 362px) {
   #index-page, #index-page.inactive { 
     height: calc(100vh - 12rem);
+  }
+}
+
+@media only screen and (max-device-width: 500px) {
+  :root {
+    /* Set baseline size */
+    font-size: calc(62.5% * (100vw / 500px)); /* 1rem = 10px */
+  }
+
+  .checkmark {
+    margin-top: .9rem;
   }
 }
