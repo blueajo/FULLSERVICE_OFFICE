@@ -70,6 +70,21 @@ html.show-grid body {
   grid-area: auto;
 }
 
+/* Styles for devices that support hover (desktops, etc.) */
+@media (hover: hover) {
+  a:hover {
+    text-decoration: underline;
+    text-decoration-thickness: .18rem;
+    text-underline-offset: .3rem;
+    cursor: var(--dot-big-cursor);
+  }
+
+  /* On mouse-over, add a black background color */
+  .checkbox-container:hover .checkmark {
+    background-color: black;
+  }
+}
+
 /* TYPE ------------------------------------------------------------------------------------------ */
 
 @font-face {
@@ -158,7 +173,7 @@ a {
   cursor: none;
 }
 
-a:active, a:hover, a.current-page, a.active-link, #footer a.current-page:hover {
+a:active, a.current-page, a.active-link, #footer a.current-page:hover {
   text-decoration: underline;
   text-decoration-thickness: .18rem;
   text-underline-offset: .3rem;
@@ -605,11 +620,6 @@ p.checkbox-label {
   margin-bottom: calc(var(--baseline-push) - 1rem);
 }
 
-/* On mouse-over, add a black background color */
-.checkbox-container:hover .checkmark {
-  background-color: black;
-}
-
 .pitch-container {
   position: relative;
   display: none;
@@ -830,6 +840,10 @@ input {
     color: var(--grey-color);
   }
 
+  .inactive .checkmark {
+    outline: 1px solid var(--grey-color);
+  }
+
   #index-page, #index-page.inactive { 
     grid-area: ix;
     margin-top: 7rem;
@@ -887,6 +901,7 @@ input {
     position: sticky;
     top: 3.5rem;
     z-index: 3;
+    height: 5rem;
     background: linear-gradient(to bottom, 
                               #FAFFE4FF, 
                               #FAFFE4FF 73%, 
