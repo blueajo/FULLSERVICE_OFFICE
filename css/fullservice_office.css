@@ -101,6 +101,7 @@ p, ul, ol, a, input, #message {
   font-feature-settings: 'kern', 'onum', 'liga';
   padding-top: var(--baseline-shift);
   margin-bottom: var(--baseline-push);
+  transition: color 0.3s ease;
 }
 
 p.caption {
@@ -474,6 +475,7 @@ span.gap {
     flex-grow: 1;
     width: 100%;
     height: auto;
+    transition: opacity 0.4s ease, filter 0.4s ease;
 }
 
 .product p {
@@ -824,6 +826,10 @@ input {
     display: none;
   }
 
+  .inactive, .inactive a {
+    color: var(--grey-color);
+  }
+
   #index-page, #index-page.inactive { 
     grid-area: ix;
     margin-top: 7rem;
@@ -866,10 +872,10 @@ input {
   #info-page, #info-page.inactive {
     grid-area: in;
     display: grid;
+    min-height: calc(100dvh - 26rem);
     row-gap: 5rem;
     margin-top: 0;
     padding-top: 7rem;
-    padding-bottom: 15vh;
     cursor: var(--dot-cursor);
   }
   #header {
@@ -958,7 +964,7 @@ input {
     cursor: var(--dot-cursor);
   }
 
-  .product img, .product img:hover, .product img {
+  .product img, .product img:hover {
     /* object-fit: contain; */
     display: block;
     width: auto;
@@ -966,6 +972,12 @@ input {
     height: auto;
     max-height: 100vw;
     margin-bottom: 0;
+    opacity: 100%; 
+    filter: grayscale(100);
+    mix-blend-mode: multiply;
+  }
+
+  .product.focus img, .product.focus img:hover, .product.focus video {
     opacity: 100%; 
     filter: grayscale(0);
     mix-blend-mode: normal;
@@ -997,6 +1009,10 @@ input {
     /* Set baseline size */
     font-size: calc(62.5% * (100vw / 500px)); /* 1rem = 10px */
   }
+/* 
+  #pitch-list {
+    width: 30rem;
+  } */
 
   .checkmark {
     margin-top: .9rem;

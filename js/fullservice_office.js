@@ -821,6 +821,10 @@ function scrollHandler() {
   });
 }
 
+// ================
+// SCROLL - INDEX
+// ================
+
 const thresholds = [];
 const numSteps = 20;
 
@@ -845,6 +849,40 @@ const observer2 = new IntersectionObserver((entries, observer) => {
 }, options2);
 
 observer2.observe(document.getElementById('mobile-video'));
+
+// ================
+// SCROLL - PRODUCTION - VIDEOS
+// ================
+
+const products = document.querySelectorAll('.product');
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    const product = entry.target; // Get the observed element
+    
+    if (entry.isIntersecting) {
+      product.classList.add('focus');
+      const video = product.querySelector('video');
+      if (video) {
+        video.play();
+      }
+    } else {
+      product.classList.remove('focus');
+      const video = product.querySelector('video');
+      if (video) {
+        video.pause();
+      }
+    }
+  });
+}, {
+  rootMargin: '-49% 0px -49% 0px',
+  threshold: 0
+});
+
+// Observe each product individually
+products.forEach(product => {
+  observer.observe(product);
+});
 
 // =====================================================================================================================================
 // Visibility Handler
